@@ -186,13 +186,12 @@ When dynamic controllers or cascaded classifiers route samples based on confiden
 
 \begin{table*}[t]
 \centering
-\footnotesize
-\setlength{\tabcolsep}{2.8pt}
 \caption{Comprehensive Discrepancy Resolution Table: 20 Numerical Discrepancies Identified and Corrected in the Case Study}
 \label{tab:discrepancies}
-\begin{tabular}{r l l r r l l r r p{3.5cm}}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{r l l r r l l r r p{4.5cm}}
 \toprule
-\textbf{\#} & \textbf{Model Identifier} & \textbf{Metric} & \textbf{Initial Val.} & \textbf{Verified Val.} & \textbf{Initial Source} & \textbf{Verified Source} & \textbf{Abs. Diff.} & \textbf{Pct. Diff.} & \textbf{Root Cause / Corrective Action} \\
+\textbf{\#} & \textbf{Model Identifier} & \textbf{Metric} & \textbf{Initial Val.} & \textbf{Verified Val.} & \textbf{Initial Source} & \textbf{Verified Source} & \textbf{Abs. $\Delta$} & \textbf{$\Delta$ (\%)} & \textbf{Root Cause / Corrective Action} \\
 \midrule
 1 & \texttt{tflite\_mlp\_14f\_fp32} & Test Accuracy & 0.726339 & 0.750000 & In-Memory Eval & Disk FlatBuffer & 0.023661 & 3.26\% & Re-training state vs. saved binary \\
 2 & \texttt{tflite\_mlp\_14f\_fp32} & Test Macro F1 & 0.728019 & 0.756608 & In-Memory Eval & Disk FlatBuffer & 0.028589 & 3.93\% & Re-training state vs. saved binary \\
@@ -215,7 +214,8 @@ When dynamic controllers or cascaded classifiers route samples based on confiden
 19 & \texttt{student\_b\_16\_4\_int8} & Test Accuracy & 0.745000 & 0.745625 & In-Memory Eval & Disk FlatBuffer & 0.000625 & 0.08\% & Quantization arithmetic rounding \\
 20 & \texttt{student\_b\_16\_4\_int8} & Test Macro F1 & 0.689024 & 0.689601 & In-Memory Eval & Disk FlatBuffer & 0.000577 & 0.08\% & Quantization arithmetic rounding \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table*}
 
 To demonstrate the efficacy of our verification framework, we executed an independent audit across a suite of 12 candidate TinyML models trained on the EngineFaultDB physical benchmark ($55,998$ physical operating records partitioned using a stratified 3-way split with $\text{seed}=42$: $22,399$ train, $22,399$ validation, and $11,200$ held-out test samples).
