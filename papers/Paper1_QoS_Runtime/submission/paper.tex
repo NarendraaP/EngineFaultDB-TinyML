@@ -18,21 +18,21 @@
 
 \begin{document}
 
-\title{QoS-Aware Multi-Fidelity Runtime for Real-Time Embedded AI under Dynamic Workload Contention}
+\title{QoS-Aware Multi-Fidelity Runtime for TinyML Inference under Dynamic Workload Contention}
 
 \author{Antigravity Research Team%
 \thanks{Manuscript received August 20, 2026. This research was conducted on the QoS-Aware TinyML Research Platform using the audited EngineFaultDB physical benchmark. All model binaries, runtime implementations, and simulation harnesses are fully reproducible.}%
 }
 
-% \markboth{IEEE Transactions on Computers / Real-Time Systems, August~2026}%
-% {Antigravity Research Team: QoS-Aware Multi-Fidelity Runtime for Real-Time Embedded AI}
+% \markboth{IEEE Transactions on Computer-Aided Design / Embedded Systems Letters, August~2026}%
+% {Antigravity Research Team: QoS-Aware Multi-Fidelity Runtime for TinyML Inference}
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Deploying deep neural networks on resource-constrained microcontrollers (TinyML) is increasingly challenged by dynamic CPU contention, sporadic burst workloads, and strict inference deadlines. Static deployment paradigms force engineers into an inflexible compromise: either deploying an overly conservative lightweight model that perpetually sacrifices accuracy, or deploying a high-capacity model that suffers deadline violations under transient CPU contention. In this paper, we propose a \textbf{QoS-Aware Multi-Fidelity Runtime} that dynamically selects among pre-verified Pareto-optimal TinyML models based on execution deadlines, workload contention, and user-defined Quality of Service (QoS) policies. Operating strictly without ground-truth label access during execution, our runtime manages three operational modes: \texttt{FAST} (\texttt{student\_a\_8\_4\_fp32}, $160$ MACs), \texttt{BALANCED} (\texttt{pruned\_mlp\_14f\_75pct}, $96$ MACs), and \texttt{HIGH\_FIDELITY} (\texttt{student\_b\_16\_4\_fp32}, $304$ MACs). We formalize and evaluate four dynamic scheduling policies across an 80-configuration experimental sweep (5 deadlines $\times$ 4 workload contention regimes $\times$ 4 policies) evaluated over 11,200 held-out test frames. Our trace-driven simulation demonstrates that under high and burst contention, the \texttt{BALANCED} policy dynamically transitions from the dense model to the sparse model, achieving a \textbf{68.4\% reduction in theoretical active compute} ($96$ vs. $304$ MACs per inference) while matching or exceeding the diagnostic macro F1 score ($0.7563$ vs. $0.7390$) with only a $-0.37\%$ accuracy difference. Furthermore, controlled ablation studies prove that our QoS-aware runtime achieves a $+3.21\%$ accuracy improvement over static minimal execution and prevents starvation during CPU bursts, establishing dynamic multi-fidelity selection as an effective systems approach for edge intelligence.
+Deploying deep neural networks on resource-constrained microcontrollers (TinyML) is increasingly challenged by dynamic CPU contention, sporadic burst workloads, and strict inference deadlines. Static deployment paradigms force engineers into an inflexible compromise: either deploying an overly conservative lightweight model that perpetually sacrifices accuracy, or deploying a high-capacity model that suffers deadline violations under transient CPU contention. In this paper, we develop and empirically evaluate a trace-driven, ground-truth-independent \textbf{QoS-Aware Multi-Fidelity Runtime} that dynamically selects among pre-verified Pareto-optimal TinyML models based on execution deadlines, workload contention, and user-defined Quality of Service (QoS) policies. Operating strictly without ground-truth label access during execution, our runtime manages three operational modes: \texttt{FAST} (\texttt{student\_a\_8\_4\_fp32}, $160$ MACs), \texttt{BALANCED} (\texttt{pruned\_mlp\_14f\_75pct}, $96$ MACs), and \texttt{HIGH\_FIDELITY} (\texttt{student\_b\_16\_4\_fp32}, $304$ MACs). We formalize and evaluate four dynamic scheduling policies across an 80-configuration experimental sweep (5 deadlines $\times$ 4 workload contention regimes $\times$ 4 policies) evaluated over 11,200 held-out test frames. Our trace-driven simulation demonstrates that under high and burst contention, the \texttt{BALANCED} policy dynamically transitions from the dense model to the sparse model, achieving up to a \textbf{68.4\% reduction in theoretical active arithmetic operations (MACs)} ($96$ vs. $304$ MACs per inference frame relative to the high-fidelity baseline) while matching or exceeding the diagnostic macro F1 score ($0.7563$ vs. $0.7390$) with only a $-0.37\%$ accuracy difference. Furthermore, controlled ablation studies show that our QoS-aware runtime achieves a $+3.21\%$ accuracy improvement over static minimal execution and prevents starvation during modeled CPU bursts, demonstrating dynamic multi-fidelity selection as an effective systems approach for adaptive edge intelligence within the evaluated simulation regime.
 \end{abstract}%
 \begin{IEEEkeywords}
-TinyML, Quality of Service, Dynamic Model Selection, Multi-Fidelity Runtime, Real-Time Embedded Systems, Microcontroller Deep Learning, Adaptive Edge AI.
+TinyML, Quality of Service, Dynamic Model Selection, Multi-Fidelity Runtime, Embedded Systems, Microcontroller Deep Learning, Adaptive Edge AI.
 \end{IEEEkeywords}%
 }
 
@@ -49,7 +49,7 @@ Under conventional deployment paradigms, a single neural network architecture is
     \item \textbf{Over-Provisioning Dilemma:} Deploying a high-capacity model maximizes diagnostic fidelity during nominal operation, but causes severe deadline misses and buffer overflows when sporadic bursts or interrupts saturate the microcontroller CPU~\cite{buttazzo2011hard,lu2002feedback}.
 \end{enumerate}
 
-To resolve this trade-off, we propose a \textbf{QoS-Aware Multi-Fidelity Runtime Architecture} for embedded TinyML. Rather than relying on a static model, our runtime system maintains a pre-verified registry of Pareto-optimal models spanning multiple operational modes (\texttt{FAST}, \texttt{BALANCED}, and \texttt{HIGH\_FIDELITY}). A lightweight, deadline-aware QoS scheduler dynamically assesses operational workload contention and deadline headroom, adaptively selecting the optimal model for each incoming observation vector.
+To address this trade-off, we develop a \textbf{QoS-Aware Multi-Fidelity Runtime Architecture} for embedded TinyML. Rather than relying on a static model, our runtime system maintains a pre-verified registry of Pareto-optimal models spanning multiple operational modes (\texttt{FAST}, \texttt{BALANCED}, and \texttt{HIGH\_FIDELITY}). A lightweight, deadline-aware QoS scheduler dynamically assesses operational workload contention and deadline headroom, adaptively selecting a policy-guided model for each incoming observation vector.
 
 Crucially, our runtime makes all scheduling decisions \textit{online} using strictly non-privileged state observables (configured deadline, estimated workload level, and execution latency history) without accessing ground-truth labels. Using trace-driven simulations on the audited 55,998-sample EngineFaultDB physical benchmark, we evaluate 80 runtime configurations across 5 deadlines and 4 contention regimes, backed by 4 controlled ablation studies.
 
@@ -290,27 +290,31 @@ Across all 80 configurations, deadline compliance was maintained at $100.0\%$. U
 
 Table~\ref{tab:ablations} and Figure~\ref{fig:ablation} detail the 4 controlled systems ablations:
 \begin{itemize}
-    \item \textbf{Ablation A (Static Best vs. QoS):} Proves that QoS-aware scheduling matches the accuracy of static execution while cutting active arithmetic operations by $68.4\%$ ($96$ vs. $304$ MACs) and boosting macro F1 ($0.7563$ vs. $0.7390$).
-    \item \textbf{Ablation B (Static Minimal vs. QoS):} Proves that our runtime delivers a $+3.21\%$ accuracy gain over static lightweight deployment.
+    \item \textbf{Ablation A (Static Best vs. QoS):} Demonstrates that QoS-aware scheduling matches the accuracy of static execution while reducing theoretical active arithmetic operations by $68.4\%$ ($96$ vs. $304$ MACs) and improving macro F1 ($0.7563$ vs. $0.7390$).
+    \item \textbf{Ablation B (Static Minimal vs. QoS):} Shows that our runtime delivers a $+3.21\%$ accuracy gain over static lightweight deployment.
     \item \textbf{Ablation C (Workload Awareness):} Confirms that workload estimation triggers proactive mode switching before deadline violations occur.
     \item \textbf{Ablation D (Deadline Gating):} Confirms that deadline enforcement bounds tail latency ($18.49\,\si{\micro\second}$ vs. $21.83\,\si{\micro\second}$ P95).
 \end{itemize}
 
 \section{Discussion}
-\subsection{System-Level Trade-Offs in Edge Machine Learning}
-Our results establish that multi-model dynamic scheduling provides a superior Pareto trade-off compared to monolithic static deployment. By decoupling model fidelity from static binary flashing, the runtime allows microcontrollers to achieve high fidelity when idle, while safely degrading compute load when foreground control routines demand CPU cycles.
+\subsection{System-Level Implications for Microcontroller Deployment}
+Our empirical findings indicate that dynamic multi-model scheduling provides a favorable operating trade-off compared to monolithic static deployment within the evaluated simulation regime. In conventional embedded ML, flashing a single static model forces an immutable compromise between peak accuracy and worst-case execution headroom. Because modern microcontrollers (e.g., ESP32, ARM Cortex-M4/M7) typically feature $256$\,KB to $4$\,MB of Flash memory, storing an ensemble of three sub-4\,KB FlatBuffer models ($<12$\,KB total Flash footprint) is highly practical. By decoupling model fidelity from static binary compilation, the runtime permits microcontrollers to execute high-fidelity inference when compute headroom is abundant, while gracefully degrading active arithmetic demand during transient interrupt bursts.
+
+\subsection{Practical Significance and Hardware Scope}
+It is critical to distinguish theoretical arithmetic reductions from on-chip energy savings. While reducing active MACs by $68.4\%$ substantially lowers the arithmetic workload per inference frame, actual battery life extensions depend on microcontroller clock gating, sleep-state transitions, and memory bus power dissipation. Our simulation provides an algorithmic foundation for deadline-aware model selection; physical validation under RTOS preemption remains an essential next step.
 
 \section{Threats to Validity}
 \subsection{Internal Validity}
 All simulation experiments were conducted deterministically using fixed random seeds ($\text{seed}=42$). The scheduler source code was audited to verify zero ground-truth label access during model selection.
 
 \subsection{External Validity}
-While evaluated on automotive engine fault telemetry, the QoS scheduling policies and multi-fidelity runtime abstractions apply directly to general cyber-physical sensor streams.
+While evaluated on automotive engine fault telemetry, the QoS scheduling policies and multi-fidelity runtime abstractions apply directly to general cyber-physical sensor streams with similar dimensionalities.
 
 \section{Limitations}
 \begin{enumerate}
-    \item \textbf{Synthetic Workload Multipliers:} Workload contention was simulated via synthetic scaling factors rather than physical concurrent RTOS threads.
-    \item \textbf{Host Timing Granularity:} Latencies were measured on an x86\_64 host CPU; absolute sub-microsecond timings reflect host CPU performance rather than microcontroller clocks.
+    \item \textbf{Synthetic Contention Modeling:} Workload contention was simulated via multiplicative scaling factors and Gaussian jitter rather than physical concurrent RTOS thread preemption.
+    \item \textbf{Host Timing Measurement:} Latency profiles were captured on an x86\_64 host CPU; while representative of relative execution overhead, they do not establish microcontroller Worst-Case Execution Time (WCET).
+    \item \textbf{Hardware Energy Boundaries:} We report theoretical active arithmetic operations (MACs); physical power dissipation and memory bandwidth effects were not measured on silicon.
 \end{enumerate}
 
 \section{Reproducibility}
@@ -320,7 +324,7 @@ All models, runtime source modules, trace simulation harnesses, and empirical re
 Physical hardware experiments on genuine ESP32 silicon (\texttt{ESP32-WROOM-32}) represent planned future work. Physical validation will profile on-chip TFLite Micro inference latency via \path{esp_timer_get_time()}, static SRAM tensor arena allocation, and FreeRTOS task preemption.
 
 \section{Conclusion}
-This paper presented a QoS-Aware Multi-Fidelity Runtime for TinyML inference under dynamic workload contention. By adaptively selecting among verified Pareto-optimal models, our runtime reduces active computational load by $68.4\%$ under high contention while preserving diagnostic macro F1 ($0.7563$) and guaranteeing zero ground-truth leakage. These verified systems contributions establish dynamic multi-fidelity scheduling as an effective approach for robust, deadline-compliant edge intelligence.
+This paper presented a trace-driven, ground-truth-independent QoS-Aware Multi-Fidelity Runtime for TinyML inference under modeled workload contention. By adaptively selecting among verified Pareto-optimal models, our runtime reduces theoretical active arithmetic operations by up to $68.4\%$ under high contention while preserving diagnostic macro F1 ($0.7563$) and guaranteeing zero ground-truth leakage. These verified systems findings establish dynamic multi-fidelity scheduling as an effective approach for adaptive, deadline-compliant edge intelligence within resource-constrained cyber-physical environments.
 
 \section*{Acknowledgment}
 The authors acknowledge the open-source TinyML and TensorFlow Lite Micro communities for establishing foundational runtime frameworks.

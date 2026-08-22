@@ -28,7 +28,7 @@
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-The deployment of deep learning models on resource-constrained microcontrollers (TinyML) is rapidly expanding, yet empirical evaluation in the field suffers from critical methodological vulnerabilities. Training-time in-memory metrics frequently diverge from disk-serialized binary behavior; theoretical weight sparsity is routinely conflated with physical storage compression; and host simulation timings are improperly extrapolated to microcontroller real-time guarantees. In this paper, we propose a multi-level \textbf{TinyML Scientific Verification Framework} spanning seven core dimensions: Data Isolation, Serialized Binary Integrity, Quantization Graph Inspection, Sparsity and Multiply-Accumulate (MAC) Accounting, Timing Protocol Auditing, Runtime Routing Non-Leakage, and Hardware Boundary Scoping. We apply this verification procedure to an extensive empirical case study auditing 12 candidate neural network models across quantization, pruning, and distillation paradigms. Our independent audit uncovers and resolves 20 distinct numerical discrepancies between training-time reports and verified binary artifacts (with metric variances up to $7.82\%$). Furthermore, we demonstrate that evaluating gating thresholds directly on test data introduces an artificial $+1.8\%$ optimistic accuracy bias, proving the absolute necessity of split-isolated calibration. By providing rigorous verification formalisms and classifying evidence into clear empirical tiers, our framework establishes actionable protocols to support reproducible benchmarking and defensible deployment claims in edge AI research.
+The deployment of deep learning models on resource-constrained microcontrollers (TinyML) is rapidly expanding, yet empirical evaluation in the field suffers from critical methodological vulnerabilities. Training-time in-memory metrics frequently diverge from disk-serialized binary behavior; theoretical weight sparsity is routinely conflated with physical storage compression; and host simulation timings are improperly extrapolated to microcontroller real-time guarantees. In this paper, we develop and evaluate an empirical verification protocol for compiled TinyML artifacts, demonstrated on an end-to-end TinyML diagnostic case study. The protocol formalizes verification procedures across seven core dimensions: Data Isolation, Serialized Binary Integrity, Quantization Graph Inspection, Sparsity and Multiply-Accumulate (MAC) Accounting, Timing Protocol Auditing, Runtime Routing Non-Leakage, and Hardware Boundary Scoping. Applying this protocol to an empirical suite of 12 candidate neural network models across quantization, pruning, and distillation paradigms, our independent audit uncovers and resolves 20 distinct numerical discrepancies between training-time reports and verified binary artifacts (with metric variances up to $7.82\%$). Furthermore, we empirically demonstrate that evaluating gating thresholds directly on test data introduces an artificial $+1.8\%$ optimistic accuracy bias, proving the necessity of split-isolated calibration. By establishing formal verification predicates and classifying evidence into clear empirical tiers, our framework provides actionable software engineering procedures to support reproducible benchmarking and defensible deployment claims in edge AI research.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -58,7 +58,7 @@ Recent surveys in machine learning software engineering have exposed systemic me
     \item \textbf{Threshold and Data Leakage:} Optimizing runtime routing thresholds on the test partition, producing optimistic accuracy estimates.
 \end{enumerate}
 
-To address these challenges, this paper presents an independent, artifact-driven \textbf{TinyML Scientific Verification Framework}. We formalize verification protocols across seven dimensions of edge AI pipelines and demonstrate their efficacy through an exhaustive case study auditing 12 candidate models on the EngineFaultDB physical benchmark.
+To address these challenges, this paper presents an independent, artifact-driven \textbf{TinyML Scientific Verification Protocol}. We formalize verification criteria across seven dimensions of edge AI pipelines and demonstrate their efficacy through an exhaustive case study auditing 12 candidate models on the EngineFaultDB physical benchmark.
 
 \section{Motivation and Research Questions}
 Reproducibility in TinyML requires moving beyond trusting high-level framework logs. Figure~\ref{fig:pareto_frontier} illustrates the verified multi-objective Pareto landscape established by our independent verification framework, treating model binaries and data pipelines as empirical software artifacts subject to rigorous inspection.
@@ -243,27 +243,33 @@ We conducted an empirical ablation evaluating gating thresholds calibrated on va
 \subsection{Actionable Verification Guidelines}
 Based on our findings, we recommend the following four mandatory practices for TinyML research:
 \begin{enumerate}
-    \item \textbf{Evaluate Only Exported Binaries:} Always compute test metrics from the serialized \texttt{.tflite} or C-array header file, never from in-memory objects.
+    \item \textbf{Evaluate Only Exported Binaries:} Always compute test metrics from the serialized \texttt{.tflite} or C-array header file, never from training-time in-memory objects.
     \item \textbf{Verify Zero-Float Graphs:} Automate tensor inspection to guarantee zero remaining float32 operations before claiming integer inference.
     \item \textbf{Disclose Dense FlatBuffer Storage:} Accompany pruning claims with exact serialized file size reporting.
     \item \textbf{Strict Evidence Tiering:} Maintain clear boundaries between host simulations and physical microcontroller measurements.
 \end{enumerate}
+
+\subsection{General Principles vs. Case-Study Implementation}
+The verification taxonomy formalized in Table~\ref{tab:taxonomy} establishes general software engineering principles applicable across diverse edge ML stacks: verifying data split isolation, checking binary artifact serialization, confirming operator dtype purity, separating compute sparsity from storage compression, auditing timing protocols, and preventing runtime label routing leakage. While our empirical case study demonstrates these principles on an end-to-end 12-model tabular pipeline, the underlying verification predicates provide a structured protocol for any edge AI deployment.
 
 \section{Threats to Validity}
 \subsection{Internal Validity}
 All verification scripts were executed deterministically with fixed random seeds ($\text{seed}=42$). The audit pipeline parses exact binary headers using official TensorFlow Lite C++/Python APIs.
 
 \subsection{External Validity}
-Our case study focused on tabular sensor classification. While convolutional and recurrent topologies exhibit different operator graphs, the principles of binary inspection, data isolation, and timing protocols generalize across all TinyML domains.
+Our empirical case study evaluated a suite of multi-layer perceptron models for multi-sensor diagnostic classification. While convolutional and recurrent topologies exhibit different operator graphs, the principles of binary inspection, data isolation, and timing protocols generalize across all TinyML domains.
 
 \section{Limitations}
-The verification framework audits software artifacts and host simulations. Physical microcontroller execution requires on-device hardware profiling harnesses.
+\begin{enumerate}
+    \item \textbf{Pipeline Scope and Runtime Coverage:} The current empirical case study is demonstrated on tabular MLPs serialized in standard TensorFlow Lite FlatBuffers. Further empirical validation is required across 2D CNNs, vision transformers, recurrent audio models, and alternative edge runtimes (e.g., ONNX Runtime Mobile, microTVM, and vendor-specific MCU toolchains such as STM32Cube.AI or ESP-NN).
+    \item \textbf{Software vs. Physical Execution:} The verification framework audits software artifacts, serialized binaries, and host simulation traces. Physical microcontroller profiling (e.g., hardware timer instrumentation and physical power measurement) represents an essential complementary layer for full hardware certification.
+\end{enumerate}
 
 \section{Reproducibility}
 All verification scripts (\path{scripts/phase4_5_verification.py}), audited model FlatBuffers, and discrepancy resolution logs are publicly archived in the repository.
 
 \section{Conclusion}
-This paper presented an independent, multi-level verification framework for TinyML evaluation. By formalizing verification protocols across seven dimensions and auditing 12 candidate models, we demonstrated the necessity of inspecting serialized artifacts, resolving 20 numerical discrepancies and exposing sparsity-storage decoupling. Our framework establishes actionable protocols to support reproducible benchmarking in edge artificial intelligence.
+This paper presented an independent empirical verification protocol for compiled TinyML deployment artifacts. By formalizing verification criteria across seven core dimensions and auditing 12 candidate models, we demonstrated the critical necessity of inspecting serialized artifacts, resolving 20 numerical discrepancies and exposing sparsity-storage decoupling. Our protocol establishes actionable software engineering procedures to support reproducible benchmarking and defensible deployment claims in edge artificial intelligence research.
 
 \section*{Acknowledgment}
 The authors thank the open-source machine learning and reproducibility communities for establishing foundational verification guidelines.
