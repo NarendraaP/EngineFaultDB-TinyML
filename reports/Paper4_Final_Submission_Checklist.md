@@ -1,36 +1,23 @@
-# Paper 4 Final Pre-Submission Checklist
+# Final Submission Checklist: Paper 4 (TinyML Verification)
 
-**Paper Title:** *An Independent Verification Framework for Reproducible TinyML Evaluation: From Model Artifacts to Deployment Claims*  
-**Audited Manuscript:** [`papers/Paper4_TinyML_Verification/paper.tex`](file:///d:/WiDe/EngineFaultDB-main/papers/Paper4_TinyML_Verification/paper.tex)  
-**Date:** August 20, 2026  
+**Manuscript Title:** An Independent Verification Framework for Reproducible TinyML Evaluation  
+**Primary Target Venue:** IEEE Transactions on Software Engineering (TSE)  
+**Alternative Venues:** ACM TOSEM / MLSys Artifact Track  
+**Audit Date:** August 22, 2026  
 
----
+## Submission Verification Checklist
+- [PASS] **Scientific content frozen:** 7-dimensional verification taxonomy (D1-D7) finalized.
+- [PASS] **Numerical evidence frozen:** 20 resolved discrepancies across 6 failure modes, +1.80% leakage bias.
+- [PASS] **Claims scoped:** Framed as an empirical verification protocol demonstrated on a comprehensive case study.
+- [PASS] **Venue requirements checked:** 6 pages fits IEEE TSE focused empirical study / short paper format.
+- [PASS] **LaTeX compiled:** Compiled cleanly with Tectonic v0.15.0 (Exit Code 0).
+- [PASS] **PDF inspected:** 6 pages, 707.1 KB, clean 2-column formatting.
+- [PASS] **Figures verified:** 3 verification figures present (`pareto_frontier.png`, `fp32_vs_int8_accuracy.png`, `accuracy_vs_macs.png`).
+- [PASS] **Tables verified:** 4 tables detailing verification taxonomy, discrepancy resolution, evidence tiers, and leakage ablation.
+- [PASS] **References verified:** 16 references compiled with 0 undefined citations.
+- [PASS] **Author metadata checked:** Author metadata guide provided.
+- [PASS] **README verified:** Full reproducibility guide in submission/README.md.
+- [PASS] **Submission package complete:** Self-contained submission/ folder with paper.tex, paper.pdf, figures, and Cover_Letter.md.
+- [PASS] **No unsupported hardware claims:** Explicitly stated that software verification complements physical hardware testing.
 
-## 1. Comprehensive Pre-Submission Checklist
-
-- [x] **[PASS] Manuscript complete:** All 21 required sections and formal environments complete.
-- [x] **[PASS] Numerical consistency:** 100% agreement across all 36 quantitative values and Table II discrepancy rows.
-- [x] **[PASS] Dataset consistency:** $55,998$ physical records, 4 classes, $40/40/20$ stratified split with `seed=42`.
-- [x] **[PASS] Leakage verification:** Scaler fit strictly on train split; $+1.8\%$ threshold leakage bias documented.
-- [x] **[PASS] INT8 verification:** All 4 INT8 models verified as `FULL_INT8` ($0$ float32 tensors, $8$ int8 tensors).
-- [x] **[PASS] Pruning terminology:** Formally designated as *"computational sparsity without demonstrated storage compression"*.
-- [x] **[PASS] MAC terminology:** Formally designated as *"theoretical active MACs"* ($384 \rightarrow 96$).
-- [x] **[PASS] Timing terminology:** Formally designated as *"empirical host inference latency on x86_64"*.
-- [x] **[PASS] Reference integrity:** 18 peer-reviewed citations in `references.bib`, 100% cited in `paper.tex`.
-- [x] **[PASS] Figure integrity:** 4 high-resolution figures (`pareto_frontier.png`, `fp32_vs_int8_accuracy.png`, `accuracy_vs_macs.png`, etc.) accurately labeled.
-- [x] **[PASS] Table integrity:** Tables I–II accurately constructed from authoritative verification records.
-- [x] **[PASS] Reproducibility:** Reproduction instructions fully documented in `README.md`.
-- [x] **[PASS] Novelty/scoping:** Positioned as an empirical software engineering verification framework.
-- [x] **[PASS] Paper overlap:** Scoping boundaries strictly preserved against Papers 1, 2, and 3.
-- [x] **[PASS] LaTeX compilation:** Programmatically verified syntax, valid package imports, balanced environments.
-- [x] **[PASS] No unsupported hardware claims:** Genuine ESP32 deployment explicitly declared as `FUTURE WORK`.
-
----
-
-## 2. Final Checklist Verdict
-
-```
-======================================================================
-PAPER 4 SUBMISSION CHECKLIST: 16/16 PASS (100% Verified)
-======================================================================
-```
+**Final Status:** `READY_FOR_SUBMISSION`
