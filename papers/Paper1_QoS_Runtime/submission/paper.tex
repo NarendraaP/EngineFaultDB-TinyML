@@ -129,7 +129,8 @@ The runtime strictly segregates operational data from evaluation data:
 \texttt{BALANCED} & \texttt{pruned\_mlp\_14f\_75pct} & FP32 & 412 & 3,920 & \textbf{96} & 0.748214 & 0.756251 & 0.83\,\si{\micro\second} \\
 \texttt{HIGH\_FIDELITY} & \texttt{student\_b\_16\_4\_fp32} & FP32 & 328 & 3,584 & 304 & \textbf{0.751429} & 0.738717 & \textbf{0.82\,\si{\micro\second}} \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table*}
 
 Table~\ref{tab:registry} defines the three multi-fidelity operational modes populated from the verified Phase 4.5 model profile:
@@ -220,7 +221,8 @@ Inference latency is simulated with Gaussian timing jitter ($\sigma = 0.05$). De
 & \texttt{DEADLINE\_PRIORITY} & \texttt{FAST} & 0.716071 & 0.721781 & 0.014000 & 23.36\,\si{\micro\second} & 41.20\,\si{\micro\second} & 160 \\
 & \texttt{COMPUTE\_PRIORITY} & \texttt{FAST} & 0.716071 & 0.721781 & 0.014000 & 21.32\,\si{\micro\second} & 35.27\,\si{\micro\second} & 160 \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table*}
 
 \begin{figure}[t]
@@ -278,7 +280,8 @@ Across all 80 configurations, deadline compliance was maintained at $100.0\%$. U
 \multirow{2}{*}{\textbf{D: Deadline Gating}} & QoS Unconstrained (No Deadline) & 0.751875 & 0.739048 & 14.25\,\si{\micro\second} & 21.83\,\si{\micro\second} & 0 & Unbounded execution latency \\
 & \textbf{QoS Deadline-Constrained} & \textbf{0.748214} & \textbf{0.756251} & 12.85\,\si{\micro\second} & 18.49\,\si{\micro\second} & 1 & Bounded execution latency \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table*}
 
 \begin{figure*}[t]

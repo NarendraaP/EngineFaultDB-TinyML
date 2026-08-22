@@ -103,10 +103,9 @@ We structure our empirical investigation around four key research questions:
 
 \begin{table}[t]
 \centering
-\footnotesize
-\setlength{\tabcolsep}{3.5pt}
 \caption{EngineFaultDB Class Distribution and Partitioning}
 \label{tab:dataset}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{l c r r r}
 \toprule
 \textbf{Class Label} & \textbf{Diagnostic State} & \textbf{Train (40\%)} & \textbf{Val (40\%)} & \textbf{Test (20\%)} \\
@@ -118,7 +117,8 @@ Class 3 & Intake Air Leak & 5,599 & 5,599 & 2,800 \\
 \midrule
 \textbf{Total} & \textbf{All States} & \textbf{22,399} & \textbf{22,399} & \textbf{11,200} \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 \subsection{Benchmark Dataset}
@@ -216,7 +216,8 @@ Class 3 (Air Leak) & 0.5018 & 0.5093 & 0.5055 & 2,800 \\
 \midrule
 \textbf{Macro Average} & \textbf{0.7540} & \textbf{0.7547} & \textbf{0.7543} & \textbf{11,200} \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 \subsection{Gating Threshold and Routing Mechanics}

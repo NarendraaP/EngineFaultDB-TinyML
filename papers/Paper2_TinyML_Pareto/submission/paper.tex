@@ -142,7 +142,10 @@ where $\theta_p$ is the threshold corresponding to the target sparsity level $p 
 \subsubsection{Knowledge Distillation}
 Knowledge distillation trains a smaller student network $S$ parameterized by $\theta_S$ using a compound loss function combining hard cross-entropy loss with soft Kullback-Leibler (KL) divergence from the teacher $T$ parameterized by $\theta_T$:
 \begin{equation}
-    \mathcal{L}_{\text{KD}} = (1 - \alpha)\mathcal{L}_{\text{CE}}(y, \sigma(z_S)) + \alpha T^2 \mathcal{D}_{\text{KL}}\left(\sigma\left(\frac{z_T}{\tau}\right) \parallel \sigma\left(\frac{z_S}{\tau}\right)\right)
+\begin{split}
+    \mathcal{L}_{\text{KD}} &= (1 - \alpha)\mathcal{L}_{\text{CE}}(y, \sigma(z_S)) \\
+    &\quad + \alpha T^2 \mathcal{D}_{\text{KL}}\left(\sigma\left(\frac{z_T}{\tau}\right) \parallel \sigma\left(\frac{z_S}{\tau}\right)\right)
+\end{split}
 \end{equation}
 where $\tau = 3.0$ is the distillation temperature, $\alpha = 0.5$ is the distillation weight, $z_T$ and $z_S$ are the raw logits, and $y$ is the one-hot ground-truth label. Two student architectures were investigated:
 \begin{itemize}
