@@ -1,0 +1,34 @@
+{
+  "hardware_status": "ESP32_IDENTITY_UNVERIFIED",
+  "audit_timestamp": "2026-08-20T11:36:30+05:30",
+  "detected_hardware": {
+    "port": "COM6",
+    "friendly_name": "USB-SERIAL CH340 (COM6)",
+    "instance_id": "USB\\VID_1A86&PID_7523\\5&2DD792E3&0&3",
+    "vendor_id": "0x1A86",
+    "product_id": "0x7523",
+    "usb_bridge": "WCH CH340 USB-to-UART Bridge",
+    "pnp_status": "OK (CM_PROB_NONE)",
+    "hardware_protocol_probe": "STK500v1 (Optiboot AVR)",
+    "device_signature": "0x1E 0x95 0x0F",
+    "identified_mcu": "Microchip / Atmel ATmega328P (8-bit AVR @ 16 MHz)",
+    "identified_board_type": "Arduino Nano / Arduino Uno Clone with CH340 USB Bridge",
+    "esptool_probe_result": "FAILED - Invalid head of packet (Device is AVR ATmega328P, not Espressif silicon)",
+    "resident_sketch_output": "Analog sensor stream (x: ... y: ...) at 9600 baud"
+  },
+  "measured_specifications": {
+    "mcu": "ATmega328P",
+    "architecture": "8-bit AVR RISC",
+    "cores": 1,
+    "clock_frequency": "16.0 MHz",
+    "flash_capacity": "32 KB Flash (0.5 KB bootloader)",
+    "sram_capacity": "2 KB Internal SRAM",
+    "psram": "None (0 KB)",
+    "eeprom": "1 KB",
+    "usb_interface": "WCH CH340 on COM6"
+  },
+  "verdict": {
+    "status": "ESP32_IDENTITY_UNVERIFIED",
+    "summary": "The board connected on COM6 was empirically identified via STK500v1 protocol and device signature 0x1E 0x95 0x0F as an Arduino Nano (ATmega328P). It is not an ESP32 chip."
+  }
+}

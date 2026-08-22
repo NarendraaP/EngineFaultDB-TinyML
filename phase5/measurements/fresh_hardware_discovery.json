@@ -1,0 +1,47 @@
+{
+  "discovery_timestamp": "2026-08-20T11:40:15+05:30",
+  "hardware_status": "ESP32_NOT_PRESENT",
+  "ports_detected": [
+    {
+      "port": "COM1",
+      "type": "ACPI Motherboard Port",
+      "hwid": "ACPI\\PNP0501\\0"
+    },
+    {
+      "port": "COM6",
+      "type": "USB-to-UART Serial Device",
+      "hwid": "USB\\VID_1A86&PID_7523\\5&2DD792E3&0&3"
+    }
+  ],
+  "device_analysis": {
+    "com_port": "COM6",
+    "usb_vid": "0x1A86",
+    "usb_pid": "0x7523",
+    "usb_bridge": "WCH (Nanjing Qinheng Microelectronics) CH340",
+    "esptool_probe": {
+      "command": "python -m esptool --port COM6 chip-id",
+      "result": "FAILED - Invalid head of packet (0x00)"
+    },
+    "stk500_probe": {
+      "command": "STK_GET_SYNC (0x30 0x20) + STK_READ_SIGN (0x75 0x20) @ 115200 baud",
+      "result": "SUCCESS",
+      "raw_device_signature": "0x1E 0x95 0x0F"
+    },
+    "mcu_classification": "ATmega328P",
+    "mcu_specifications": {
+      "manufacturer": "Microchip / Atmel",
+      "mcu_model": "ATmega328P",
+      "architecture": "8-bit AVR RISC",
+      "cores": 1,
+      "clock_frequency": "16.0 MHz",
+      "flash_size": "32 KB",
+      "sram_size": "2 KB",
+      "psram_size": "0 KB (None)",
+      "eeprom_size": "1 KB"
+    }
+  },
+  "verdict": {
+    "final_status": "ESP32_NOT_PRESENT",
+    "summary": "The physical board currently connected on COM6 is an ATmega328P (Arduino Nano/Uno with CH340 bridge), confirmed via device signature 0x1E 0x95 0x0F. No ESP32 silicon was detected."
+  }
+}

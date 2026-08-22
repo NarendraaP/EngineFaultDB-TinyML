@@ -1,0 +1,3 @@
+model_name,feature_count,precision,params,macs,size_bytes,accuracy,macro_f1
+keras_mlp_14f,14,FP32,412,384,32966,0.75,0.756608
+keras_mlp_12f,12,FP32,380,352,32590,0.747143,0.725414

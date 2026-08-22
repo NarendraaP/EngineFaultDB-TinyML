@@ -1,0 +1,13 @@
+model,features,precision,parameters,file_size_bytes,file_size_kb,actual_zero_weight_percentage,theoretical_macs,active_macs,mean_latency_us,median_latency_us,p95_latency_us,p99_latency_us,min_latency_us,max_latency_us,test_accuracy,test_macro_f1,accuracy_drop,macro_f1_drop,input_dtype,output_dtype,float32_tensors,int8_tensors,pareto_status
+tflite_mlp_14f_fp32,14,FP32,412,3892,3.8,0.0,384,384,0.99,0.9,1.5,1.7,0.8,2.1,0.75,0.756608,0.0,0.0,float32,float32,11,0,DOMINATED
+tflite_mlp_12f_fp32,12,FP32,380,3780,3.69,0.26,352,352,0.87,0.8,0.9,1.2,0.7,17.0,0.747143,0.725414,0.002857,0.031194,float32,float32,11,0,DOMINATED
+tflite_mlp_14f_int8,14,FULL_INT8,412,3728,3.64,0.0,384,384,1.43,1.0,1.9,5.31,0.8,75.0,0.750357,0.738824,-0.000357,0.017784,int8,int8,0,8,DOMINATED
+tflite_mlp_12f_int8,12,FULL_INT8,380,3712,3.62,0.26,352,352,1.0,1.0,1.1,1.5,0.8,1.8,0.747857,0.715534,0.002143,0.041074,int8,int8,0,8,DOMINATED
+pruned_mlp_14f_0pct,14,FP32,412,3892,3.8,0.0,384,384,0.95,0.9,1.0,1.7,0.7,28.7,0.75,0.756608,0.0,0.0,float32,float32,11,0,DOMINATED
+pruned_mlp_14f_25pct,14,FP32,412,3920,3.83,4.85,384,288,1.69,1.6,1.8,2.1,1.4,29.4,0.750536,0.75149,-0.000536,0.005118,float32,float32,11,0,PARETO_OPTIMAL
+pruned_mlp_14f_50pct,14,FP32,412,3920,3.83,14.81,384,192,0.86,0.8,0.9,1.2,0.7,12.9,0.749464,0.756572,0.000536,3.6e-05,float32,float32,11,0,PARETO_OPTIMAL
+pruned_mlp_14f_75pct,14,FP32,412,3920,3.83,14.56,384,96,0.83,0.8,0.9,1.2,0.7,5.7,0.748214,0.756251,0.001786,0.000357,float32,float32,11,0,PARETO_OPTIMAL
+student_a_8_4_fp32,14,FP32,176,2976,2.91,1.14,160,160,0.86,0.8,0.9,1.5,0.7,7.2,0.716339,0.722001,0.033661,0.034607,float32,float32,11,0,PARETO_OPTIMAL
+student_a_8_4_int8,14,FULL_INT8,176,3208,3.13,1.14,160,160,1.02,1.0,1.1,1.9,0.9,5.3,0.711429,0.684788,0.038571,0.07182,int8,int8,0,8,DOMINATED
+student_b_16_4_fp32,14,FP32,328,3584,3.5,1.22,304,304,0.82,0.8,0.9,1.2,0.7,2.1,0.751429,0.738717,-0.001429,0.017891,float32,float32,11,0,PARETO_OPTIMAL
+student_b_16_4_int8,14,FULL_INT8,328,3576,3.49,1.22,304,304,0.98,1.0,1.1,1.5,0.8,1.9,0.745625,0.689601,0.004375,0.067006,int8,int8,0,8,PARETO_OPTIMAL
