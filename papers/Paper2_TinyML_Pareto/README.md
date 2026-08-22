@@ -1,6 +1,6 @@
 # Paper 2: Empirical Pareto Frontier of Model Compression Paradigms for Ultra-Low-Resource TinyML
 
-**Author:** Antigravity Research Team  
+**Author:** Narendra Satish  
 **Artifact Base:** Phases 1–4.5 Verified Datasets and Model FlatBuffers  
 **Target Venue:** *IEEE Embedded Systems Letters (ESL)* (Letters format, $\le 4$ pages)  
 **Alternative Venue:** *ACM Transactions on Design Automation of Electronic Systems (TODAES)*  

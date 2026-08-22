@@ -1,6 +1,6 @@
 # Paper 4: An Independent Verification Framework for Reproducible TinyML Evaluation
 
-**Author:** Antigravity Research Team  
+**Author:** Narendra Satish  
 **Artifact Base:** Phase 4.5 Independent Verification Scripts, Model FlatBuffers, and Discrepancy Audits  
 **Primary Target Venue:** *IEEE Transactions on Software Engineering (TSE)* / *ACM Transactions on Software Engineering and Methodology (TOSEM)*  
 **Secondary Target Venue:** *IEEE Transactions on Reliability*  

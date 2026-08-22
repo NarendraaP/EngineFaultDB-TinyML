@@ -1,6 +1,6 @@
 # Paper 3: Hierarchical Multi-Fidelity Inference for Resource-Constrained Engine Fault Diagnosis
 
-**Author:** Antigravity Research Team  
+**Author:** Narendra Satish  
 **Artifact Base:** Phases 1–3 Verified Datasets, Mode Selection Benchmarks, and Cascaded Evaluator  
 **Primary Target Venue:** *IEEE Transactions on Industrial Informatics (TII)* (Regular Transactions Paper, $\le 10$ pages)  
 **Secondary Target Venue:** *Mechanical Systems and Signal Processing (MSSP)* (Elsevier)  

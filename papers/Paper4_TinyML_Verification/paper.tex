@@ -19,12 +19,12 @@
 
 \title{An Independent Verification Framework for Reproducible TinyML Evaluation: From Model Artifacts to Deployment Claims}
 
-\author{Antigravity Research Team%
-\thanks{Manuscript received August 20, 2026. This research was conducted as part of the empirical software engineering and verification initiative on the QoS-Aware TinyML Research Platform.}%
+\author{Narendra~Satish%
+\thanks{Manuscript received August 20, 2026. (Corresponding author: Narendra Satish, e-mail: narendresh.p@gmail.com). This research was conducted as part of the empirical software engineering and verification initiative.}%
 }
 
 % \markboth{IEEE Transactions on Software Engineering, August~2026}%
-% {Antigravity Research Team: An Independent Verification Framework for Reproducible TinyML Evaluation}
+% {Satish: An Independent Verification Framework for Reproducible TinyML Evaluation}
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
@@ -244,7 +244,7 @@ We conducted an empirical ablation evaluating gating thresholds calibrated on va
 Based on our findings, we recommend the following four mandatory practices for TinyML research:
 \begin{enumerate}
     \item \textbf{Evaluate Only Exported Binaries:} Always compute test metrics from the serialized \texttt{.tflite} or C-array header file, never from training-time in-memory objects.
-    \item \textbf{Verify Zero-Float Graphs:} Automate tensor inspection to guarantee zero remaining float32 operations before claiming integer inference.
+    \item \textbf{Verify Zero-Float Graphs:} Automate tensor inspection to verify zero remaining float32 operations before claiming integer inference.
     \item \textbf{Disclose Dense FlatBuffer Storage:} Accompany pruning claims with exact serialized file size reporting.
     \item \textbf{Strict Evidence Tiering:} Maintain clear boundaries between host simulations and physical microcontroller measurements.
 \end{enumerate}

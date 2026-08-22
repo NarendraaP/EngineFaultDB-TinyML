@@ -1,4 +1,4 @@
-﻿# Submission Cover Letter
+# Submission Cover Letter
 
 **To:** Editor-in-Chief  
 *IEEE Transactions on Industrial Informatics*  
@@ -6,26 +6,31 @@ IEEE Industrial Electronics Society
 
 **Date:** August 22, 2026  
 **Manuscript Title:** Hierarchical Multi-Fidelity Machine Learning for Compute-Efficient Automotive Diagnostics  
-**Author(s):** Antigravity Research Team  
+**Corresponding Author:** Narendra Satish  
+**Author Email:** narendresh.p@gmail.com  
 **Article Type:** Regular Research Paper  
 
 Dear Editor-in-Chief and Editorial Board Members,
 
-We are pleased to submit our original research manuscript entitled **\"Hierarchical Multi-Fidelity Machine Learning for Compute-Efficient Automotive Diagnostics\"** for publication in *IEEE Transactions on Industrial Informatics*.
+I am pleased to submit the original research manuscript entitled **"Hierarchical Multi-Fidelity Machine Learning for Compute-Efficient Automotive Diagnostics"** for publication consideration in *IEEE Transactions on Industrial Informatics*.
 
 ### Research Problem & Motivation
-Real-time fault detection and isolation in automotive powertrains imposes substantial computational burdens on Electronic Control Units (ECUs). In real-world operation, internal combustion engines operate in nominal, healthy regimes for $>90\%$ of their lifespan. Indiscriminately executing monolithic multi-class neural networks across every healthy observation squanders critical ECU computing capacity.
+Real-time fault detection and isolation in automotive powertrains imposes substantial computational burdens on Electronic Control Units (ECUs). In real-world operation, internal combustion engines operate in nominal, healthy regimes for >90% of their lifespan. Indiscriminately executing monolithic multi-class neural networks across every healthy observation squanders critical ECU computing capacity.
 
 ### Key Contributions & Major Empirical Findings
-1. **Asymmetric Hierarchical Inference Architecture:** We develop a two-tier cascade combining a lightweight binary anomaly filter (Decision Tree =5$, $ MACs) with an uncertainty-gated deep neural diagnostician (MLP, $ MACs).
-2. **Empirical Diagnostic Benchmark:** Evaluated on the 55,998-record EngineFaultDB physical benchmark, our cascade matches the diagnostic accuracy of a monolithic deep network (.64\%$ vs. .66\%$) while eliminating .36\%$ of expensive multi-class evaluations on balanced test data (and an expected .8\%$ on \%$ nominal operational telemetry).
-3. **Safety Guarantee:** Through validation-only threshold tuning ($\theta^* = 0.05$), the system maintains a .98\%$ anomaly detection recall (.00025$ false-negative rate, missing only 2 anomalies out of 8,000).
+1. **Asymmetric Hierarchical Inference Architecture:** We develop a domain-specific two-tier cascade combining a lightweight binary anomaly filter (Decision Tree d=5, 0 MACs) with an uncertainty-gated deep neural diagnostician (MLP, 384 MACs).
+2. **Empirical Diagnostic Benchmark:** Evaluated on the 55,998-record EngineFaultDB physical benchmark, our cascade matches the diagnostic accuracy of a monolithic deep network (74.64% vs. 74.66%) while achieving:
+   - A **26.36% empirical reduction in active MACs** (282.8 vs. 384.0 expected MACs) on the balanced test distribution.
+   - An **89.8% derived expected computational reduction** under the explicitly defined operational assumption of 90% nominal telemetry streams.
+3. **High Anomaly Recall via Validation-Only Calibration:** Through validation-only threshold tuning (theta* = 0.05), the cascade achieves **99.98% anomaly recall on the evaluated test partition** (0.00025 false-negative rate, missing only 2 anomalies out of 8,000 in the test set). The architecture is not claimed to be formally safety-certified.
+4. **Dataset Scope:** The manuscript explicitly declares that EngineFaultDB represents controlled steady-state dynamometer observations rather than transient on-road drive cycles.
 
-### Venue Fit & Originality Declaration
-*IEEE Transactions on Industrial Informatics* is the leading venue for industrial cyber-physical systems, intelligent diagnostics, and edge computing. Our work delivers an efficient, safety-compliant diagnostic architecture designed specifically for embedded vehicle controllers.
+### Declarations
+- **Originality & Dual Submission:** [CONFIRM ORIGINALITY / NO SIMULTANEOUS SUBMISSION - The author confirms this manuscript is original, has not been published previously, and is not currently under consideration for publication elsewhere].
+- **Reproducibility:** All model weights, evaluation scripts, and dataset splits are publicly accessible.
 
-This manuscript is original and is not currently under submission elsewhere.
+Thank you for your editorial review.
 
 Sincerely,  
-**Antigravity Research Team**  
-*QoS-Aware TinyML Research Platform*  
+**Narendra Satish**  
+*Email:* narendresh.p@gmail.com  

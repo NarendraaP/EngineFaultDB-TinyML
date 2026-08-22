@@ -20,12 +20,12 @@
 
 \title{QoS-Aware Multi-Fidelity Runtime for TinyML Inference under Dynamic Workload Contention}
 
-\author{Antigravity Research Team%
-\thanks{Manuscript received August 20, 2026. This research was conducted on the QoS-Aware TinyML Research Platform using the audited EngineFaultDB physical benchmark. All model binaries, runtime implementations, and simulation harnesses are fully reproducible.}%
+\author{Narendra~Satish%
+\thanks{Manuscript received August 20, 2026. (Corresponding author: Narendra Satish, e-mail: narendresh.p@gmail.com). All model binaries, runtime implementations, and simulation harnesses are fully reproducible.}%
 }
 
 % \markboth{IEEE Transactions on Computer-Aided Design / Embedded Systems Letters, August~2026}%
-% {Antigravity Research Team: QoS-Aware Multi-Fidelity Runtime for TinyML Inference}
+% {Satish: QoS-Aware Multi-Fidelity Runtime for TinyML Inference}
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
@@ -324,7 +324,7 @@ All models, runtime source modules, trace simulation harnesses, and empirical re
 Physical hardware experiments on genuine ESP32 silicon (\texttt{ESP32-WROOM-32}) represent planned future work. Physical validation will profile on-chip TFLite Micro inference latency via \path{esp_timer_get_time()}, static SRAM tensor arena allocation, and FreeRTOS task preemption.
 
 \section{Conclusion}
-This paper presented a trace-driven, ground-truth-independent QoS-Aware Multi-Fidelity Runtime for TinyML inference under modeled workload contention. By adaptively selecting among verified Pareto-optimal models, our runtime reduces theoretical active arithmetic operations by up to $68.4\%$ under high contention while preserving diagnostic macro F1 ($0.7563$) and guaranteeing zero ground-truth leakage. These verified systems findings establish dynamic multi-fidelity scheduling as an effective approach for adaptive, deadline-compliant edge intelligence within resource-constrained cyber-physical environments.
+This paper presented a trace-driven, ground-truth-independent QoS-Aware Multi-Fidelity Runtime for TinyML inference under modeled workload contention. By adaptively selecting among verified Pareto-optimal models, our runtime reduces theoretical active arithmetic operations by up to $68.4\%$ under high contention while preserving diagnostic macro F1 ($0.7563$) and ensuring zero ground-truth leakage. These verified systems findings establish dynamic multi-fidelity scheduling as an effective approach for adaptive, deadline-compliant edge intelligence within resource-constrained cyber-physical environments.
 
 \section*{Acknowledgment}
 The authors acknowledge the open-source TinyML and TensorFlow Lite Micro communities for establishing foundational runtime frameworks.

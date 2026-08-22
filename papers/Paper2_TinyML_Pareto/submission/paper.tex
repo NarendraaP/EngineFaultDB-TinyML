@@ -20,12 +20,12 @@
 
 \title{Empirical Pareto Frontier of Model Compression Paradigms for Ultra-Low-Resource TinyML}
 
-\author{Antigravity Research Team%
-\thanks{Manuscript received August 20, 2026. This research was conducted on the QoS-Aware TinyML Research Platform using the open EngineFaultDB dataset. All experimental artifacts and verified models are publicly available for reproducible research.}%
+\author{Narendra~Satish%
+\thanks{Manuscript received August 20, 2026. (Corresponding author: Narendra Satish, e-mail: narendresh.p@gmail.com). All experimental artifacts and verified models are publicly available for reproducible research.}%
 }
 
 % \markboth{IEEE Embedded Systems Letters, August~2026}%
-% {Antigravity Research Team: Empirical Pareto Frontier of Model Compression Paradigms for Ultra-Low-Resource TinyML}
+% {Satish: Empirical Pareto Frontier of Model Compression Paradigms for Ultra-Low-Resource TinyML}
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
@@ -97,7 +97,7 @@ The full feature set ($14$ features) consists of manifold absolute pressure (MAP
 Statistical collinearity analysis revealed two perfectly or near-perfectly redundant pairs: (1) AFR vs. $\lambda$ ($r = 1.0000$), and (2) Speed vs. RPM ($r = 0.9972$). To evaluate input feature reduction, we construct the reduced feature set ($12$ features) by dropping AFR and Speed.
 
 \subsubsection{Data Split and Scaling}
-To guarantee zero data contamination, the dataset is partitioned using a stratified 3-way split with fixed random seed ($\text{seed}=42$):
+To prevent data contamination, the dataset is partitioned using a stratified 3-way split with fixed random seed ($\text{seed}=42$):
 \begin{itemize}
     \item \textbf{Training Set ($40\%$):} $22,399$ samples, used for model parameter optimization and quantization calibration.
     \item \textbf{Validation Set ($40\%$):} $22,399$ samples, used for hyperparameter tuning, pruning threshold selection, and student architecture search.

@@ -20,12 +20,12 @@
 
 \title{Hierarchical Multi-Fidelity Inference for Resource-Constrained Engine Fault Diagnosis}
 
-\author{Antigravity Research Team%
-\thanks{Manuscript received August 20, 2026. This work was conducted on the QoS-Aware TinyML Research Platform using the audited EngineFaultDB physical benchmark. All model artifacts and evaluation pipelines are fully reproducible.}%
+\author{Narendra~Satish%
+\thanks{Manuscript received August 20, 2026. (Corresponding author: Narendra Satish, e-mail: narendresh.p@gmail.com). All model artifacts and evaluation pipelines are fully reproducible.}%
 }
 
 % \markboth{IEEE Transactions on Industrial Informatics, August~2026}%
-% {Antigravity Research Team: Hierarchical Multi-Fidelity Inference for Engine Fault Diagnosis}
+% {Satish: Hierarchical Multi-Fidelity Inference for Engine Fault Diagnosis}
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
@@ -56,7 +56,7 @@ To address this compute-fidelity tension, we formulate a domain-specific \textbf
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.98\textwidth]{qos_policy_frontier.png}
-\caption{Hierarchical diagnostic policy sensitivity analysis across gating thresholds $\theta \in [0.00, 1.00]$: (a) Multi-class Diagnostic Accuracy, (b) Mode~B Trigger Rate, (c) Anomaly Safety Recall, and (d) Accuracy vs. Compute Pareto Trade-off.}
+\caption{Hierarchical diagnostic policy sensitivity analysis across gating thresholds $\theta \in [0.00, 1.00]$: (a) Multi-class Diagnostic Accuracy, (b) Mode~B Trigger Rate, (c) Anomaly Recall, and (d) Accuracy vs. Compute Pareto Trade-off.}
 \label{fig:architecture}
 \end{figure*}
 
@@ -299,7 +299,7 @@ Comparing validation sweeps against test sweeps confirms excellent generalizatio
     \item Validation trigger rate at $\theta = 0.05$: $73.4497\%$ (Test: $73.6429\%$).
     \item Validation Anomaly FNR at $\theta = 0.05$: $0.000188$ (Test: $0.000250$).
 \end{itemize}
-This stability proves that gating thresholds calibrated on validation data generalize to unseen distributions without threshold overfitting.
+This stability demonstrates that gating thresholds calibrated on validation data generalize to unseen distributions without threshold overfitting.
 
 \section{Baseline Comparison and Ablation Analysis}
 
@@ -331,7 +331,7 @@ Table~\ref{tab:baselines} contrasts the proposed hierarchical architecture again
 
 \section{Discussion}
 \subsection{Domain Significance for Embedded Powertrain Systems}
-In automotive ECUs, CPU cycles and memory buses are shared across safety-critical engine control loops, spark ignition timing, and CAN-bus telemetry. By screening out nominal observations with a sub-microsecond decision tree ($<68\,\si{\micro\second}$ host timing, $0$ MACs), the ECU frees computational capacity for real-time control routines while guaranteeing instantaneous multi-class diagnosis the moment an anomaly arises.
+In automotive ECUs, CPU cycles and memory buses are shared across safety-critical engine control loops, spark ignition timing, and CAN-bus telemetry. By screening out nominal observations with a sub-microsecond decision tree ($<68\,\si{\micro\second}$ host timing, $0$ MACs), the ECU frees computational capacity for real-time control routines while enabling prompt multi-class diagnosis the moment an anomaly arises.
 
 \subsection{Practical Interpretation of Computational Savings}
 It is essential to distinguish the empirical $26.36\%$ compute reduction measured on the balanced test partition from the derived $89.8\%$ compute reduction projected under realistic operational priors ($90\%$ healthy frames). In benchmark datasets, classes are artificially balanced ($28.57\%$ normal); in physical automotive operation, healthy telemetry overwhelmingly dominates. The expected mathematical cost model demonstrates that asymmetric cascading delivers its greatest practical benefits precisely under such skewed real-world operational distributions.

@@ -1,6 +1,6 @@
 # Paper 1: QoS-Aware Multi-Fidelity Runtime for Real-Time Embedded AI under Dynamic Workload Contention
 
-**Author:** Antigravity Research Team  
+**Author:** Narendra Satish  
 **Artifact Base:** Phase 5 QoS-Aware Multi-Fidelity Runtime, Model Registry, and Trace Simulator  
 **Primary Target Venue:** *IEEE Transactions on Computers (TC)* / *ACM Transactions on Embedded Computing Systems (TECS)*  
 **Conference Target:** *IEEE Real-Time Systems Symposium (RTSS - Brief Presentations)*  
