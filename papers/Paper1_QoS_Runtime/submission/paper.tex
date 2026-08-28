@@ -151,8 +151,8 @@ We maintain a strict conceptual separation among computational metrics:
 
 Table~\ref{tab:registry} defines the three multi-fidelity operational modes populated from the verified Phase 4.5 model profile:
 \begin{itemize}
-    \item \textbf{Mode \texttt{FAST} (\texttt{student\_a}):} Ultra-compact distilled student ($176$ parameters, $2,976$\,Bytes, $160$ active MACs) engineered for minimal storage and rapid execution.
-    \item \textbf{Mode \texttt{BALANCED} (\texttt{pruned\_mlp}):} Sparsified model with minimal active arithmetic operations ($412$ parameters, $3,920$\,Bytes, $96$ active MACs) retaining $74.82\%$ accuracy.
+    \item \textbf{Mode \texttt{FAST} (\texttt{student\_a}):} Miniaturized student ($176$ parameters, $2,976$\,Bytes, $160$ active MACs) occupying less space and operating faster than the large version.
+    \item \textbf{Mode \texttt{BALANCED} (\texttt{pruned\_mlp}):} Model with reduced number of active operations ($412$ parameters, $3,920$\,Bytes, $96$ active MACs) preserving $74.82\%$ of the accuracy.
     \item \textbf{Mode \texttt{HIGH\_FIDELITY} (\texttt{student\_b}):} High-capacity student model ($328$ parameters, $3,584$\,Bytes, $304$ active MACs) achieving peak diagnostic accuracy ($75.14\%$).
 \end{itemize}
 
