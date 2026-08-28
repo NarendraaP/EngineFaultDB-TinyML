@@ -279,7 +279,7 @@ When workload contention rises to \texttt{HIGH} or \texttt{BURST}, the \texttt{B
 Crucially, since \texttt{pruned\_mlp\_14f\_75pct} has superior balance of minority fault classes, the macro F1 score improves from $0.739048$ to $\mathbf{0.756251}$ ($+0.017203$) with only a small decrease in accuracy of $-0.3661\%$. The scheduler picked the 96-MAC configuration under the examined high-contention scenario, reducing the theoretical active MAC needs by $68.4\%$ from the 304-MAC high-fidelity configuration while retaining diagnostic accuracy in the examined trace.
 
 \subsection{RQ3: Deadline Sensitivity, Feasibility, and Switch Stability}
-Across all 80 configurations, simulated deadline compliance was maintained at $100.0\%$. Under host simulation, model transitions occur cleanly with at most $1$ switch event per continuous workload trace, confirming scheduler stability without high-frequency oscillation.
+Across all 80 configurations, the simulated deadline compliance was kept at $100.0\%$. Host simulated scenario model transitions are clean, with a maximum of $1$ switch event per continuous workload trace, confirming scheduler stability without high-frequency oscillation.
 
 \section{Controlled Systems Ablation Studies}
 
