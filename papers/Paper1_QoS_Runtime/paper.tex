@@ -124,10 +124,10 @@ The runtime strictly segregates operational data from evaluation data:
 \subsection{Computational Accounting Hierarchy}
 We maintain a strict conceptual separation among computational metrics:
 \begin{itemize}
-    \item \textbf{Theoretical Active MACs:} Analytical arithmetic operation count based on active non-zero weights and layer dimensions.
-    \item \textbf{Empirical Host Latency:} Measured execution time on an x86\_64 CPU via high-resolution timing (\path{time.perf_counter_ns()}).
-    \item \textbf{Simulated Latency:} Contention-scaled execution time with Gaussian jitter representing trace-driven load.
-    \item \textbf{Physical MCU Latency:} Real-time on-chip execution on silicon (\textit{future work}).
+    \item \textbf{Theoretical Active MACs:} Analytical arithmetic operation count based on active (non-zero weight) parameters and layer dimensions.
+    \item \textbf{Empirical Host Latency:} Execution time on an x86\_64 CPU with high-resolution timing (\path{time.perf_counter_ns()}).
+    \item \textbf{Simulated Latency:} Contention-scaled execution time with Gaussian jitter to represent trace-driven load.
+    \item \textbf{Physical MCU Latency:} On-chip execution in real-time on silicon (\textit{future work}).
 \end{itemize}
 
 \section{Verified Model Registry and Multi-Fidelity Modes}
