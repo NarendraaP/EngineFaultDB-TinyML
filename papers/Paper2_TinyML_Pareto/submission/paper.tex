@@ -311,6 +311,16 @@ All remaining 6 models are strictly dominated. Importantly, \textbf{removing hos
 \subsection{Secondary Host Execution Benchmark}
 As shown in Table~\ref{tab:model_profile}, single-sample host execution latencies on x86\_64 range from $0.82\,\si{\micro\second}$ (\texttt{student\_b\_fp32}) to $1.69\,\si{\micro\second}$ (\texttt{pruned\_25pct}). These host measurements illustrate relative operator dispatch overhead under the standard TFLite x86 runtime. However, because x86 architectures employ deep superscalar pipelines, branch predictors, and multi-level caches not present on embedded microcontrollers, host timing must be interpreted strictly as a secondary baseline rather than a microcontroller execution metric.
 
+\subsection{Physical Microcontroller Deployment Validation}
+To ground the deployment characterization in physical hardware, the verified \texttt{FULL\_INT8} models were deployed to an ESP32-D0WD-V3 microcontroller (Xtensa LX6 dual-core @ $240\,\text{MHz}$, $4\,\text{MB}$ Flash, $320\,\text{KB}$ SRAM). Single-sample inference latency was captured via the hardware monotonic timer \path{esp_timer_get_time()} across $24,000$ measured iterations ($3$ independent rounds $\times 2,000$ inferences per model):
+\begin{itemize}
+    \item \texttt{student\_a\_8\_4\_int8} ($176$ params, $3,208\,\text{B}$): Mean = $64.55\,\si{\micro\second}$, P95 = $69.00\,\si{\micro\second}$, P99 = $76.00\,\si{\micro\second}$, Max = $77\,\si{\micro\second}$ (Host/ESP32 Slowdown: $63.3\times$).
+    \item \texttt{student\_b\_16\_4\_int8} ($328$ params, $3,576\,\text{B}$): Mean = $72.96\,\si{\micro\second}$, P95 = $83.00\,\si{\micro\second}$, P99 = $83.00\,\si{\micro\second}$, Max = $84\,\si{\micro\second}$ (Host/ESP32 Slowdown: $74.5\times$).
+    \item \texttt{mlp\_12f\_int8} ($380$ params, $3,712\,\text{B}$): Mean = $76.77\,\si{\micro\second}$, P95 = $83.00\,\si{\micro\second}$, P99 = $90.00\,\si{\micro\second}$, Max = $90\,\si{\micro\second}$ (Host/ESP32 Slowdown: $76.8\times$).
+    \item \texttt{mlp\_14f\_int8} ($412$ params, $3,728\,\text{B}$): Mean = $89.90\,\si{\micro\second}$, P95 = $95.00\,\si{\micro\second}$, P99 = $101.00\,\si{\micro\second}$, Max = $102\,\si{\micro\second}$ (Host/ESP32 Slowdown: $62.9\times$).
+\end{itemize}
+These physical measurements provide independent deployment-level latency evidence that complements the primary accuracy--serialized-size--theoretical-active-MAC Pareto analysis. Within the evaluated four-model set, knowledge distillation (\texttt{student\_a}) delivers an observed physical inference latency reduction of $\mathbf{28.2\%}$ ($\frac{89.90 - 64.55}{89.90} \times 100\%$) relative to uncompressed \texttt{mlp\_14f}. Crucially, physical microcontroller latency scales strictly monotonically with parameter count ($176 \rightarrow 328 \rightarrow 380 \rightarrow 412$ params), unmasking arithmetic differences that were compressed by host x86 superscalar pipelines while preserving the mathematical definition of the primary 3D Pareto frontier.
+
 \section{Discussion}
 \subsection{Why Multi-Objective Optimization is Essential in TinyML}
 In embedded ML design, selecting a model based solely on classification accuracy leads to suboptimal deployments. For instance, while \texttt{student\_b\_16\_4\_fp32} maximizes accuracy ($75.14\%$), \texttt{pruned\_mlp\_14f\_75pct} requires only $31.6\%$ of its arithmetic operations ($96$ vs. $304$ MACs) with only a $0.32\%$ accuracy difference. In ultra-low-power microcontrollers, this $3\times$ reduction in theoretical active arithmetic operations offers substantial potential for reducing active execution cycles during cyclic wake-up tasks.
@@ -321,7 +331,7 @@ Our empirical findings provide actionable design guidance for edge engineers nav
     \item \textbf{When Flash storage is the primary constraint:} Structural knowledge distillation (\texttt{student\_a\_8\_4\_fp32}) is the most space-efficient Pareto choice ($2,976$\,B, a $23.5\%$ compression).
     \item \textbf{When active arithmetic demand is the primary concern:} Magnitude pruning (\texttt{pruned\_mlp\_14f\_75pct}) is the most compute-efficient Pareto choice ($96$ active MACs), subject to runtime sparse kernel support.
     \item \textbf{When integer ALU execution is required:} Full INT8 quantization (\texttt{student\_b\_16\_4\_int8}) provides pure integer execution graphs without floating-point emulation.
-    \item \textbf{When MCU execution latency is the primary concern:} Host latency measurements are insufficient; physical on-device profiling is required to measure hardware cycle counts and memory bus contention.
+    \item \textbf{When physical MCU execution latency is the primary concern:} Physical on-device profiling confirms that compact student topologies achieve a $28.2\%$ execution speedup on 32-bit Xtensa registers, requiring only $916\,\text{Bytes}$ of allocator-committed tensor memory.
 \end{itemize}
 
 \section{Threats to Validity}
@@ -337,15 +347,15 @@ We explicitly state the following limitations:
     \item \textbf{Single Domain Scope:} Evaluation is conducted on the EngineFaultDB dataset; cross-domain validation on audio and vibration benchmarks remains future work.
     \item \textbf{Model Architecture Family:} Experiments focus on sub-4\,KB Multi-Layer Perceptrons; convolutional and transformer architectures may exhibit different compression ratios.
     \item \textbf{Serialization Format Dependence:} Findings reflect standard TensorFlow Lite FlatBuffer serialization; custom sparse storage formats (e.g., CSR/CSC) may compress sparse weights differently.
-    \item \textbf{Host Timing Limitations:} Latency was profiled on an x86\_64 CPU and does not establish microcontroller Worst-Case Execution Time (WCET).
-    \item \textbf{Absence of Physical Energy Profiling:} We report theoretical active MACs; physical power dissipation on silicon was not measured.
+    \item \textbf{Empirical Latency vs. Formal WCET:} While single-sample INT8 inference latency was physically profiled on ESP32 silicon ($64.55\text{--}89.90\,\si{\micro\second}$ mean latency), these reflect empirical on-device latency distributions and do not establish formal static Worst-Case Execution Time (WCET) bounds.
+    \item \textbf{Absence of Physical Energy Profiling:} We report theoretical active MACs and physical timer latencies; physical power dissipation in Joules/mW was not measured.
     \item \textbf{Absence of Structured Pruning Baseline:} Pruning experiments evaluate unstructured magnitude pruning; structured channel-level pruning was not evaluated in this suite.
     \item \textbf{Sparse Acceleration Dependency:} Standard TFLite runtime executes dense GEMM operations; realizing latency speedups from $75\%$ pruning requires specialized sparse execution kernels.
     \item \textbf{Theoretical Compute vs. Hardware Cycles:} Theoretical active MAC counts may not linearly map to hardware cycle counts due to instruction fetch and memory stall overheads.
 \end{enumerate}
 
-\section{Reproducibility}
-All experimental code, trained model FlatBuffers, dataset splits, and verification scripts are available in the project repository. The model metrics can be verified by executing \path{scripts/phase4_5_verification.py} against \path{results/tinyml_model_profile_verified.csv}.
+\section{Reproducibility and Artifact Availability}
+All experimental code, trained model FlatBuffers, dataset splits, physical ESP32 PlatformIO firmware, and verification scripts are available in the project repository. The model metrics can be verified by executing \path{scripts/phase4_5_verification.py} against \path{results/tinyml_model_profile_verified.csv}. Physical microcontroller deployment firmware is located under \path{phase5/firmware/}.
 
 \section{Conclusion}
 This paper presented an empirical 3-objective deployment-resource Pareto characterization and low-level FlatBuffer artifact benchmark of model compression paradigms for ultra-low-resource TinyML sensor classification. By profiling 12 serialized TFLite models across quantization, feature reduction, unstructured pruning, and distillation, we established the accuracy--storage--compute Pareto frontier. Our results demonstrate that knowledge distillation achieves superior structural compression and accuracy ($75.14\%$ at $3,584$\,B), $75\%$ pruning minimizes theoretical active MACs ($96$ MACs) without storage reduction, and full INT8 quantization achieves integer-only execution with zero float32 fallback. These verified findings provide actionable Pareto baselines for resource-constrained edge intelligence.

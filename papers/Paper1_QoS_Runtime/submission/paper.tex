@@ -71,9 +71,9 @@ To preserve scientific integrity and prevent unsupported claims, this paper esta
 \begin{itemize}
     \item \textbf{Tier 1 (Host Empirical Measurements):} Model parameters, FlatBuffer sizes, verified theoretical active MACs, and empirical host single-sample execution latencies measured on an x86\_64 CPU.
     \item \textbf{Tier 2 (Trace-Driven Runtime Simulation):} Dynamic QoS scheduling, modeled contention injection ($1.0\times$ to $5.0\times$), deadline compliance, and model switching evaluated over 11,200 held-out test frames.
-    \item \textbf{Tier 3 (Physical MCU Measurements):} On-chip execution timings, hardware timer profiling via \path{esp_timer_get_time()}, and bare-metal FreeRTOS task preemption. \textit{Explicitly classified as future work pending physical ESP32 hardware availability.}
+    \item \textbf{Tier 3 (Physical Silicon Measurements):} Isolated single-sample execution latency ($64.55\text{--}89.90\,\si{\micro\second}$) and static tensor arena memory allocation ($916\,\text{Bytes}$ allocator-committed buffer) measured on physical ESP32-D0WD-V3 silicon via \path{esp_timer_get_time()}.
 \end{itemize}
-All empirical claims in this paper are strictly based on Tier~1 and Tier~2 evidence.
+All scheduling and contention dynamics in this paper are evaluated under Tier~2 simulation, while isolated model execution latency is physically grounded under Tier~3 silicon measurements.
 
 \section{Related Work}
 \subsection{Adaptive and Early-Exit Neural Networks}
@@ -339,6 +339,16 @@ The primary systems value of the QoS runtime lies in adaptive resource managemen
 \subsection{Memory Footprint on Microcontrollers}
 Because modern microcontrollers (e.g., ESP32, ARM Cortex-M4/M7) typically feature $256$\,KB to $4$\,MB of Flash memory, storing an ensemble of three sub-4\,KB FlatBuffer models ($<12$\,KB total Flash footprint) is highly practical. By decoupling model fidelity from static binary compilation, the runtime permits microcontrollers to execute high-fidelity inference when compute headroom is abundant, while gracefully degrading active arithmetic demand during transient interrupt bursts.
 
+\subsection{Physical Microcontroller Execution Validation}
+To establish empirical hardware feasibility, candidate TinyML models were deployed to an ESP32-D0WD-V3 microcontroller (Xtensa LX6 dual-core @ $240\,\text{MHz}$, $4\,\text{MB}$ Flash, $320\,\text{KB}$ SRAM). Single-sample \texttt{FULL\_INT8} inference was instrumented via the hardware monotonic timer \path{esp_timer_get_time()} across $24,000$ measured inferences ($3$ rounds $\times 2,000$ iterations per model):
+\begin{itemize}
+    \item \texttt{student\_a\_8\_4\_int8} ($176$ params, $3,208\,\text{B}$): Mean = $64.55\,\si{\micro\second}$, P95 = $69.00\,\si{\micro\second}$, P99 = $76.00\,\si{\micro\second}$, Max = $77\,\si{\micro\second}$.
+    \item \texttt{student\_b\_16\_4\_int8} ($328$ params, $3,576\,\text{B}$): Mean = $72.96\,\si{\micro\second}$, P95 = $83.00\,\si{\micro\second}$, P99 = $83.00\,\si{\micro\second}$, Max = $84\,\si{\micro\second}$.
+    \item \texttt{mlp\_12f\_int8} ($380$ params, $3,712\,\text{B}$): Mean = $76.77\,\si{\micro\second}$, P95 = $83.00\,\si{\micro\second}$, P99 = $90.00\,\si{\micro\second}$, Max = $90\,\si{\micro\second}$.
+    \item \texttt{mlp\_14f\_int8} ($412$ params, $3,728\,\text{B}$): Mean = $89.90\,\si{\micro\second}$, P95 = $95.00\,\si{\micro\second}$, P99 = $101.00\,\si{\micro\second}$, Max = $102\,\si{\micro\second}$.
+\end{itemize}
+Across all models, the maximum observed single-sample execution latency was $102\,\si{\micro\second}$. Compared against configured deadline budgets ($5$--$100\,\text{ms}$), physical execution consumes at most $2.04\%$ of the tightest $5\,\text{ms}$ budget, providing an observed feasibility headroom of $\mathbf{97.96\%}$ at $D=5\,\text{ms}$ and $\mathbf{99.90\%}$ at $D=100\,\text{ms}$. Furthermore, the TensorFlow Lite Micro \texttt{MicroAllocator} committed only $916\,\text{Bytes}$ of static working tensor memory within an $8\,\text{KB}$ arena ($88.82\%$ headroom), with zero dynamic heap allocations during inference. Crucially, these measurements isolate single-sample model kernel execution; dynamic multi-model scheduler state transitions and concurrent task contention remain evaluated under trace-driven simulation.
+
 \section{Threats to Validity}
 \subsection{Internal Validity}
 All simulation experiments were conducted deterministically using fixed random seeds ($\text{seed}=42$). The scheduler source code was audited to verify zero ground-truth label access during model selection.
@@ -348,8 +358,8 @@ While evaluated on automotive engine fault telemetry, the QoS scheduling policie
 
 \section{Limitations}
 \begin{enumerate}
-    \item \textbf{Modeled Contention Dynamics:} Workload contention was simulated via multiplicative scaling factors and Gaussian jitter rather than physical FreeRTOS thread preemption.
-    \item \textbf{Host Timing Measurement:} Latency profiles were captured on an x86\_64 host CPU; while representative of relative execution overhead, they do not establish microcontroller Worst-Case Execution Time (WCET).
+    \item \textbf{Modeled Contention vs. Physical Scheduler Execution:} While single-model INT8 execution latency was physically profiled on 240\,MHz ESP32 silicon, dynamic multi-model QoS switching and workload contention were evaluated via trace-driven simulation rather than physical multi-threaded FreeRTOS preemption.
+    \item \textbf{Empirical Latency vs. Formal WCET:} Reported microcontroller latencies reflect empirical on-device latency distributions under benchmark conditions and do not establish formal static Worst-Case Execution Time (WCET) bounds.
     \item \textbf{Hardware Energy and Power Boundaries:} We report theoretical active arithmetic operations (MACs); physical power dissipation and memory bandwidth effects were not measured on silicon.
     \item \textbf{Deadline Scale Disparity:} Evaluated deadlines ($5$--$100\,\text{ms}$) are loose relative to microsecond execution; tighter microsecond-scale deadlines remain future work.
     \item \textbf{Frozen Model Portfolio:} The runtime was evaluated on a fixed three-model registry; dynamic online weight adaptation was not evaluated.
@@ -358,10 +368,8 @@ While evaluated on automotive engine fault telemetry, the QoS scheduling policie
     \item \textbf{Theoretical vs. Hardware Cycles:} Arithmetic MAC reductions do not guarantee linear execution speedups on hardware without optimized sparse kernel execution.
 \end{enumerate}
 
-\section{Reproducibility and Future Hardware Validation}
-All models, runtime source modules, trace simulation harnesses, and empirical result logs are open-sourced. The Phase~5 pipeline can be deterministically reproduced from the root workspace by executing \path{python phase5/run_phase5_pipeline.py}, which recreates all 80 configuration traces and ablation logs using random seed $\text{seed}=42$.
-
-Physical hardware experiments on genuine ESP32 silicon (\texttt{ESP32-WROOM-32}) represent planned future work. Physical validation will profile on-chip TFLite Micro inference latency via \path{esp_timer_get_time()}, static SRAM tensor arena allocation, and FreeRTOS task preemption.
+\section{Reproducibility and Artifact Availability}
+All models, runtime source modules, trace simulation harnesses, physical ESP32 PlatformIO firmware, and empirical result logs are open-sourced in the project repository. The Phase~5 simulation pipeline can be deterministically reproduced from the root workspace by executing \path{python phase5/run_phase5_pipeline.py} ($\text{seed}=42$). Physical microcontroller deployment firmware is provided under \path{phase5/firmware/} and can be built and flashed via PlatformIO.
 
 \section{Conclusion}
 This paper presented a trace-driven, ground-truth-independent QoS-Aware Multi-Fidelity Runtime for TinyML inference under modeled workload contention. By adaptively selecting among verified Pareto-optimal models, our runtime reduces theoretical active arithmetic operations by up to $68.4\%$ under high contention while preserving diagnostic macro F1 ($0.7563$) and ensuring zero ground-truth leakage. Within the evaluated simulation regime, these verified findings demonstrate dynamic multi-fidelity scheduling as an effective systems approach for adaptive edge intelligence under variable resource constraints.
