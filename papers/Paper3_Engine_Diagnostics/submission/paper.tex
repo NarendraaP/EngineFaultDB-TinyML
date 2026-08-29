@@ -364,10 +364,10 @@ EngineFaultDB captures four common combustion engine operational regimes under l
 \begin{enumerate}
     \item \textbf{Theoretical Compute vs. Hardware Execution:} Savings in terms of computation are reported in terms of theoretical active MACs; speedups and energy savings through physical execution depend on microcontroller compiler optimizations and sleep-mode transitions.
     \item \textbf{Static Sensor Topology:} Input feature dimensionality was fixed during training; dynamic sensor dropouts during vehicle operation were not evaluated.
-    \item \textbf{Controlled Dynamometer Dataset:} EngineFaultDB was collected under controlled steady-state dynamometer test-bench instrumentation.
-    \item \textbf{Static Tabular Representation:} The dataset lacks temporal timestamps and continuous drive-cycle sequences; sequential filtering (Kalman/Markov) was not evaluated.
-    \item \textbf{No Transient Drive-Cycle Validation:} On-road transient drive cycles (e.g., WLTP/FTP-75) were not evaluated.
-    \item \textbf{No Multi-Vehicle Validation:} Data reflects a single engine platform; cross-engine transferability remains future work.
+    \item \textbf{Controlled Dynamometer:} EngineFaultDB was gathered under controlled steady-state dynamometer test-bench equipment.
+    \item \textbf{Static Tabular:} Dataset lacks temporal timestamps and continuous drive-cycles sequences; sequential filtering (Kalman/Markov) was not considered.
+    \item \textbf{No Transient Drive-Cycle:} On-road transient drive cycles (e.g., WLTP/FTP-75) were not evaluated.
+    \item \textbf{No Multi-Vehicle Validations:} Dataset only represents one engine platform; cross-engine portability is future work.
     \item \textbf{Isolated Inference vs. On-Vehicle ECU Deployment:} While isolated single-sample inference latency was physically profiled on 240\,MHz ESP32 silicon ($64.55\,\si{\micro\second}$ screening, $89.90\,\si{\micro\second}$ diagnostic), complete on-vehicle bare-metal CAN-bus ECU integration, vehicle drive cycles, and safety certification remain future work.
     \item \textbf{Scenario Prior Assumption:} The $89.8\%$ compute reduction is a derived estimate under a $90\%$ nominal operational prior, not a measured property of the balanced test benchmark.
     \item \textbf{Domain-Specific Threshold Calibration:} Threshold $\theta^*$ requires calibration on validation data representing the target noise profile.
