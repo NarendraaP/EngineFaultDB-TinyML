@@ -1,0 +1,186 @@
+{
+  "phase": "Phase 18C — Full ESP32 On-Device TinyML Benchmark",
+  "benchmark_timestamp": "2026-08-29T10:12:35+05:30",
+  "hardware_identity": {
+    "mcu_chip": "ESP32-D0WD-V3",
+    "chip_revision": "v3.1",
+    "cpu_architecture": "Xtensa LX6 Dual-Core 32-bit",
+    "cpu_clock_mhz": 240,
+    "crystal_mhz": 40,
+    "mac_address": "08:d1:f9:d9:4a:54",
+    "flash_capacity_mb": 4,
+    "flash_voltage": "3.3V",
+    "psram": "None",
+    "wireless_state": {
+      "wifi_enabled": false,
+      "bluetooth_enabled": false
+    },
+    "usb_uart_bridge": {
+      "port": "COM7",
+      "chip": "WCH CH9102 USB-to-UART Bridge",
+      "vendor_id": "0x1A86",
+      "product_id": "0x55D4"
+    }
+  },
+  "toolchain": {
+    "platformio_version": "6.1.19",
+    "platform": "espressif32@7.0.1",
+    "framework": "framework-arduinoespressif32@3.20017.241212",
+    "compiler": "xtensa-esp32-elf-gcc/g++ @ 8.4.0+2021r2-patch5",
+    "optimization": "-O3",
+    "tflm_library": "Chirale_TensorFLowLite@2.0.0 (reference FullyConnected)"
+  },
+  "benchmark_protocol": {
+    "total_models": 4,
+    "rounds_per_model": 3,
+    "warmup_per_round": 100,
+    "measured_inferences_per_round": 2000,
+    "total_warmup_inferences": 1200,
+    "total_measured_inferences": 24000,
+    "total_physical_inferences": 25200,
+    "batch_size": 1,
+    "timing_source": "esp_timer_get_time() (hardware monotonic microsecond timer)",
+    "timing_isolation": "Zero serial/display I/O during timed loops; in-RAM buffer accumulation"
+  },
+  "model_results": {
+    "student_a_8_4_int8": {
+      "features": 14,
+      "precision": "FULL_INT8",
+      "parameters": 176,
+      "model_size_bytes": 3208,
+      "tensor_arena_allocated_bytes": 8192,
+      "tensor_arena_used_bytes": 916,
+      "rounds": [
+        { "round": 1, "n_measured": 2000, "mean_us": 62.57, "median_us": 64.0, "std_us": 2.76, "p95_us": 68.0, "p99_us": 72.0, "min_us": 60, "max_us": 73, "iqr_us": 4.0 },
+        { "round": 2, "n_measured": 2000, "mean_us": 68.53, "median_us": 68.0, "std_us": 2.03, "p95_us": 76.0, "p99_us": 77.0, "min_us": 67, "max_us": 77, "iqr_us": 0.0 },
+        { "round": 3, "n_measured": 2000, "mean_us": 62.56, "median_us": 64.0, "std_us": 2.75, "p95_us": 68.0, "p99_us": 72.0, "min_us": 60, "max_us": 73, "iqr_us": 4.0 }
+      ],
+      "pooled": {
+        "n_total": 6000,
+        "mean_us": 64.55,
+        "median_us": 64.0,
+        "std_us": 3.79,
+        "p95_us": 69.0,
+        "p99_us": 76.0,
+        "min_us": 60,
+        "max_us": 77,
+        "iqr_us": 8.0
+      },
+      "host_latency_mean_us": 1.02,
+      "host_to_esp32_ratio": 63.28
+    },
+    "student_b_16_4_int8": {
+      "features": 14,
+      "precision": "FULL_INT8",
+      "parameters": 328,
+      "model_size_bytes": 3576,
+      "tensor_arena_allocated_bytes": 8192,
+      "tensor_arena_used_bytes": 916,
+      "rounds": [
+        { "round": 1, "n_measured": 2000, "mean_us": 72.95, "median_us": 75.0, "std_us": 4.96, "p95_us": 83.0, "p99_us": 83.0, "min_us": 64, "max_us": 84, "iqr_us": 1.0 },
+        { "round": 2, "n_measured": 2000, "mean_us": 72.97, "median_us": 75.0, "std_us": 4.87, "p95_us": 83.0, "p99_us": 83.0, "min_us": 64, "max_us": 84, "iqr_us": 1.0 },
+        { "round": 3, "n_measured": 2000, "mean_us": 72.94, "median_us": 75.0, "std_us": 4.90, "p95_us": 82.0, "p99_us": 83.0, "min_us": 64, "max_us": 84, "iqr_us": 1.0 }
+      ],
+      "pooled": {
+        "n_total": 6000,
+        "mean_us": 72.96,
+        "median_us": 75.0,
+        "std_us": 4.91,
+        "p95_us": 83.0,
+        "p99_us": 83.0,
+        "min_us": 64,
+        "max_us": 84,
+        "iqr_us": 1.0
+      },
+      "host_latency_mean_us": 0.98,
+      "host_to_esp32_ratio": 74.45
+    },
+    "mlp_12f_int8": {
+      "features": 12,
+      "precision": "FULL_INT8",
+      "parameters": 380,
+      "model_size_bytes": 3712,
+      "tensor_arena_allocated_bytes": 8192,
+      "tensor_arena_used_bytes": 916,
+      "rounds": [
+        { "round": 1, "n_measured": 2000, "mean_us": 76.79, "median_us": 75.0, "std_us": 4.13, "p95_us": 83.0, "p99_us": 90.0, "min_us": 71, "max_us": 90, "iqr_us": 4.0 },
+        { "round": 2, "n_measured": 2000, "mean_us": 76.75, "median_us": 75.0, "std_us": 4.06, "p95_us": 83.0, "p99_us": 89.0, "min_us": 71, "max_us": 90, "iqr_us": 4.0 },
+        { "round": 3, "n_measured": 2000, "mean_us": 76.78, "median_us": 75.0, "std_us": 4.16, "p95_us": 83.0, "p99_us": 90.0, "min_us": 71, "max_us": 90, "iqr_us": 4.0 }
+      ],
+      "pooled": {
+        "n_total": 6000,
+        "mean_us": 76.77,
+        "median_us": 75.0,
+        "std_us": 4.12,
+        "p95_us": 83.0,
+        "p99_us": 90.0,
+        "min_us": 71,
+        "max_us": 90,
+        "iqr_us": 4.0
+      },
+      "host_latency_mean_us": 1.00,
+      "host_to_esp32_ratio": 76.77
+    },
+    "mlp_14f_int8": {
+      "features": 14,
+      "precision": "FULL_INT8",
+      "parameters": 412,
+      "model_size_bytes": 3728,
+      "tensor_arena_allocated_bytes": 8192,
+      "tensor_arena_used_bytes": 916,
+      "rounds": [
+        { "round": 1, "n_measured": 2000, "mean_us": 89.89, "median_us": 93.0, "std_us": 4.55, "p95_us": 95.0, "p99_us": 101.0, "min_us": 79, "max_us": 102, "iqr_us": 7.0 },
+        { "round": 2, "n_measured": 2000, "mean_us": 89.90, "median_us": 93.0, "std_us": 4.56, "p95_us": 95.0, "p99_us": 101.0, "min_us": 78, "max_us": 102, "iqr_us": 7.0 },
+        { "round": 3, "n_measured": 2000, "mean_us": 89.90, "median_us": 93.0, "std_us": 4.57, "p95_us": 95.0, "p99_us": 101.0, "min_us": 78, "max_us": 102, "iqr_us": 7.0 }
+      ],
+      "pooled": {
+        "n_total": 6000,
+        "mean_us": 89.90,
+        "median_us": 93.0,
+        "std_us": 4.56,
+        "p95_us": 95.0,
+        "p99_us": 101.0,
+        "min_us": 78,
+        "max_us": 102,
+        "iqr_us": 7.0
+      },
+      "host_latency_mean_us": 1.43,
+      "host_to_esp32_ratio": 62.87
+    }
+  },
+  "memory_accounting": {
+    "firmware_flash_bytes": 330153,
+    "firmware_flash_percent": 25.2,
+    "static_ram_bytes": 61944,
+    "static_ram_percent": 18.9,
+    "tensor_arena_allocated_bytes": 8192,
+    "tensor_arena_used_bytes": 916,
+    "free_heap_bytes": 237452
+  },
+  "paper_impact_analysis": {
+    "paper1_qos_runtime": {
+      "impact": "SUBSTANTIAL_UPGRADE",
+      "finding": "Physical ESP32 inference times (64.55–89.90 us) demonstrate that all models satisfy Paper 1 deadlines (5–100 ms) with >98% timing margin, validating the Tier 4 physical execution claim."
+    },
+    "paper2_tinyml_pareto": {
+      "impact": "SUBSTANTIAL_UPGRADE",
+      "finding": "Physical latency scales strictly monotonically with model parameters (student_a: 64.55 us -> student_b: 72.96 us -> mlp_12f: 76.77 us -> mlp_14f: 89.90 us), validating Pareto ranking on real silicon."
+    },
+    "paper3_engine_diagnostics": {
+      "impact": "SUPPORTING_EVIDENCE",
+      "finding": "Physical inference on single-sample diagnostics confirms sub-100 us diagnostic latency per sensor frame, supporting real-time automotive feasibility."
+    },
+    "paper4_tinyml_verification": {
+      "impact": "SUBSTANTIAL_UPGRADE",
+      "finding": "Demonstrates the crucial distinction between Tier 1 (analytical), Tier 2 (host empirical), and Tier 4 (physical MCU) timing evidence, showing consistent ~63–76x scaling between x86_64 host and 240 MHz MCU silicon."
+    },
+    "paper5_esp32_deployment": {
+      "impact": "NEW_CLAIM_UNLOCKED",
+      "finding": "Provides the complete, verified empirical dataset of 24,000 physical MCU inferences across 4 TinyML models with exact distributions, memory profiles, and repeatability evidence."
+    }
+  },
+  "verdict": {
+    "status": "ESP32_BENCHMARK_COMPLETE",
+    "claim": "All 4 verified FULL_INT8 TinyML candidate models were benchmarked on physical ESP32-D0WD-V3 silicon across 3 independent rounds (24,000 total measured single-sample inferences), establishing exact empirical on-device latency distributions and memory footprints."
+  }
+}
