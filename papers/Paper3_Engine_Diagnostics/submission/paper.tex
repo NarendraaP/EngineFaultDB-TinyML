@@ -49,7 +49,7 @@ With the rapid development of the on-board diagnostics and Edge Artificial Intel
 
 A fundamental problem with existing in situ diagnostics is that they operate a monolithic always-on model~\cite{traita2020cascade}. In practice, IC engines operate at healthy conditions for over $90\%$ to $99\%$ of their lifetime, yet existing diagnostic methods deploy multi-layer multi-class neural networks on every single observation vector, wasting memory bandwidth and compute cycles classifying mostly-healthy observations~\cite{lei2020applications,kulkarni2021hierarchical}.
 
-To address this compute-fidelity tension, we formulate a domain-specific \textbf{Hierarchical Multi-Fidelity Inference Architecture} tailored for resource-constrained automotive fault diagnosis. As illustrated in Figure~\ref{fig:architecture}, the framework decomposes diagnostic inference into a two-tier cascade:
+To tackle this dilemma, we construct a specific \textbf{Hierarchical Multi-Fidelity Inference Architecture} for the resource-constrained automotive fault diagnosis scenario. As shown in Figure~\ref{fig:architecture}, the framework divides the diagnostic inference process into two cascading levels:
 \begin{itemize}
     \item \textbf{Mode A (Anomaly Screening):} Ultra-compact binary classifier filtering nominal engine operation (Class 0: Normal) from anomalous behavior (Classes 1--3: Faults).
     \item \textbf{Mode B (Multi-Class Isolation):} Multi-class neural network activated conditionally when Mode~A detects an anomaly or uncertainty exceeds threshold $\theta$.
