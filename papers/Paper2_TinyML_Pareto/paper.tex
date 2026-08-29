@@ -344,10 +344,10 @@ The models were evaluated on automotive combustion engine telemetry. While physi
 \section{Limitations}
 We explicitly state the following limitations:
 \begin{enumerate}
-    \item \textbf{Single Domain Scope:} Evaluation is conducted on the EngineFaultDB dataset; cross-domain validation on audio and vibration benchmarks remains future work.
-    \item \textbf{Model Architecture Family:} Experiments focus on sub-4\,KB Multi-Layer Perceptrons; convolutional and transformer architectures may exhibit different compression ratios.
-    \item \textbf{Serialization Format Dependence:} Findings reflect standard TensorFlow Lite FlatBuffer serialization; custom sparse storage formats (e.g., CSR/CSC) may compress sparse weights differently.
-    \item \textbf{Empirical Latency vs. Formal WCET:} While single-sample INT8 inference latency was physically profiled on ESP32 silicon ($64.55\text{--}89.90\,\si{\micro\second}$ mean latency), these reflect empirical on-device latency distributions and do not establish formal static Worst-Case Execution Time (WCET) bounds.
+    \item \textbf{Single Domain Scope:} Evaluated on EngineFaultDB dataset; cross-domain generalization on audio and vibrations benchmarks is left for future work.
+    \item \textbf{Model Architecture Family:} Experiments are conducted on sub-4\,KB Multi-Layer Perceptrons; convolutional and transformer family of architecture may have different compression ratios.
+    \item \textbf{Serialization Format Dependence:} Results are obtained for standard TensorFlow Lite FlatBuffer serialization; custom sparse storage formats (CSR/CSC) may achieve different results for sparse weights storage.
+    \item \textbf{Empirical Latency vs. Formal WCET:} While single-sample INT8 inference was physically profiled on ESP32 silicon (Obtained $64.55\text{--}89.90\,\si{\micro\second}$ Mean latency), these represent empirical distributions of latencies on devices and do not provide formal bounds on static Worst-Case Execution Time (WCET).
     \item \textbf{Absence of Physical Energy Profiling:} We report theoretical active MACs and physical timer latencies; physical power dissipation in Joules/mW was not measured.
     \item \textbf{Absence of Structured Pruning Baseline:} Pruning experiments evaluate unstructured magnitude pruning; structured channel-level pruning was not evaluated in this suite.
     \item \textbf{Sparse Acceleration Dependency:} Standard TFLite runtime executes dense GEMM operations; realizing latency speedups from $75\%$ pruning requires specialized sparse execution kernels.
