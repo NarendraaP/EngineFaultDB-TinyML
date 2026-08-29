@@ -327,10 +327,10 @@ Table~\ref{tab:ablations} and Figure~\ref{fig:ablation} present a detailed evalu
 As the simulated execution times remain well below the evaluated millisecond scale deadlines ($<50\,\si{\micro\second}$ vs. $5$--$100\,\text{ms}$), this 100\% deadline compliance should be considered a feasibility result rather than a manifestation of a challenging hard-deadline regime. Ensuring that execution latencies do not exceed deadline budgets is a required prerequisite for deploying algorithms in real-time embedded systems, but is not the main novelty of this work.
 
 \subsection{Runtime Benefits Beyond Deadline Feasibility}
-The primary systems value of the QoS runtime lies in adaptive resource management under dynamic load:
+The key system value of the QoS runtime lies in its ability to manage resources adaptively under varying load conditions:
 \begin{itemize}
-    \item \textbf{Active Compute Conservation:} By dynamically transitioning to the 96-MAC model under high contention, the runtime sheds $68.4\%$ of arithmetic demand, freeing ALU cycles for concurrent real-time tasks.
-    \item \textbf{Diagnostic Quality Preservation:} Switching models based on verified Pareto trade-offs avoids catastrophic accuracy drops, preserving minority fault detection ($0.7563$ Macro F1).
+    \item \textbf{Active Compute Conservation:} By transitioning to the 96-MAC model under contention, the runtime deallocates $68.4\%$ of arithmetic demand, enabling ALU cycles to be multiplexed for concurrent real-time processing.
+    \item \textbf{Diagnostic Quality Preservation:} By switching among models confirmed to exhibit Pareto-optimal trade-offs, the runtime avoids catastrophic accuracy loss, maintaining minority fault identification capability ($0.7563$ Macro F1).
     \item \textbf{Switching Stability:} Hysteresis and threshold gating prevent rapid oscillatory thrashing between models.
 \end{itemize}
 
