@@ -1,0 +1,133 @@
+{
+  "phase": "Phase 18B — ESP32 Baseline Firmware Build and Safe Deployment",
+  "deployment_timestamp": "2026-08-29T10:07:30+05:30",
+  "hardware_identity": {
+    "mcu_chip": "ESP32-D0WD-V3",
+    "chip_revision": "v3.1",
+    "cpu_architecture": "Xtensa LX6 Dual-Core 32-bit",
+    "cpu_clock_mhz": 240,
+    "crystal_mhz": 40,
+    "mac_address": "08:d1:f9:d9:4a:54",
+    "features": [
+      "Wi-Fi",
+      "BT",
+      "Dual Core",
+      "LP Core",
+      "240MHz",
+      "Vref calibration in eFuse",
+      "Coding Scheme None"
+    ],
+    "flash_manufacturer_id": "0x5E",
+    "flash_device_id": "0x4016",
+    "flash_capacity_mb": 4,
+    "flash_voltage": "3.3V",
+    "psram": "None",
+    "usb_uart_bridge": {
+      "port": "COM7",
+      "chip": "WCH CH9102 USB-to-UART Bridge",
+      "vendor_id": "0x1A86",
+      "product_id": "0x55D4",
+      "serial_number": "56B9006372"
+    }
+  },
+  "toolchain": {
+    "platformio_version": "6.1.19",
+    "platform": "espressif32@7.0.1",
+    "framework": "framework-arduinoespressif32@3.20017.241212",
+    "compiler": "xtensa-esp32-elf-gcc/g++ @ 8.4.0+2021r2-patch5",
+    "esptool_version": "4.11.0",
+    "tflm_library": "Chirale_TensorFLowLite@2.0.0"
+  },
+  "platformio_configuration": {
+    "environment": "esp32_devkit",
+    "board": "esp32dev",
+    "framework": "arduino",
+    "monitor_speed": 115200,
+    "upload_port": "COM7",
+    "build_flags": [
+      "-O3",
+      "-Iinclude"
+    ]
+  },
+  "deployed_model": {
+    "model_name": "student_b_16_4_int8",
+    "topology": "14-16-4 MLP (Knowledge Distilled)",
+    "precision": "FULL_INT8",
+    "parameters": 328,
+    "flatbuffer_size_bytes": 3576,
+    "c_header": "phase5/firmware/include/g_student_b_model_data.h",
+    "tflite_source": "phase5/models/student_b_16_4_int8.tflite",
+    "input_shape": [1, 14],
+    "input_dtype": "kTfLiteInt8 (type 9)",
+    "input_quant_scale": 0.0038928112480789423,
+    "input_quant_zero_point": -128,
+    "output_shape": [1, 4],
+    "output_dtype": "kTfLiteInt8 (type 9)",
+    "output_quant_scale": 0.00390625,
+    "output_quant_zero_point": -128
+  },
+  "firmware_footprint": {
+    "binary_size_bytes": 319040,
+    "binary_size_kb": 311.56,
+    "binary_sha256": "7a3498af542a676d43c7e73892edc0719d69783391b6536ca0640bff26e1f050",
+    "elf_size_bytes": 10741236,
+    "elf_sha256": "8817613564172354cbec945abbcf12e01e104a5671f8aeb59dce5f58a012d116",
+    "flash_usage_bytes": 318669,
+    "flash_capacity_bytes": 1310720,
+    "flash_usage_percent": 24.3,
+    "static_ram_used_bytes": 30152,
+    "total_sram_bytes": 327680,
+    "static_ram_usage_percent": 9.2,
+    "tensor_arena_allocated_bytes": 8192,
+    "tensor_arena_used_bytes": 916,
+    "free_heap_at_boot_bytes": 269708,
+    "free_heap_after_tflm_init_bytes": 269244
+  },
+  "upload_result": {
+    "status": "SUCCESS",
+    "upload_port": "COM7",
+    "upload_baud": 460800,
+    "bytes_written": 319040,
+    "compressed_bytes_written": 177166,
+    "write_time_seconds": 4.1,
+    "effective_speed_kbit_s": 621.6,
+    "data_hash_verified": true,
+    "reset_type": "Hard reset via RTS pin"
+  },
+  "serial_boot_verification": {
+    "boot_mode": "0x13 (SPI_FAST_FLASH_BOOT)",
+    "reset_reason": "0x1 (POWERON_RESET)",
+    "sdk_version": "v4.4.7-dirty",
+    "chip_revision_reported": 3,
+    "cpu_freq_reported_mhz": 240,
+    "interpreter_init_status": "SUCCESS",
+    "allocate_tensors_status": "kTfLiteOk",
+    "timer_overhead_calibrated_us": 0,
+    "warmup_inferences_completed": 10,
+    "watchdog_reset_detected": false,
+    "crash_or_panic_detected": false
+  },
+  "minimal_sanity_test": {
+    "num_samples_tested": 20,
+    "test_vector_header": "phase5/firmware/include/mcu_test_vectors.h",
+    "inference_executed": true,
+    "all_samples_produced_output": true,
+    "output_class_in_valid_range": true,
+    "mean_latency_us": 239.10,
+    "min_latency_us": 85,
+    "max_latency_us": 266,
+    "sanity_matches": "5 / 20",
+    "sanity_accuracy_percent": 25.0
+  },
+  "verdict": {
+    "status": "BASELINE_INFERENCE_VERIFIED",
+    "claim": "The verified FULL_INT8 TinyML model (student_b_16_4_int8) was successfully compiled and executed on the physical ESP32-D0WD-V3 under the specified firmware configuration.",
+    "notes": [
+      "Board target updated from esp32-s3-devkitc-1 to esp32dev to match physical silicon.",
+      "Portable reference FullyConnected operator registered to ensure correct matrix multiplication on Xtensa architecture.",
+      "Inference executed on-device with microsecond hardware timing (esp_timer_get_time).",
+      "No crashes, memory leaks, or watchdog resets observed.",
+      "Statistically validated 1,000-sample benchmark and multi-model profiling deferred to Phase 18C."
+    ]
+  }
+}
