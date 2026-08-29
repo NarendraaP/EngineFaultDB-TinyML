@@ -28,34 +28,51 @@ plt.rcParams.update({
 # -------------------------------------------------------------
 # Figure 1: Physical Deployment & Benchmarking Pipeline
 # -------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(8, 3.2), dpi=300)
+fig, ax = plt.subplots(figsize=(7.2, 3.2), dpi=300)
 ax.axis('off')
 
-# Diagram blocks
+# Diagram blocks - 4 Stage Flow
 boxes = [
-    ("FULL_INT8\nTFLite Models\n(176-412 params)", 0.04, 0.35, 0.16, 0.45, "#E8F0FE", "#1A73E8"),
-    ("C-Byte Array\nExport\n(g_*_model_data.h)", 0.25, 0.35, 0.16, 0.45, "#E6F4EA", "#137333"),
-    ("PlatformIO / ESP32\nReference Kernel\n(Xtensa LX6 @ 240MHz)", 0.46, 0.35, 0.19, 0.45, "#FEF7E0", "#B06000"),
-    ("Zero-I/O In-RAM\nTiming Loop\n(esp_timer_get_time)", 0.70, 0.35, 0.25, 0.45, "#FCE8E6", "#C5221F")
+    ("Stage 1: TFLite Models", "FULL_INT8 Models\n176 to 412 params\n0 float32 tensors", 0.02, 0.38, 0.22, 0.52, "#E8F0FE", "#1A73E8"),
+    ("Stage 2: ROM Headers", "C-Byte Arrays (.h)\nStatic Flash Embed\nSub-4 KB Footprint", 0.27, 0.38, 0.22, 0.52, "#E6F4EA", "#137333"),
+    ("Stage 3: ESP32 Target", "ESP32-D0WD-V3\nXtensa LX6 @ 240MHz\n8 KB Static Arena", 0.52, 0.38, 0.22, 0.52, "#FEF7E0", "#B06000"),
+    ("Stage 4: Zero-I/O Bench", "In-RAM Timer Loop\nesp_timer_get_time\nN = 24,000 Runs", 0.77, 0.38, 0.21, 0.52, "#FCE8E6", "#C5221F")
 ]
 
-for text, x, y, w, h, bg, border in boxes:
-    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.03",
-                                 facecolor=bg, edgecolor=border, linewidth=1.5)
+for title, body, x, y, w, h, bg, border in boxes:
+    # Outer box
+    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.03",
+                                 facecolor=bg, edgecolor=border, linewidth=2.0)
     ax.add_patch(rect)
-    ax.text(x + w/2, y + h/2, text, ha='center', va='center', fontsize=8.5, fontweight='bold', color='#202124')
+    # Header banner
+    header_rect = patches.FancyBboxPatch((x, y + h - 0.16), w, 0.16, boxstyle="round,pad=0.01,rounding_size=0.02",
+                                         facecolor=border, edgecolor=border, linewidth=1.0)
+    ax.add_patch(header_rect)
+    # Header Text
+    ax.text(x + w/2, y + h - 0.08, title, ha='center', va='center', fontsize=10.5, fontweight='bold', color='#FFFFFF')
+    # Body Text
+    ax.text(x + w/2, y + (h - 0.16)/2, body, ha='center', va='center', fontsize=9.5, fontweight='bold', color='#1A1A1A', linespacing=1.25)
 
-# Arrows
-arrow_style = dict(arrowstyle="->", color="#5F6368", lw=1.8, mutation_scale=15)
-ax.annotate("", xy=(0.24, 0.57), xytext=(0.20, 0.57), arrowprops=arrow_style)
-ax.annotate("", xy=(0.45, 0.57), xytext=(0.41, 0.57), arrowprops=arrow_style)
-ax.annotate("", xy=(0.69, 0.57), xytext=(0.65, 0.57), arrowprops=arrow_style)
+# Connecting Arrows with stage transitions
+arrow_style = dict(arrowstyle="-|>", color="#202124", lw=2.2, mutation_scale=16)
+ax.annotate("", xy=(0.265, 0.64), xytext=(0.245, 0.64), arrowprops=arrow_style)
+ax.annotate("", xy=(0.515, 0.64), xytext=(0.495, 0.64), arrowprops=arrow_style)
+ax.annotate("", xy=(0.765, 0.64), xytext=(0.745, 0.64), arrowprops=arrow_style)
 
-# Bottom annotations
-ax.text(0.12, 0.18, "Sub-4 KB FlatBuffers\n0 float32 tensors", ha='center', va='center', fontsize=7.5, color='#5F6368', style='italic')
-ax.text(0.33, 0.18, "Static ROM Embedding\nModel Byte Arrays", ha='center', va='center', fontsize=7.5, color='#5F6368', style='italic')
-ax.text(0.555, 0.18, "8 KB Static Arena\n916 B Committed", ha='center', va='center', fontsize=7.5, color='#5F6368', style='italic')
-ax.text(0.825, 0.18, "N = 24,000 runs (3 rounds)\nPre-allocated RAM Buffer", ha='center', va='center', fontsize=7.5, color='#5F6368', style='italic')
+# Bottom Highlight Badges
+badges = [
+    ("Disk Verified", 0.13, 0.14, "#1A73E8"),
+    ("Zero Allocation", 0.38, 0.14, "#137333"),
+    ("Bare-Metal TFLM", 0.63, 0.14, "#B06000"),
+    ("Pure In-RAM", 0.875, 0.14, "#C5221F")
+]
+
+for label, bx, by, color in badges:
+    badge_box = patches.FancyBboxPatch((bx - 0.10, by - 0.08), 0.20, 0.16,
+                                       boxstyle="round,pad=0.01,rounding_size=0.03",
+                                       facecolor="#F1F3F4", edgecolor=color, linewidth=1.4)
+    ax.add_patch(badge_box)
+    ax.text(bx, by, label, ha='center', va='center', fontsize=9.0, fontweight='bold', color=color)
 
 plt.tight_layout()
 for d in out_dirs:
