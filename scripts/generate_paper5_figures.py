@@ -28,51 +28,61 @@ plt.rcParams.update({
 # -------------------------------------------------------------
 # Figure 1: Physical Deployment & Benchmarking Pipeline
 # -------------------------------------------------------------
-fig, ax = plt.subplots(figsize=(7.2, 3.2), dpi=300)
+fig, ax = plt.subplots(figsize=(7.4, 3.2), dpi=300)
 ax.axis('off')
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
 
-# Diagram blocks - 4 Stage Flow
-boxes = [
-    ("Stage 1: TFLite Models", "FULL_INT8 Models\n176 to 412 params\n0 float32 tensors", 0.02, 0.38, 0.22, 0.52, "#E8F0FE", "#1A73E8"),
-    ("Stage 2: ROM Headers", "C-Byte Arrays (.h)\nStatic Flash Embed\nSub-4 KB Footprint", 0.27, 0.38, 0.22, 0.52, "#E6F4EA", "#137333"),
-    ("Stage 3: ESP32 Target", "ESP32-D0WD-V3\nXtensa LX6 @ 240MHz\n8 KB Static Arena", 0.52, 0.38, 0.22, 0.52, "#FEF7E0", "#B06000"),
-    ("Stage 4: Zero-I/O Bench", "In-RAM Timer Loop\nesp_timer_get_time\nN = 24,000 Runs", 0.77, 0.38, 0.21, 0.52, "#FCE8E6", "#C5221F")
+# 4 Main Cards
+cards = [
+    ('1. FULL_INT8 Models', '4 MLP Artifacts\n176 to 412 params\n0 float32 tensors', 0.02, '#1A73E8', '#E8F0FE'),
+    ('2. C-Byte Headers', 'Static Arrays (.h)\nROM Embedding\nSub-4 KB Footprint', 0.27, '#137333', '#E6F4EA'),
+    ('3. ESP32 Silicon', 'Xtensa LX6 Core\n240 MHz Clock\n320 KB Static SRAM', 0.52, '#B06000', '#FEF7E0'),
+    ('4. Zero-I/O Bench', 'In-RAM Timer Loop\nesp_timer_get_time\nN = 24,000 Trials', 0.77, '#C5221F', '#FCE8E6')
 ]
 
-for title, body, x, y, w, h, bg, border in boxes:
-    # Outer box
-    rect = patches.FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.03",
-                                 facecolor=bg, edgecolor=border, linewidth=2.0)
-    ax.add_patch(rect)
-    # Header banner
-    header_rect = patches.FancyBboxPatch((x, y + h - 0.16), w, 0.16, boxstyle="round,pad=0.01,rounding_size=0.02",
-                                         facecolor=border, edgecolor=border, linewidth=1.0)
-    ax.add_patch(header_rect)
-    # Header Text
-    ax.text(x + w/2, y + h - 0.08, title, ha='center', va='center', fontsize=10.5, fontweight='bold', color='#FFFFFF')
-    # Body Text
-    ax.text(x + w/2, y + (h - 0.16)/2, body, ha='center', va='center', fontsize=9.5, fontweight='bold', color='#1A1A1A', linespacing=1.25)
+w, h = 0.21, 0.60
+y_base = 0.32
 
-# Connecting Arrows with stage transitions
-arrow_style = dict(arrowstyle="-|>", color="#202124", lw=2.2, mutation_scale=16)
-ax.annotate("", xy=(0.265, 0.64), xytext=(0.245, 0.64), arrowprops=arrow_style)
-ax.annotate("", xy=(0.515, 0.64), xytext=(0.495, 0.64), arrowprops=arrow_style)
-ax.annotate("", xy=(0.765, 0.64), xytext=(0.745, 0.64), arrowprops=arrow_style)
+for title, body, x, border, bg in cards:
+    # Main card body (pad=0 ensures exact width w and height h without expansion)
+    card_bg = patches.FancyBboxPatch((x, y_base), w, h, boxstyle='round,pad=0,rounding_size=0.02',
+                                    facecolor=bg, edgecolor=border, linewidth=2.0)
+    ax.add_patch(card_bg)
+    # Header box
+    header_h = 0.16
+    header = patches.FancyBboxPatch((x, y_base + h - header_h), w, header_h,
+                                   boxstyle='round,pad=0,rounding_size=0.02',
+                                   facecolor=border, edgecolor=border, linewidth=1.0)
+    ax.add_patch(header)
+    # Header text
+    ax.text(x + w/2, y_base + h - header_h/2, title, ha='center', va='center',
+            fontsize=9.5, fontweight='bold', color='#FFFFFF')
+    # Body text
+    ax.text(x + w/2, y_base + (h - header_h)/2, body, ha='center', va='center',
+            fontsize=8.5, fontweight='bold', color='#1A1A1A', linespacing=1.3)
 
-# Bottom Highlight Badges
+# Connecting arrows
+arrow_style = dict(arrowstyle='-|>', color='#202124', lw=2.2, mutation_scale=16)
+for x_start in [0.23, 0.48, 0.73]:
+    ax.annotate('', xy=(x_start + 0.04, y_base + h/2), xytext=(x_start, y_base + h/2),
+                arrowprops=arrow_style)
+
+# Bottom badges
 badges = [
-    ("Disk Verified", 0.13, 0.14, "#1A73E8"),
-    ("Zero Allocation", 0.38, 0.14, "#137333"),
-    ("Bare-Metal TFLM", 0.63, 0.14, "#B06000"),
-    ("Pure In-RAM", 0.875, 0.14, "#C5221F")
+    ('Disk-Verified\nFlatBuffers', 0.02, '#1A73E8', '#E8F0FE'),
+    ('Flash Partition\n1.25 MB Allocation', 0.27, '#137333', '#E6F4EA'),
+    ('Bare-Metal TFLM\n916 B Tensor Arena', 0.52, '#B06000', '#FEF7E0'),
+    ('Zero UART Delays\n0 B Dynamic Heap', 0.77, '#C5221F', '#FCE8E6')
 ]
 
-for label, bx, by, color in badges:
-    badge_box = patches.FancyBboxPatch((bx - 0.10, by - 0.08), 0.20, 0.16,
-                                       boxstyle="round,pad=0.01,rounding_size=0.03",
-                                       facecolor="#F1F3F4", edgecolor=color, linewidth=1.4)
-    ax.add_patch(badge_box)
-    ax.text(bx, by, label, ha='center', va='center', fontsize=9.0, fontweight='bold', color=color)
+bh = 0.20
+for text, x, border, bg in badges:
+    badge = patches.FancyBboxPatch((x, 0.05), w, bh, boxstyle='round,pad=0,rounding_size=0.015',
+                                  facecolor=bg, edgecolor=border, linewidth=1.4)
+    ax.add_patch(badge)
+    ax.text(x + w/2, 0.05 + bh/2, text, ha='center', va='center',
+            fontsize=8.0, fontweight='bold', color=border, linespacing=1.2)
 
 plt.tight_layout()
 for d in out_dirs:
