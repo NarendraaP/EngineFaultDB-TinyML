@@ -26,11 +26,11 @@
 \graphicspath{{figures/}}
 \raggedbottom
 
-\setlength{\textfloatsep}{3.5pt plus 0.5pt minus 0.5pt}
-\setlength{\floatsep}{3.0pt plus 0.5pt minus 0.5pt}
-\setlength{\intextsep}{3.0pt plus 0.5pt minus 0.5pt}
-\setlength{\dbltextfloatsep}{3.5pt plus 0.5pt minus 0.5pt}
-\setlength{\dblfloatsep}{3.0pt plus 0.5pt minus 0.5pt}
+\setlength{\textfloatsep}{2.5pt plus 0.5pt minus 0.5pt}
+\setlength{\floatsep}{2.0pt plus 0.5pt minus 0.5pt}
+\setlength{\intextsep}{2.0pt plus 0.5pt minus 0.5pt}
+\setlength{\dbltextfloatsep}{2.5pt plus 0.5pt minus 0.5pt}
+\setlength{\dblfloatsep}{2.0pt plus 0.5pt minus 0.5pt}
 
 \begin{document}
 
@@ -59,18 +59,12 @@ However, evaluating TinyML models strictly within host-side training frameworks 
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.68\columnwidth]{physical_pipeline.png}
+\includegraphics[width=\columnwidth]{physical_pipeline.png}
 \caption{The physical deployment and zero-I/O in-RAM benchmarking pipeline connecting verified \texttt{FULL\_INT8} TFLite FlatBuffers to bare-metal ESP32 silicon.}
 \label{fig:physical_pipeline}
 \end{figure}
 
-In this paper, we bridge this translation gap by providing an empirical on-device characterization and latency profiling of four verified, disk-serialized \texttt{FULL\_INT8} TinyML models deployed to an Espressif ESP32-D0WD-V3 microcontroller (Xtensa LX6 @ $240\,\text{MHz}$). Figure~\ref{fig:physical_pipeline} illustrates the physical deployment and measurement workflow. We formulate four concrete Research Questions (RQs):
-\begin{itemize}
-    \item \textbf{RQ1 (On-Device Latency Distributions):} How do the evaluated ultra-small \texttt{FULL\_INT8} models differ in physical single-sample inference latency on ESP32-D0WD-V3 silicon?
-    \item \textbf{RQ2 (Compute-to-Latency Translation):} How do model parameters and theoretical MAC counts relate to observed on-device latency within the evaluated model set?
-    \item \textbf{RQ3 (Host-to-Silicon Divergence):} How does host-measured x86\_64 latency differ from physical microcontroller execution for identical serialized artifacts?
-    \item \textbf{RQ4 (Memory Subsystems \& Determinism):} What Flash, static SRAM, tensor arena, and heap characteristics are observed during physical inference?
-\end{itemize}
+In this paper, we bridge this translation gap by providing an empirical on-device characterization and latency profiling of four verified, disk-serialized \texttt{FULL\_INT8} TinyML models deployed to an Espressif ESP32-D0WD-V3 microcontroller (Xtensa LX6 @ $240\,\text{MHz}$). Figure~\ref{fig:physical_pipeline} illustrates the physical deployment and measurement workflow. We formulate four concrete Research Questions: \textbf{RQ1 (On-Device Latency):} How do evaluated \texttt{FULL\_INT8} models differ in physical inference latency on ESP32-D0WD-V3? \textbf{RQ2 (Compute Translation):} How do parameters and MAC counts relate to on-device latency? \textbf{RQ3 (Host Divergence):} How does host x86\_64 latency differ from microcontroller execution? \textbf{RQ4 (Memory \& Determinism):} What Flash, static SRAM, tensor arena, and heap footprints are observed during inference?
 
 \section{Hardware and Deployment Architecture}
 
@@ -118,13 +112,7 @@ Runtime & TFLite for Microcontrollers & Kernel & Portable Reference \texttt{ref\
 \end{table}
 
 \subsection{Evaluated Model Portfolio}
-We evaluated four multi-layer perceptron models trained on multi-sensor internal combustion engine diagnostic telemetry (EngineFaultDB benchmark~\cite{schizas2022tinyml,nguyen2024quantized}). Every model was serialized as a TensorFlow Lite FlatBuffer, converted to a C-byte array header via \texttt{xxd}, and audited to verify pure integer execution graphs (\textbf{\texttt{FULL\_INT8}}, $0$ float32 tensors, $8$ int8 tensors). Table~\ref{tab:model_specs} details the model specifications:
-\begin{enumerate}
-    \item \texttt{student\_a\_8\_4\_int8}: A distilled compact student model ($14 \rightarrow 8 \rightarrow 4 \rightarrow 4$) comprising $176$ parameters ($3,208$\,B).
-    \item \texttt{student\_b\_16\_4\_int8}: A distilled balanced student model ($14 \rightarrow 16 \rightarrow 4 \rightarrow 4$) comprising $328$ parameters ($3,576$\,B).
-    \item \texttt{mlp\_12f\_int8}: A feature-reduced baseline model ($12 \rightarrow 16 \rightarrow 8 \rightarrow 4$) comprising $380$ parameters ($3,712$\,B).
-    \item \texttt{mlp\_14f\_int8}: The full 14-feature baseline model ($14 \rightarrow 16 \rightarrow 8 \rightarrow 4$) comprising $412$ parameters ($3,728$\,B).
-\end{enumerate}
+We evaluated four multi-layer perceptron models trained on multi-sensor internal combustion engine diagnostic telemetry (EngineFaultDB benchmark~\cite{schizas2022tinyml,nguyen2024quantized}). Every model was serialized as a TensorFlow Lite FlatBuffer, converted to a C-byte array header via \texttt{xxd}, and audited to verify pure integer execution graphs (\textbf{\texttt{FULL\_INT8}}, $0$ float32 tensors, $8$ int8 tensors). As detailed in Table~\ref{tab:model_specs}, the portfolio spans: (1) \texttt{student\_a\_8\_4\_int8} ($176$ params, $3,208$\,B); (2) \texttt{student\_b\_16\_4\_int8} ($328$ params, $3,576$\,B); (3) \texttt{mlp\_12f\_int8} ($380$ params, $3,712$\,B); and (4) the baseline \texttt{mlp\_14f\_int8} ($412$ params, $3,728$\,B).
 
 \begin{table}[t]
 \centering
@@ -165,13 +153,13 @@ We evaluated four multi-layer perceptron models trained on multi-sensor internal
 }
 \end{table}
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
-\includegraphics[width=0.49\columnwidth]{latency_distributions.png}\hfill
-\includegraphics[width=0.49\columnwidth]{params_vs_latency.png}
+\includegraphics[height=1.18in,width=0.485\textwidth]{latency_distributions.png}\hfill
+\includegraphics[height=1.18in,width=0.485\textwidth]{params_vs_latency.png}
 \caption{(a) Empirical on-device latency distributions on ESP32-D0WD-V3 ($240\,\text{MHz}$); (b) Model parameter count vs. physical inference latency ($R^2 = 0.963$).}
 \label{fig:latency_and_params}
-\end{figure}
+\end{figure*}
 
 \subsection{Kernel Implementation and Software Stack}
 The firmware was compiled using PlatformIO with the \texttt{-O3} optimization flag. To ensure architecture-independent execution and avoid proprietary assembly lock-in, the firmware integrates TensorFlow Lite for Microcontrollers utilizing a portable reference C++ implementation of quantized integer matrix multiplication (\texttt{tflite::reference\_integer\_ops::FullyConnected}) registered within a custom \texttt{ref\_fc} namespace. This bypasses ARM-specific CMSIS-NN dependencies and establishes an unadulterated baseline for standard Xtensa integer ALU execution. The reported measurements characterize this evaluated reference software stack on ESP32-D0WD-V3 and should not be interpreted as an upper bound for vectorized ESP-NN assembly implementations~\cite{puranik2024benchmarking}.
@@ -190,7 +178,7 @@ where $\text{timer}() \equiv \text{\path{esp_timer_get_time}()}$. Timing capture
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\columnwidth]{host_vs_esp32.png}
+\includegraphics[width=0.92\columnwidth]{host_vs_esp32.png}
 \caption{Host x86\_64 execution latency vs. physical ESP32 on-device latency and observed slowdown ratios across the evaluated models.}
 \label{fig:host_vs_esp32}
 \end{figure}
@@ -267,23 +255,13 @@ The empirical data reveals two critical insights regarding host-to-embedded perf
 \section{Memory Subsystems and Runtime Determinism}
 
 \subsection{RQ4: Memory Partitioning and Arena Sizing}
-Table~\ref{tab:memory_breakdown} details the physical memory breakdown on the ESP32 platform:
-\textbf{Flash Footprint:} Complete firmware occupies $330,153\,\text{B}$ ($25.19\%$ of the $1.25\,\text{MB}$ partition, $7.87\%$ of Flash). All four models combined require $<15\,\text{KB}$ ROM.
-\textbf{Static SRAM:} Global data and stacks require $61,944\,\text{B}$ ($18.90\%$ of $320\,\text{KB}$ on-chip SRAM).
-\textbf{Tensor Arena:} The runtime allocator committed exactly $\mathbf{916\,\text{B}}$ within the $8,192\,\text{B}$ arena ($\mathbf{88.82\%}$ unallocated headroom).
-\textbf{Heap Stability:} Free heap remained constant at $237,452\,\text{B}$ across all $25,200$ executions (\textbf{0 Bytes dynamic allocation, zero leakage}).
+Table~\ref{tab:memory_breakdown} details physical memory on the ESP32 platform: \textbf{Flash Footprint:} Complete firmware occupies $330,153\,\text{B}$ ($25.19\%$ of the $1.25\,\text{MB}$ partition, $7.87\%$ of Flash); all four models combined require $<15\,\text{KB}$ ROM. \textbf{Static SRAM:} Global data and stacks require $61,944\,\text{B}$ ($18.90\%$ of $320\,\text{KB}$ on-chip SRAM). \textbf{Tensor Arena:} The runtime allocator committed exactly $\mathbf{916\,\text{B}}$ within the $8,192\,\text{B}$ arena ($\mathbf{88.82\%}$ unallocated headroom). \textbf{Heap Stability:} Free heap remained constant at $237,452\,\text{B}$ across all $25,200$ executions (\textbf{0 Bytes dynamic allocation, zero leakage}).
 
 \section{Related Work}
 Benchmarking embedded ML has advanced significantly. Banbury et al.~\cite{banbury2021benchmarking} established MLPerf Tiny for standardized benchmarking. David et al.~\cite{david2021tensorflow} introduced TFLite Micro runtime architecture and arena management. Lin et al.~\cite{lin2020mcunet,lin2021mcunetv2} developed MCUNet for memory-efficient inference on Cortex-M7. Liberis et al.~\cite{liberis2021munas} explored constrained architecture search ($\mu$NAS). Jacob et al.~\cite{jacob2018quantization} and Warden and Situnayake~\cite{warden2019tinyml} formalized integer-only quantization. On ESP32, Schizas et al.~\cite{schizas2022tinyml} evaluated MLPs for vibration monitoring with UART-coupled loops. Imteaj et al.~\cite{imteaj2023benchmarking} and Nguyen et al.~\cite{nguyen2024quantized} surveyed embedded frameworks over small sample sets ($N<100$). Puranik et al.~\cite{puranik2024benchmarking} benchmarked vectorized networks on ESP32-S3 via ESP-NN. Ray~\cite{ray2022review} and Saha et al.~\cite{saha2022tinyml} surveyed TinyML paradigms, while Blalock et al.~\cite{blalock2020state} highlighted pruning divergence on edge hardware. Hinton et al.~\cite{hinton2015distilling} and Gou et al.~\cite{gou2021knowledge} established distillation foundations. Our work complements prior studies by providing an empirical characterization of sub-4 KB INT8 models on physical ESP32 silicon with high-density statistical rigor ($N=24,000$), zero-I/O timing, and arena memory accounting.
 
 \section{Threats to Validity and Limitations}
-We explicitly note the following scientific boundaries:
-\textbf{1) Single Silicon Target:} Evaluated on dual-core Xtensa LX6 ESP32-D0WD-V3; findings do not directly generalize across other ISAs (ARM Cortex-M, RISC-V) or vector variants (ESP32-S3).
-\textbf{2) Model Topology Focus:} Evaluations focused on sub-4 KB MLPs; convolutional and recurrent models exhibit different memory dynamics.
-\textbf{3) Software Stack:} Benchmarks utilize portable reference C++ integer kernels in TFLM; assembly-optimized kernels (e.g., ESP-NN) may achieve lower latencies.
-\textbf{4) Energy Profiling:} We characterize latency and memory; power dissipation was not instrumented via current shunts.
-\textbf{5) Empirical Latency vs. Formal WCET:} Maximum observed latency ($102\,\si{\micro\second}$) reflects empirical distributions, not a formal static WCET bound.
-\textbf{6) Isolated Kernel Scope:} Timings capture pure inference, excluding physical sensor ADC conversion and CAN-bus scheduling delays.
+We explicitly note the following scientific boundaries: \textbf{1) Single Target:} Evaluated on dual-core Xtensa LX6 ESP32-D0WD-V3; findings do not directly generalize across other ISAs (ARM Cortex-M, RISC-V) or vector variants (ESP32-S3). \textbf{2) Topology:} Evaluations focused on sub-4 KB MLPs; convolutional and recurrent models exhibit different dynamics. \textbf{3) Software Stack:} Benchmarks utilize portable reference C++ integer kernels in TFLM; assembly-optimized kernels (ESP-NN) may achieve lower latencies. \textbf{4) Energy:} We characterize latency and memory; power dissipation was not instrumented via current shunts. \textbf{5) Empirical Latency vs. Formal WCET:} Maximum observed latency ($102\,\si{\micro\second}$) reflects empirical distributions, not a formal static WCET bound. \textbf{6) Isolated Scope:} Timings capture pure inference, excluding sensor ADC conversion and CAN-bus scheduling delays.
 
 \section{Reproducibility and Artifact Availability}
 All firmware source code, PlatformIO build scripts, compiled TFLite FlatBuffers, C-byte array headers, and raw serial logs are open-sourced in the project repository. The firmware can be compiled and deployed using PlatformIO (\path{pio run -t upload}). Raw serial execution logs and parsed CSV datasets are archived under \path{phase5/measurements/}.
@@ -292,7 +270,7 @@ All firmware source code, PlatformIO build scripts, compiled TFLite FlatBuffers,
 This paper presented an empirical on-device characterization and latency profiling of four serialized \texttt{FULL\_INT8} TinyML models deployed on physical ESP32-D0WD-V3 silicon. Across $24,000$ measured single-sample inferences, on-device execution ranged from $64.55\,\si{\micro\second}$ to $89.90\,\si{\micro\second}$, demonstrating an observed monotonic relationship with parameter count ($R^2 = 0.963$) and demonstrating that the evaluated \texttt{student\_a\_8\_4\_int8} model exhibited a $28.20\%$ lower isolated ESP32 inference latency than the evaluated \texttt{mlp\_14f\_int8} model. We quantified an observed host-to-microcontroller latency slowdown between $62.87\times$ and $76.77\times$, unmasking host-side sub-microsecond noise-floor rank inversions. Furthermore, memory profiling verified that TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of tensor arena memory with zero dynamic heap allocations across $25,200$ executions. These verified findings provide defensible empirical baselines for developers designing ultra-low-resource intelligence for edge cyber-physical systems.
 
 \begin{thebibliography}{16}
-\footnotesize
+\scriptsize
 \setlength{\itemsep}{0pt}
 \setlength{\parskip}{0pt}
 \bibitem{warden2019tinyml}
