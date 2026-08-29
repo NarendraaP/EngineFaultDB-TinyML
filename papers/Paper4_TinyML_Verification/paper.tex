@@ -32,7 +32,7 @@
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-The deployment of deep learning models on resource-constrained microcontrollers (TinyML) is expanding rapidly, yet empirical evaluation in the field suffers from critical methodological vulnerabilities. Training-time in-memory metrics frequently diverge from disk-serialized binary behavior; theoretical weight sparsity is routinely conflated with physical storage compression; and host simulation timings are improperly extrapolated to microcontroller real-time guarantees. In this paper, we formulate an artifact-driven empirical verification protocol and defect taxonomy for compiled TinyML deployment artifacts. The protocol formalizes executable verification procedures across seven core dimensions: Data Isolation, Serialized Binary Integrity, Quantization Graph Inspection, Sparsity and Storage Decoupling, Computation Accounting, Timing Protocol Auditing, and Runtime Non-Leakage. We define formal programmatic predicates ($\mathcal{P}_1 \dots \mathcal{P}_7$) for each dimension and evaluate them on an end-to-end case study auditing 12 candidate neural network models trained on the 55,998-record EngineFaultDB physical benchmark. Our independent audit uncovers and resolves 20 distinct numerical discrepancies between training-time reports and verified disk binaries across four defect modes (with metric variances up to $7.82\%$). Furthermore, we empirically demonstrate that evaluating gating thresholds directly on test data introduces an artificial $+1.80\%$ optimistic accuracy bias in the evaluated pipeline, proving the necessity of split-isolated calibration. By establishing formal verification predicates and classifying evidence into a 5-tier empirical framework, our protocol provides actionable software engineering procedures to support reproducible benchmarking and defensible deployment claims in edge AI research.
+The deployment of deep learning models on resource-constrained microcontrollers (TinyML) is expanding rapidly, yet empirical evaluation in the field suffers from critical methodological vulnerabilities. Training-time in-memory metrics frequently diverge from disk-serialized binary behavior; theoretical weight sparsity is routinely conflated with physical storage compression; and host simulation timings are improperly extrapolated to microcontroller real-time guarantees. In this paper, we formulate an artifact-driven empirical verification protocol and defect taxonomy for compiled TinyML deployment artifacts. The protocol formalizes executable verification procedures across seven core dimensions: Data Isolation, Serialized Binary Integrity, Quantization Graph Inspection, Sparsity and Storage Decoupling, Computation Accounting, Timing Protocol Auditing, and Runtime Non-Leakage. We define formal programmatic predicates ($\mathcal{P}_1 \dots \mathcal{P}_7$) for each dimension and evaluate them on an end-to-end case study auditing 12 candidate neural network models trained on the 55,998-record EngineFaultDB physical benchmark. Our independent audit uncovers and resolves 20 distinct numerical discrepancies between training-time reports and verified disk binaries across four defect modes (with metric variances up to $7.82\%$). Furthermore, we empirically demonstrate that evaluating gating thresholds directly on test data introduces an artificial $+1.80\%$ optimistic accuracy bias in the evaluated pipeline, demonstrating the necessity of split-isolated calibration. By establishing formal verification predicates and classifying evidence into a 5-tier empirical framework, our protocol provides actionable software engineering procedures to support reproducible benchmarking and defensible deployment claims in edge AI research.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -181,9 +181,9 @@ Table~\ref{tab:taxonomy} formalizes our 7-dimensional verification protocol. Eac
 
 \subsection{D6: Timing Protocol Verification}
 \begin{itemize}
-    \item \textbf{Problem:} Host latency cited as embedded microcontroller WCET.
-    \item \textbf{Predicate ($\mathcal{P}_6$):} $(\text{Warmup} \ge 100) \land (\text{Batch} = 1) \land (\text{Timer} = \text{perf\_counter\_ns()}) \land (\text{Tier} = \text{HOST\_EMPIRICAL})$.
-    \item \textbf{Case Result:} \textbf{VERIFIED PASS} ($0.82$--$0.86\,\mu\text{s}$ host latency on x86\_64; zero MCU WCET claimed).
+    \item \textbf{Problem:} Host latency improperly cited as embedded microcontroller WCET.
+    \item \textbf{Predicate ($\mathcal{P}_6$):} $(\text{Warmup} \ge 100) \land (\text{Batch} = 1) \land (\text{Timer} \in \{\text{perf\_counter}, \text{esp\_timer}\}) \land (\text{Tier} \in \{\text{HOST}, \text{MCU}\})$.
+    \item \textbf{Case Result:} \textbf{VERIFIED PASS} ($0.82$--$1.69\,\si{\micro\second}$ host latency on x86\_64; $64.55$--$89.90\,\si{\micro\second}$ physical latency on ESP32-D0WD-V3; zero formal WCET claimed).
 \end{itemize}
 
 \subsection{D7: Runtime Non-Leakage and Deployment Scoping}
@@ -252,6 +252,16 @@ Inspecting pruned models revealed that while $75\%$ magnitude pruning achieved $
 \subsection{RQ4: Threshold Optimization Leakage Bias}
 We conducted an empirical ablation evaluating gating thresholds calibrated on validation data versus optimized directly on test data. Selecting thresholds on test data produced an artificial optimistic accuracy bias of \textbf{$+1.80\%$}, demonstrating that split-isolated calibration is mandatory to prevent inflated performance claims.
 
+\subsection{Physical On-Device Deployment Validation Case Study}
+To demonstrate the artifact verification protocol across the final deployment transformation boundary ($\text{FlatBuffer} \rightarrow \text{C-Header} \rightarrow \text{Bare-Metal MCU Binary}$), the four verified \texttt{FULL\_INT8} candidate models were deployed to an ESP32-D0WD-V3 microcontroller (Xtensa LX6 dual-core @ $240\,\text{MHz}$, $4\,\text{MB}$ Flash, $320\,\text{KB}$ SRAM). Isolated single-sample execution latency was measured via \path{esp_timer_get_time()} across $24,000$ iterations ($3$ rounds $\times 2,000$ iterations per model):
+\begin{itemize}
+    \item \texttt{student\_a\_8\_4\_int8} ($176$ params): ESP32 Mean = $64.55\,\si{\micro\second}$, P95 = $69.00\,\si{\micro\second}$ (Host x86: $1.02\,\si{\micro\second}$, Slowdown: $63.3\times$).
+    \item \texttt{student\_b\_16\_4\_int8} ($328$ params): ESP32 Mean = $72.96\,\si{\micro\second}$, P95 = $83.00\,\si{\micro\second}$ (Host x86: $0.98\,\si{\micro\second}$, Slowdown: $74.5\times$).
+    \item \texttt{mlp\_12f\_int8} ($380$ params): ESP32 Mean = $76.77\,\si{\micro\second}$, P95 = $83.00\,\si{\micro\second}$ (Host x86: $1.00\,\si{\micro\second}$, Slowdown: $76.8\times$).
+    \item \texttt{mlp\_14f\_int8} ($412$ params): ESP32 Mean = $89.90\,\si{\micro\second}$, P95 = $95.00\,\si{\micro\second}$ (Host x86: $1.43\,\si{\micro\second}$, Slowdown: $62.9\times$).
+\end{itemize}
+This physical deployment case study highlights two crucial methodological findings: (1) physical ESP32 execution provides an additional empirical deployment tier in the case study, establishing an observed host-to-ESP32 latency slowdown ratio between $62.9\times$ and $76.8\times$ without conflating host simulation timing with embedded execution; and (2) low-level memory inspection verified that TensorFlow Lite Micro \texttt{MicroAllocator} committed $916\,\text{Bytes}$ of static working tensor memory with zero runtime heap allocations.
+
 \section{Evidence Tier Classification Framework}
 
 \begin{table}[t]
@@ -263,11 +273,11 @@ We conducted an empirical ablation evaluating gating thresholds calibrated on va
 \toprule
 \textbf{Evidence Tier} & \textbf{Epistemological Level} & \textbf{Representative Project Metric} \\
 \midrule
-\textbf{Tier 1} & Direct Empirical Measurement & Disk binary test acc ($75.00\%$), File size ($3,892$\,B) \\
-\textbf{Tier 2} & Reproducible Simulation & 80-config trace simulation ($100\%$ compliance) \\
-\textbf{Tier 3} & Derived Operational Estimate & Expected MACs under $90\%$ nominal prior ($39.1$) \\
-\textbf{Tier 4} & Literature-Supported Framing & Collinear feature reduction (Speed vs. RPM $r=0.997$) \\
-\textbf{Tier 5} & Unsupported / Future Work & Bare-metal MCU WCET, on-vehicle CAN latency \\
+\textbf{Tier 1} & Direct Physical Measurement & ESP32 latency ($64.55\,\si{\micro\second}$), Disk size ($3,892$\,B), Arena ($916$\,B) \\
+\textbf{Tier 2} & Host Empirical Measurement & Host x86\_64 single-sample latency ($0.98\,\si{\micro\second}$) \\
+\textbf{Tier 3} & Reproducible Simulation & 80-config QoS trace simulation ($100\%$ compliance) \\
+\textbf{Tier 4} & Derived Operational Estimate & Expected MACs under $90\%$ nominal prior ($39.1$) \\
+\textbf{Tier 5} & Literature-Supported / Future & Collinear feature reduction ($r=0.997$), on-vehicle CAN latency \\
 \bottomrule
 \end{tabular}%
 }
@@ -293,17 +303,17 @@ Our case study evaluated a suite of multi-layer perceptron models for multi-sens
 
 \section{Limitations}
 \begin{enumerate}
-    \item \textbf{Single Case Study Scope:} Evaluated on one end-to-end multi-sensor diagnostic pipeline.
+    \item \textbf{Single Case Study Scope:} Evaluated on one end-to-end multi-sensor diagnostic pipeline; multi-application cross-domain auditing remains future work.
     \item \textbf{Model Topology Focus:} Evaluated on feedforward MLPs; CNNs and transformers require future parser extensions.
     \item \textbf{Runtime Specificity:} Implemented for TensorFlow Lite FlatBuffers; alternative runtimes (microTVM, ONNX Runtime Mobile) are unverified.
-    \item \textbf{Host Timing Boundary:} Latency measurements reflect host x86\_64 execution, not physical bare-metal microcontroller WCET.
-    \item \textbf{No Physical MCU Profiling:} Physical on-chip hardware timer and power measurements are planned future work.
+    \item \textbf{Empirical Latency vs. Formal WCET:} While physical single-sample latency was measured on 240\,MHz ESP32 silicon ($64.55\text{--}89.90\,\si{\micro\second}$), these reflect empirical on-device distributions and do not establish formal static Worst-Case Execution Time (WCET) bounds.
+    \item \textbf{Energy Profiling Boundary:} Physical power dissipation on silicon was not measured with hardware power analyzers.
     \item \textbf{Single Engine Domain:} Data reflects physical dynamometer recordings from one engine platform.
     \item \textbf{Empirical Bias Demonstration:} The $+1.80\%$ threshold leakage bias is specific to the evaluated multi-fidelity pipeline.
 \end{enumerate}
 
-\section{Reproducibility}
-All verification scripts (\path{scripts/phase4_5_verification.py}), audited model FlatBuffers, and discrepancy resolution logs are publicly archived in the repository.
+\section{Reproducibility and Artifact Availability}
+All verification scripts (\path{scripts/phase4_5_verification.py}), audited model FlatBuffers, physical ESP32 PlatformIO deployment firmware (\path{phase5/firmware/}), and discrepancy resolution logs are publicly archived in the repository.
 
 \section{Conclusion}
 This paper presented an artifact-driven empirical verification protocol and defect taxonomy for compiled TinyML deployment artifacts. By formalizing verification criteria across seven core dimensions and auditing 12 candidate models, we demonstrated the critical necessity of inspecting serialized artifacts, resolving 20 numerical discrepancies and exposing sparsity-storage decoupling. Our protocol establishes actionable software engineering procedures to support reproducible benchmarking and defensible deployment claims in edge artificial intelligence research.
