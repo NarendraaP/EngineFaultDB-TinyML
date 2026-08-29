@@ -81,10 +81,10 @@ Standardized benchmarking suites such as MLPerf Tiny~\cite{banbury2021benchmarki
 \section{Research Questions}
 We formulate four specific research questions (RQs):
 \begin{itemize}
-    \item \textbf{RQ1 (Quantization \& Operator Fidelity):} Does full post-training INT8 quantization introduce accuracy degradation or floating-point tensor fallbacks compared to FP32 baselines on dense sensor classification?
-    \item \textbf{RQ2 (Unstructured Pruning vs. Storage):} How does increasing weight sparsity ($0\%$ to $75\%$) affect theoretical active MACs versus serialized TFLite FlatBuffer storage?
-    \item \textbf{RQ3 (Distillation \& Structural Compression):} How does knowledge distillation into reduced student topologies compare against magnitude pruning in storage compression and predictive accuracy?
-    \item \textbf{RQ4 (Deployment-Resource Pareto Frontier):} Which specific configurations populate the 3-objective Pareto frontier across accuracy, serialized storage, and theoretical active compute?
+    \item \textbf{RQ1 (Quantization \& Operator Fidelity):} does full post-training INT8 quantization cause accuracy degradation or floating-point tensor fallbacks versus FP32 baselines on dense sensor classification?
+    \item \textbf{RQ2 (Unstructured Pruning vs. Storage):} how do increasing weight sparsity ($0\%$ to $75\%$) impact theoretical active MACs versus serialized TFLite FlatBuffer storage?
+    \item \textbf{RQ3 (Distillation \& Structural Compression):} how does knowledge distillation into reduced student topologies compare against magnitude pruning in storage compression and predictive accuracy?
+    \item \textbf{RQ4 (Deployment-Resource Pareto Frontier):} what specific configurations populate the 3-objective Pareto frontier across accuracy, serialized storage, and theoretical active compute?
 \end{itemize}
 
 \section{Methodology}
