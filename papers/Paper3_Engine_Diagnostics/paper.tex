@@ -317,10 +317,10 @@ This stability demonstrates that gating thresholds calibrated on validation data
 
 Table~\ref{tab:baselines} contrasts the proposed hierarchical architecture against flat and monolithic baselines:
 \begin{itemize}
-    \item \textbf{Flat Linear Baseline:} Logistic Regression achieves only $58.00\%$ accuracy ($0.5786$ Macro F1), showing that linear decision boundaries are insufficient for multi-class engine fault diagnosis.
-    \item \textbf{Flat Decision Tree Baseline:} Achieves $69.16\%$ accuracy ($0.6821$ Macro F1) with $0$ MACs, outperforming linear regression but lagging behind neural approaches.
-    \item \textbf{Monolithic MLP Baseline:} Delivers $74.66\%$ accuracy ($0.7543$ Macro F1) but executes $384.0$ MACs unconditionally on every sensor frame.
-    \item \textbf{Proposed Hierarchical Cascade:} Matches monolithic neural accuracy ($74.64\%$) while achieving $99.98\%$ binary anomaly-screening recall and cutting active MACs by $26.36\%$ on the test partition ($89.8\%$ derived on $90\%$ nominal streams).
+    \item \textbf{Flat Linear Baseline:} Logistic regression achieves only $58.00\%$ accuracy ($0.5786$ Macro F1), demonstrating limitations of linear decision boundaries for multi-class engine fault diagnosis.
+    \item \textbf{Flat Decision Tree Baseline:} Achieves $69.16\%$ accuracy ($0.6821$ Macro F1) with $0$ MACs, but underperforms compared to neural approaches.
+    \item \textbf{Monolithic MLP Baseline:} $74.66\%$ accuracy ($0.7543$ Macro F1) but executes $384.0$ MACs unconditionally on all sensor frames.
+    \item \textbf{Proposed Hierarchical Cascade:} Matches monolithic neural accuracy ($74.64\%$) while achieving $99.98\%$ binary anomaly-screening recall and reducing active MACs by $26.36\%$ on the test partition ($89.8\%$ derived on $90\%$ nominal streams).
 \end{itemize}
 
 \section{Class-Specific Error Analysis and Physical Interpretation}
