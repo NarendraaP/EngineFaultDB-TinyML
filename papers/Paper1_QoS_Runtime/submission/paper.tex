@@ -317,9 +317,9 @@ Across all 80 configurations, the simulated deadline compliance was held at $100
 Table~\ref{tab:ablations} and Figure~\ref{fig:ablation} present a detailed evaluation of the 4 controlled systems ablations:
 \begin{itemize}
     \item \textbf{Ablation A (Static Best vs. QoS):} Demonstrates that QoS-aware scheduling achieves the same level of accuracy as static execution while decreasing the theoretical active arithmetic operations by $68.4\%$ ($96$ vs. $304$ MACs) and improving the macro F1 ($0.7563$ vs. $0.7390$).
-    \item \textbf{Ablation B (Static Minimal vs. QoS):} Shows that our runtime delivers a $+3.21\%$ accuracy improvement over static lightweight deployment.
-    \item \textbf{Ablation C (Workload Awareness):} Confirms that workload estimation triggers proactive mode switching before deadline violations occur.
-    \item \textbf{Ablation D (Deadline Gating):} Confirms that deadline enforcement bounds tail latency ($18.49\,\si{\micro\second}$ vs. $21.83\,\si{\micro\second}$ P95).
+    \item \textbf{Ablation B (Static Minimal vs. QoS):} Demonstrates that our runtime provides a $+3.21\%$ in accuracy over the static lightweight deployment.
+    \item \textbf{Ablation C (Workload Awareness):} Shows that workload estimation promotes proactive mode switching before deadlines are missed.
+    \item \textbf{Ablation D (Deadline Gating):} Confirm that the enforcement of deadlines bounds tail latency ($18.49\,\si{\micro\second}$ vs. $21.83\,\si{\micro\second}$ P95).
 \end{itemize}
 
 \section{Discussion}
