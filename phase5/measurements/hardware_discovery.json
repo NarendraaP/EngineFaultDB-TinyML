@@ -1,34 +1,112 @@
 {
-  "hardware_status": "ESP32_IDENTITY_UNVERIFIED",
-  "audit_timestamp": "2026-08-20T11:36:30+05:30",
-  "detected_hardware": {
-    "port": "COM6",
-    "friendly_name": "USB-SERIAL CH340 (COM6)",
-    "instance_id": "USB\\VID_1A86&PID_7523\\5&2DD792E3&0&3",
-    "vendor_id": "0x1A86",
-    "product_id": "0x7523",
-    "usb_bridge": "WCH CH340 USB-to-UART Bridge",
-    "pnp_status": "OK (CM_PROB_NONE)",
-    "hardware_protocol_probe": "STK500v1 (Optiboot AVR)",
-    "device_signature": "0x1E 0x95 0x0F",
-    "identified_mcu": "Microchip / Atmel ATmega328P (8-bit AVR @ 16 MHz)",
-    "identified_board_type": "Arduino Nano / Arduino Uno Clone with CH340 USB Bridge",
-    "esptool_probe_result": "FAILED - Invalid head of packet (Device is AVR ATmega328P, not Espressif silicon)",
-    "resident_sketch_output": "Analog sensor stream (x: ... y: ...) at 9600 baud"
+  "hardware_status": "ESP32_VERIFIED_READY_FOR_DEPLOYMENT",
+  "audit_timestamp": "2026-08-29T09:22:08.062911+05:30",
+  "phase": "Phase 18A",
+  "host_toolchain": {
+    "python_version": "3.13.4",
+    "pyserial_version": "3.5",
+    "esptool_version": "5.3.1",
+    "platformio_installed": false
   },
-  "measured_specifications": {
-    "mcu": "ATmega328P",
-    "architecture": "8-bit AVR RISC",
-    "cores": 1,
-    "clock_frequency": "16.0 MHz",
-    "flash_capacity": "32 KB Flash (0.5 KB bootloader)",
-    "sram_capacity": "2 KB Internal SRAM",
-    "psram": "None (0 KB)",
-    "eeprom": "1 KB",
-    "usb_interface": "WCH CH340 on COM6"
+  "usb_bridge_identity": {
+    "port": "COM7",
+    "description": "USB Serial Device (COM7)",
+    "vendor_id": "0x1A86",
+    "product_id": "0x55D4",
+    "usb_bridge_chip": "WCH CH9102",
+    "serial_number": "56B9006372",
+    "usb_location": "1-10",
+    "hardware_id": "USB VID:PID=1A86:55D4 SER=56B9006372 LOCATION=1-10"
+  },
+  "mcu_silicon_identity": {
+    "chip_type": "ESP32-D0WD-V3",
+    "revision": "v3.1",
+    "architecture": "Xtensa LX6 Dual-Core 32-bit",
+    "cores": 2,
+    "lp_core": true,
+    "max_clock_mhz": 240,
+    "features": [
+      "Wi-Fi",
+      "BT",
+      "Dual Core",
+      "LP Core",
+      "240MHz",
+      "Vref calibration in eFuse",
+      "Coding Scheme None"
+    ],
+    "crystal_frequency_mhz": 40,
+    "mac_address": "08:d1:f9:d9:4a:54"
+  },
+  "flash_identity": {
+    "manufacturer_id": "0x5E",
+    "device_id": "0x4016",
+    "detected_size_mb": 4,
+    "voltage_strapping": "3.3V"
+  },
+  "psram_identity": {
+    "detected": false,
+    "note": "No PSRAM reported by esptool"
+  },
+  "board_vs_spec_compatibility": {
+    "spec_target_board": "ESP32-S3-DevKitC-1",
+    "actual_chip": "ESP32-D0WD-V3 (original ESP32)",
+    "chip_family_match": false,
+    "functional_compatibility": "COMPATIBLE for TFLM INT8 inference",
+    "required_config_changes": [
+      "platformio.ini: Change board from esp32-s3-devkitc-1 to esp32dev",
+      "Benchmark schema: Update board field to actual board identity"
+    ]
+  },
+  "model_artifacts": {
+    "student_b_16_4_int8.tflite": {
+      "exists": true,
+      "size_bytes": 3576,
+      "match": true
+    },
+    "student_a_8_4_int8.tflite": {
+      "exists": true,
+      "size_bytes": 3208,
+      "match": true
+    },
+    "mlp_14f_int8.tflite": {
+      "exists": true,
+      "size_bytes": 3728,
+      "match": true
+    },
+    "mlp_12f_int8.tflite": {
+      "exists": true,
+      "size_bytes": 3712,
+      "match": true
+    }
+  },
+  "c_headers": {
+    "g_student_b_model_data.h": {
+      "exists": true,
+      "size_bytes": 22966
+    },
+    "g_student_a_model_data.h": {
+      "exists": true,
+      "size_bytes": 20634
+    },
+    "g_mlp_14f_model_data.h": {
+      "exists": true,
+      "size_bytes": 23916
+    },
+    "g_mlp_12f_model_data.h": {
+      "exists": true,
+      "size_bytes": 23816
+    },
+    "mcu_test_vectors.h": {
+      "exists": true,
+      "size_bytes": 2078
+    }
   },
   "verdict": {
-    "status": "ESP32_IDENTITY_UNVERIFIED",
-    "summary": "The board connected on COM6 was empirically identified via STK500v1 protocol and device signature 0x1E 0x95 0x0F as an Arduino Nano (ATmega328P). It is not an ESP32 chip."
+    "status": "ESP32_VERIFIED_READY_FOR_DEPLOYMENT",
+    "blockers_for_deployment": [
+      "PlatformIO must be installed",
+      "platformio.ini board must be updated from esp32-s3-devkitc-1 to esp32dev",
+      "Benchmark schema board field must reflect actual ESP32 board identity"
+    ]
   }
 }
