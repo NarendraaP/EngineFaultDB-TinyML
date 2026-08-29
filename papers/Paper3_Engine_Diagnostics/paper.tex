@@ -351,7 +351,7 @@ In order to verify the physical execution capabilities on actual edge devices, c
     \item \textbf{Stage-1 Screening Model (\texttt{student\_a\_8\_4\_int8}):} Mean = $64.55\,\si{\micro\second}$, P95 = $69.00\,\si{\micro\second}$, P99 = $76.00\,\si{\micro\second}$, Max = $77\,\si{\micro\second}$.
     \item \textbf{Stage-2 Multi-Class Diagnostician (\texttt{mlp\_14f\_int8}):} Mean = $89.90\,\si{\micro\second}$, P95 = $95.00\,\si{\micro\second}$, P99 = $101.00\,\si{\micro\second}$, Max = $102\,\si{\micro\second}$.
 \end{itemize}
-At an isolated mean execution latency of $64.55\,\si{\micro\second}$, the Stage-1 classifier achieves a single-sample inference-rate compute equivalent of $\mathbf{15,491.9\,\text{inferences/sec}}$ on a single $240\,\text{MHz}$ core (pure compute-bound, batch=1), requiring only $916\,\text{Bytes}$ of static working tensor arena memory. Crucially, this metric represents isolated model inference compute capacity and is not an end-to-end sensor-to-decision throughput measurement; practical telemetry processing rates will be governed by physical ADC sampling intervals and CAN-bus communication bandwidth.
+At a solitary $240\,\text{MHz}$ single core compute budget of $64.55\,\si{\micro\second}$ mean inference latency, the Stage-1 classifier delivers $\mathbf{15,491.9\,\text{inferences/sec}}$ on a single $240\,\text{MHz}$ core (pure compute-bound, batch=1), using only $916\,\text{Bytes}$ of static working tensor arena memory. Note that this ``compute throughput'' is a single model inference capacity figure, rather than the raw ADC-to-decision sensor processing end-to-end stream rate (these will be limited by actual ADC sampling frequency and CAN-bus bandwidth).
 
 \section{Threats to Validity}
 \subsection{Internal Validity}
