@@ -267,9 +267,7 @@ Inference latency is simulated with Gaussian timing jitter. Deadlines are config
 Table~\ref{tab:policy_results} and Figures~\ref{fig:acc_vs_wl}--\ref{fig:f1_vs_wl} present the empirical results across all 80 evaluated configurations:
 
 \subsection{RQ1 \& RQ2: Active Arithmetic Reduction and Workload Adaptation}
-Under \texttt{LOW} and \texttt{MEDIUM} contention, the \texttt{BALANCED} policy selects \texttt{HIGH\_FIDELITY}, achieving peak accuracy ($75.1875\%$) and $0.739048$ macro F1. 
-
-When workload contention rises to \texttt{HIGH} or \texttt{BURST}, the \texttt{BALANCED} policy proactively transitions to \texttt{BALANCED} (\texttt{pruned\_mlp\_14f\_75pct}). This switch achieves:
+Under \texttt{LOW} and \texttt{MEDIUM} contention, the \texttt{BALANCED} policy selects \texttt{HIGH\_FIDELITY}, achieving peak accuracy ($75.1875\%$) and $0.739048$ macro F1. When workload contention rises to \texttt{HIGH} or \texttt{BURST}, the \texttt{BALANCED} policy proactively transitions to \texttt{BALANCED} (\texttt{pruned\_mlp\_14f\_75pct}). This switch achieves:
 \begin{equation}
 \begin{split}
     \Delta \text{MACs} &= \frac{304 - 96}{304} = \frac{208}{304} \\
