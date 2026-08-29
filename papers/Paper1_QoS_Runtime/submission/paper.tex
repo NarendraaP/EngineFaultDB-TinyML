@@ -115,10 +115,10 @@ The overall runtime architecture comprises five decoupled software stages:
 \end{equation}
 
 \subsection{Online vs. Offline Information Flow}
-The runtime strictly segregates operational data from evaluation data:
+The runtime keeps track of operational and evaluation data separately:
 \begin{itemize}
     \item \textbf{Online Observables (Runtime):} Current sensor observation $\mathbf{x}_t$, configured deadline $D$ (ms), estimated workload level $W_t \in \{\text{LOW}, \text{MED}, \text{HIGH}, \text{BURST}\}$, and exponential moving average of previous inference latency $\bar{L}_{t-1}$.
-    \item \textbf{Offline Evaluation (Post-Hoc):} Ground-truth target label $y_t$, used exclusively in post-hoc trace logging to compute final accuracy and confusion matrices. The scheduler has zero access to $y_t$.
+    \item \textbf{Offline Evaluation (Post-Hoc):} Ground-truth target label $y_t$, used for post-hoc trace logging to compute final accuracy and confusion matrices. Scheduler has zero access to $y_t$.
 \end{itemize}
 
 \subsection{Computational Accounting Hierarchy}
@@ -127,7 +127,7 @@ We maintain a strict conceptual separation among computational metrics:
     \item \textbf{Theoretical Active MACs:} Analytical arithmetic operation count based on active (non-zero weight) parameters and layer dimensions.
     \item \textbf{Empirical Host Latency:} Execution time on an x86\_64 CPU with high-resolution timing (\path{time.perf_counter_ns()}).
     \item \textbf{Simulated Latency:} Contention-scaled execution time with Gaussian jitter to represent trace-driven load.
-    \item \textbf{Physical MCU Latency:} On-chip execution in real-time on silicon (\textit{future work}).
+    \item \textbf{Physical MCU Latency:} Isolated on-chip single-sample execution measured on physical ESP32 silicon ($240\,\text{MHz}$ Xtensa LX6).
 \end{itemize}
 
 \section{Verified Model Registry and Multi-Fidelity Modes}
