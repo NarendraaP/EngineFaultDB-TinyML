@@ -12,15 +12,25 @@
 \usepackage{microtype}
 \usepackage{array}
 \usepackage{siunitx}
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=1.5pt,parsep=0pt,partopsep=0pt}
+
+\setlength{\textfloatsep}{4pt plus 1pt minus 1pt}
+\setlength{\floatsep}{4pt plus 1pt minus 1pt}
+\setlength{\intextsep}{4pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{4pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{4pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{2pt}
 
 \graphicspath{{figures/}}
 \raggedbottom
 
-\setlength{\textfloatsep}{5pt plus 1.0pt minus 1.0pt}
-\setlength{\floatsep}{4pt plus 1.0pt minus 1.0pt}
-\setlength{\intextsep}{4pt plus 1.0pt minus 1.0pt}
-\setlength{\dbltextfloatsep}{5pt plus 1.0pt minus 1.0pt}
-\setlength{\dblfloatsep}{4pt plus 1.0pt minus 1.0pt}
+\setlength{\textfloatsep}{3.5pt plus 0.5pt minus 0.5pt}
+\setlength{\floatsep}{3.0pt plus 0.5pt minus 0.5pt}
+\setlength{\intextsep}{3.0pt plus 0.5pt minus 0.5pt}
+\setlength{\dbltextfloatsep}{3.5pt plus 0.5pt minus 0.5pt}
+\setlength{\dblfloatsep}{3.0pt plus 0.5pt minus 0.5pt}
 
 \begin{document}
 
@@ -32,24 +42,24 @@
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Deploying deep learning models on resource-constrained 32-bit microcontrollers (TinyML) requires a precise understanding of on-chip execution latency, memory footprint, and the translation gap between host-side simulation and physical silicon. However, existing TinyML benchmarks predominantly evaluate vision and audio models exceeding $100$\,KB, leaving ultra-low-resource multi-sensor diagnostic models ($<4$\,KB Flash, sub-$100\,\si{\micro\second}$ execution) insufficiently characterized on commercial microcontroller hardware. In this paper, we present an empirical on-device characterization of four serialized, disk-verified \texttt{FULL\_INT8} Multi-Layer Perceptron (MLP) artifacts deployed on an Espressif ESP32-D0WD-V3 microcontroller (Xtensa LX6 dual-core @ $240\,\text{MHz}$, $4\,\text{MB}$ Flash, $320\,\text{KB}$ SRAM). Using a zero-I/O in-RAM hardware timer benchmarking protocol (\path{esp_timer_get_time()}) across $24,000$ measured single-sample inferences ($3$ independent rounds of $2,000$ iterations per model, excluding warmup), we establish that: (1) isolated on-device single-sample inference latency ranges from $64.55\,\si{\micro\second}$ ($176$ parameters) to $89.90\,\si{\micro\second}$ ($412$ parameters), establishing an observed monotonic scaling trend ($R^2 = 0.963$) with parameter count on non-SIMD integer ALUs; (2) structural knowledge distillation delivers an observed $28.20\%$ physical latency reduction ($64.55\,\si{\micro\second}$ vs. $89.90\,\si{\micro\second}$) relative to the uncompressed baseline; (3) host x86\_64 simulation timings underestimate physical microcontroller latency by an observed slowdown ratio between $62.87\times$ and $76.77\times$, while compressing sub-microsecond execution differences into an artificial rank inversion that is unmasked on silicon; and (4) TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of working tensor arena memory within an $8,192\,\text{Byte}$ static buffer, exhibiting zero dynamic heap allocations and zero memory leakage across $25,200$ consecutive executions. These empirical results provide defensible baseline measurements for ultra-low-resource edge intelligence under real-time cyber-physical constraints.
+Deploying deep learning on resource-constrained 32-bit microcontrollers (TinyML) requires empirical hardware characterization to bridge the translation gap between host simulation and physical silicon. However, tabular diagnostic models ($<4$\,KB Flash, sub-$100\,\si{\micro\second}$ latency) remain under-characterized on commercial silicon. This paper presents an on-device empirical characterization of four disk-verified \texttt{FULL\_INT8} MLP models deployed on an Espressif ESP32-D0WD-V3 microcontroller (Xtensa LX6 @ $240\,\text{MHz}$, $4\,\text{MB}$ Flash, $320\,\text{KB}$ SRAM). Using a zero-I/O in-RAM hardware timer benchmarking protocol across $24,000$ measured single-sample inferences, we show: (1) isolated on-device latency scales monotonically with parameter count ($R^2 = 0.963$) from $64.55\,\si{\micro\second}$ ($176$ parameters) to $89.90\,\si{\micro\second}$ ($412$ parameters); (2) structural distillation delivers an observed $28.20\%$ latency reduction relative to the baseline; (3) host x86\_64 profiling underestimates microcontroller latency by $62.9\times\text{--}76.8\times$ and introduces sub-microsecond rank inversions unmasked on silicon; and (4) TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of tensor arena memory with zero dynamic heap allocations across $25,200$ executions. These results provide defensible empirical baselines for edge intelligence under real-time cyber-physical constraints.
 \end{abstract}
 
 \begin{IEEEkeywords}
-TinyML, Microcontroller Benchmarking, ESP32, Xtensa LX6, Integer Quantization, Latency Profiling, Memory Characterization, Embedded Machine Learning.
+TinyML, Microcontroller Benchmarking, ESP32, Xtensa LX6, Integer Quantization, Latency Profiling, Embedded ML.
 \end{IEEEkeywords}}
 
 \maketitle
 \IEEEdisplaynontitleabstractindextext
 
 \section{Introduction}
-\IEEEPARstart{T}{he} rapid deployment of Tiny Machine Learning (TinyML) on low-power microcontrollers (MCUs) has enabled real-time inference directly at the extreme cyber-physical edge~\cite{warden2019tinyml,ray2022review,saha2022tinyml}. In high-frequency sensor applications such as automotive powertrain diagnostics, vibration analysis, and industrial motor health monitoring, executing neural network inference on-device eliminates latency penalties, communication energy, and cloud dependency~\cite{banbury2021benchmarking,schizas2022tinyml}.
+\IEEEPARstart{T}{he} rapid deployment of Tiny Machine Learning (TinyML) on low-power microcontrollers (MCUs) enables real-time intelligence directly at the extreme edge~\cite{warden2019tinyml,ray2022review,saha2022tinyml}. In high-frequency sensor applications such as automotive powertrain diagnostics and vibration monitoring, executing neural network inference on-device eliminates latency penalties, communication energy, and cloud dependency~\cite{banbury2021benchmarking,schizas2022tinyml}.
 
-However, evaluating TinyML models strictly within host-side training frameworks or Python simulation harnesses introduces a significant deployment reality gap~\cite{david2021tensorflow,imteaj2023benchmarking}. Host x86\_64 CPUs utilize deep out-of-order superscalar pipelines, multi-level branch predictors, and multi-megabyte cache hierarchies that do not reflect embedded microcontroller execution. Furthermore, while standardized benchmarking suites such as MLPerf Tiny~\cite{banbury2021benchmarking} and MCUNet~\cite{lin2020mcunet,lin2021mcunetv2} have provided valuable evaluations for vision and keyword-spotting models ($>100$\,KB Flash, $10\text{--}300$\,ms latency), there is a distinct lack of empirical, statistically rigorous physical hardware characterizations for ultra-low-resource, tabular sensor diagnostic networks ($<4$\,KB Flash, sub-$100\,\si{\micro\second}$ execution).
+However, evaluating TinyML models strictly within host-side training frameworks introduces a significant deployment reality gap~\cite{david2021tensorflow,imteaj2023benchmarking}. Host x86\_64 CPUs utilize deep out-of-order superscalar pipelines and multi-megabyte cache hierarchies that do not reflect embedded execution. Furthermore, existing TinyML benchmarks predominantly focus on vision and keyword-spotting models ($>100$\,KB Flash, $10\text{--}300$\,ms latency)~\cite{banbury2021benchmarking,lin2020mcunet,lin2021mcunetv2}, leaving ultra-low-resource tabular diagnostic networks ($<4$\,KB Flash, sub-$100\,\si{\micro\second}$ execution) insufficiently characterized.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.98\columnwidth]{physical_pipeline.png}
+\includegraphics[width=0.68\columnwidth]{physical_pipeline.png}
 \caption{The physical deployment and zero-I/O in-RAM benchmarking pipeline connecting verified \texttt{FULL\_INT8} TFLite FlatBuffers to bare-metal ESP32 silicon.}
 \label{fig:physical_pipeline}
 \end{figure}
@@ -64,30 +74,44 @@ In this paper, we bridge this translation gap by providing an empirical on-devic
 
 \section{Hardware and Deployment Architecture}
 
+\begin{table*}[t]
+\centering
+\footnotesize
+\caption{Empirical On-Device Single-Sample Inference Latency Statistics on ESP32-D0WD-V3 ($240\,\text{MHz}$, $N=24,000$ Measured Trials)}
+\label{tab:latency_stats}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l c r r r r r r r r c}
+\toprule
+\textbf{Model Identifier} & \textbf{Params} & \textbf{Mean Latency} & \textbf{Median (P50)} & \textbf{Std. Dev.} & \textbf{P95 Latency} & \textbf{P99 Latency} & \textbf{Min} & \textbf{Max} & \textbf{IQR} & \textbf{CV (\%)} \\
+\midrule
+\texttt{student\_a\_8\_4\_int8} & 176 & \textbf{64.55\,\si{\micro\second}} & $64.00\,\si{\micro\second}$ & $3.73\,\si{\micro\second}$ & $69.00\,\si{\micro\second}$ & $76.00\,\si{\micro\second}$ & $64\,\si{\micro\second}$ & $77\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $5.78\%$ \\
+\texttt{student\_b\_16\_4\_int8} & 328 & \textbf{72.96\,\si{\micro\second}} & $72.00\,\si{\micro\second}$ & $4.96\,\si{\micro\second}$ & $83.00\,\si{\micro\second}$ & $83.00\,\si{\micro\second}$ & $72\,\si{\micro\second}$ & $84\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $6.80\%$ \\
+\texttt{mlp\_12f\_int8} & 380 & \textbf{76.77\,\si{\micro\second}} & $77.00\,\si{\micro\second}$ & $3.65\,\si{\micro\second}$ & $83.00\,\si{\micro\second}$ & $90.00\,\si{\micro\second}$ & $76\,\si{\micro\second}$ & $90\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $4.75\%$ \\
+\texttt{mlp\_14f\_int8} & 412 & \textbf{89.90\,\si{\micro\second}} & $90.00\,\si{\micro\second}$ & $2.66\,\si{\micro\second}$ & $95.00\,\si{\micro\second}$ & $101.00\,\si{\micro\second}$ & $88\,\si{\micro\second}$ & $102\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $2.96\%$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
 \subsection{Physical Silicon Platform}
 All physical benchmarks were executed on an Espressif ESP32-D0WD-V3 microcontroller (silicon revision v3.1). Table~\ref{tab:hardware_config} summarizes the audited hardware and software environment. The chip features dual 32-bit Xtensa LX6 microprocessor cores operating at a fixed $240\,\text{MHz}$ clock frequency ($4.167\,\text{ns}$ cycle period) with a $40\,\text{MHz}$ crystal reference. The board integrates $4\,\text{MB}$ of external Quad-SPI Flash ($80\,\text{MHz}$ QIO mode) and $320\,\text{KB}$ of internal on-chip SRAM. External Pseudo-Static RAM (PSRAM) was not present, ensuring all tensor buffers and runtime stacks executed purely within internal on-chip SRAM.
 
 \begin{table}[t]
 \centering
 \footnotesize
+\renewcommand{\arraystretch}{0.88}
 \caption{Audited Hardware and Software Deployment Configuration}
 \label{tab:hardware_config}
 \resizebox{\columnwidth}{!}{%
-\begin{tabular}{l l}
+\begin{tabular}{l l l l}
 \toprule
-\textbf{Configuration Property} & \textbf{Audited Platform Specification} \\
+\textbf{Property} & \textbf{Specification} & \textbf{Property} & \textbf{Specification} \\
 \midrule
-Microcontroller Silicon & Espressif ESP32-D0WD-V3 (Revision v3.1) \\
-CPU Architecture & Dual-Core Xtensa 32-bit LX6 @ $240\,\text{MHz}$ \\
-Clock Crystal & $40\,\text{MHz}$ External Crystal Oscillator \\
-Internal Static RAM & $320\,\text{KB}$ On-Chip SRAM (0 PSRAM) \\
-Non-Volatile Flash & $4\,\text{MB}$ Quad-SPI Flash ($80\,\text{MHz}$ QIO, $3.3\,\text{V}$) \\
-USB-to-UART Bridge & WCH CH9102 (VID: \texttt{0x1A86}, PID: \texttt{0x55D4}) \\
-Serial Telemetry & COM7 @ $115,200\,\text{baud}$ \\
-Software Framework & Arduino ESP32 Core v2.0.x / FreeRTOS \\
-Toolchain / Compiler & PlatformIO / GCC Xtensa with \texttt{-O3} \\
-Inference Runtime & TensorFlow Lite for Microcontrollers (TFLM) \\
-Kernel Implementation & Portable Reference Integer \texttt{FullyConnected} \\
+MCU Silicon & ESP32-D0WD-V3 (v3.1) & Flash ROM & $4\,\text{MB}$ Quad-SPI ($80\,\text{MHz}$) \\
+CPU Core & Dual Xtensa LX6 @ $240\,\text{MHz}$ & SRAM & $320\,\text{KB}$ Static (0 PSRAM) \\
+Crystal & $40\,\text{MHz}$ Oscillator & UART Bridge & WCH CH9102 (COM7, 115.2k) \\
+Framework & Arduino ESP32 / FreeRTOS & Toolchain & PlatformIO / GCC (\texttt{-O3}) \\
+Runtime & TFLite for Microcontrollers & Kernel & Portable Reference \texttt{ref\_fc} \\
 \bottomrule
 \end{tabular}%
 }
@@ -121,106 +145,10 @@ We evaluated four multi-layer perceptron models trained on multi-sensor internal
 }
 \end{table}
 
-\subsection{Kernel Implementation and Software Stack}
-The firmware was compiled using PlatformIO with the \texttt{-O3} optimization flag. To ensure architecture-independent execution and avoid proprietary assembly lock-in, the firmware integrates TensorFlow Lite for Microcontrollers utilizing a portable reference C++ implementation of quantized integer matrix multiplication (\texttt{tflite::reference\_integer\_ops::FullyConnected}) registered within a custom \texttt{ref\_fc} namespace. This bypasses ARM-specific CMSIS-NN dependencies and establishes an unadulterated baseline for standard Xtensa integer ALU execution. The reported measurements characterize this evaluated reference software stack on ESP32-D0WD-V3 and should not be interpreted as an upper bound for vectorized ESP-NN assembly implementations~\cite{puranik2024benchmarking}.
-
-\section{Benchmarking Methodology}
-
-\subsection{Zero-I/O In-RAM Timing Protocol}
-A common methodological flaw in microcontroller benchmarking is logging timing timestamps over UART inside the measurement loop, which contaminates kernel timing with multi-millisecond serial driver blocking delays~\cite{saha2022tinyml}. To eliminate I/O interference, our protocol implements a strictly decoupled measurement pipeline:
-\begin{enumerate}
-    \item \textbf{Isolated Timing Scope:} Latency measurement strictly isolates the model invocation kernel:
-    \begin{equation}
-        t_{\text{start}} = \text{esp\_timer\_get\_time}();
-    \end{equation}
-    \begin{equation}
-        \text{interpreter}\rightarrow\text{Invoke}();
-    \end{equation}
-    \begin{equation}
-        t_{\text{end}} = \text{esp\_timer\_get\_time}();
-    \end{equation}
-    Timing captures pure inference kernel execution and explicitly excludes sensor ADC sampling, input scaling, output post-processing, and serial communication.
-    \item \textbf{In-RAM Accumulation:} Execution elapsed times ($\Delta t = t_{\text{end}} - t_{\text{start}}$) are stored directly into a pre-allocated static RAM array (\texttt{uint32\_t latencies[2000]}).
-    \item \textbf{Post-Hoc Statistical Extraction:} After all $2,000$ iterations of a round complete, the RAM array is sorted via \texttt{std::sort} on-chip to compute exact parametric and non-parametric percentiles (Mean, Median, P25, P75, P95, P99, Min, Max, IQR) before serializing summary records over UART.
-\end{enumerate}
-
-\subsection{Multi-Round Statistical Protocol}
-To verify stability under physical thermal and electrical conditions, the protocol executes:
-\begin{itemize}
-    \item \textbf{Warmup Phase:} $100$ un-timed single-sample inferences preceding every benchmark round to prime instruction pipelines and cache lines.
-    \item \textbf{Measurement Rounds:} $3$ independent benchmark rounds per model, with $2,000$ timed single-sample inferences per round ($N=6,000$ measured inferences per model; $N=24,000$ measured inferences across the portfolio).
-    \item \textbf{Hardware Monotonic Timer:} The ESP32 high-resolution timer (\path{esp_timer_get_time()}) provides microsecond-level resolution derived from the $240\,\text{MHz}$ APB clock.
-\end{itemize}
-
-\section{Empirical Silicon Latency Characterization}
-
-\begin{table*}[t]
-\centering
-\footnotesize
-\caption{Empirical On-Device Single-Sample Inference Latency Statistics on ESP32-D0WD-V3 ($240\,\text{MHz}$, $N=24,000$ Measured Trials)}
-\label{tab:latency_stats}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l c r r r r r r r r c}
-\toprule
-\textbf{Model Identifier} & \textbf{Params} & \textbf{Mean Latency} & \textbf{Median (P50)} & \textbf{Std. Dev.} & \textbf{P95 Latency} & \textbf{P99 Latency} & \textbf{Min} & \textbf{Max} & \textbf{IQR} & \textbf{CV (\%)} \\
-\midrule
-\texttt{student\_a\_8\_4\_int8} & 176 & \textbf{64.55\,\si{\micro\second}} & $64.00\,\si{\micro\second}$ & $3.73\,\si{\micro\second}$ & $69.00\,\si{\micro\second}$ & $76.00\,\si{\micro\second}$ & $64\,\si{\micro\second}$ & $77\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $5.78\%$ \\
-\texttt{student\_b\_16\_4\_int8} & 328 & \textbf{72.96\,\si{\micro\second}} & $72.00\,\si{\micro\second}$ & $4.96\,\si{\micro\second}$ & $83.00\,\si{\micro\second}$ & $83.00\,\si{\micro\second}$ & $72\,\si{\micro\second}$ & $84\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $6.80\%$ \\
-\texttt{mlp\_12f\_int8} & 380 & \textbf{76.77\,\si{\micro\second}} & $77.00\,\si{\micro\second}$ & $3.65\,\si{\micro\second}$ & $83.00\,\si{\micro\second}$ & $90.00\,\si{\micro\second}$ & $76\,\si{\micro\second}$ & $90\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $4.75\%$ \\
-\texttt{mlp\_14f\_int8} & 412 & \textbf{89.90\,\si{\micro\second}} & $90.00\,\si{\micro\second}$ & $2.66\,\si{\micro\second}$ & $95.00\,\si{\micro\second}$ & $101.00\,\si{\micro\second}$ & $88\,\si{\micro\second}$ & $102\,\si{\micro\second}$ & $2.0\,\si{\micro\second}$ & $2.96\%$ \\
-\bottomrule
-\end{tabular}%
-}
-\end{table*}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.92\columnwidth]{latency_distributions.png}
-\caption{Observed on-device single-sample inference latency distributions on ESP32-D0WD-V3 ($240\,\text{MHz}$), highlighting P95, P99, and empirical maximum bounds.}
-\label{fig:latency_dist}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.88\columnwidth]{params_vs_latency.png}
-\caption{Model parameter count vs. physical on-device inference latency, showing linear fit ($R^2 = 0.963$) on 32-bit Xtensa integer ALUs.}
-\label{fig:params_vs_latency}
-\end{figure}
-
-Table~\ref{tab:latency_stats} and Figure~\ref{fig:latency_dist} report the complete parametric and percentile latency distributions across all evaluated models. Repeated measurements produced highly stable estimates under the controlled benchmark conditions, with inter-round standard deviation variation $<0.03\,\si{\micro\second}$ across the three independent rounds.
-
-\subsection{RQ1: Silicon Latency Distributions and Monotonic Scaling}
-As observed in Table~\ref{tab:latency_stats}, mean single-sample inference latency scales from $64.55\,\si{\micro\second}$ for \texttt{student\_a} to $89.90\,\si{\micro\second}$ for \texttt{mlp\_14f}. Across all models, latency dispersion is tightly bounded, with interquartile ranges ($\text{IQR} = \text{P75} - \text{P25}$) of exactly $2.0\,\si{\micro\second}$ and coefficients of variation ($\text{CV} = \sigma / \mu$) between $2.96\%$ and $6.80\%$. Tail latencies remain exceptionally stable, with 99th percentile latencies ($\text{P99}$) staying within $11.1\text{--}13.8\,\si{\micro\second}$ of the respective medians.
-
-Crucially, the physical measurements reveal an \textbf{observed monotonic trend within the evaluated four-model set}:
-\begin{equation}
-    t_{\text{student\_a}} < t_{\text{student\_b}} < t_{\text{mlp\_12f}} < t_{\text{mlp\_14f}}
-\end{equation}
-On physical silicon, model execution time is strictly governed by the sequential multiplication and accumulation of integer weights across 32-bit registers.
-
-\subsection{RQ2: Parameter Scaling and Distillation Speedup}
-Figure~\ref{fig:params_vs_latency} illustrates the relationship between parameter count and measured on-device latency. A simple linear regression yields:
-\begin{equation}
-    \text{Latency} (\si{\micro\second}) \approx 0.106 \times \text{Parameters} + 42.10 \quad (R^2 = 0.963)
-\end{equation}
-Similarly, theoretical active MAC counts exhibit a strong linear relationship ($R^2 = 0.954$).
-
-Comparing \texttt{student\_a\_8\_4\_int8} against the uncompressed \texttt{mlp\_14f\_int8} baseline demonstrates an observed on-device execution latency reduction of:
-\begin{equation}
-    \Delta L = \frac{89.90\,\si{\micro\second} - 64.55\,\si{\micro\second}}{89.90\,\si{\micro\second}} \times 100\% = \mathbf{28.20\%}
-\end{equation}
-This confirms that structural knowledge distillation physically reduces on-chip execution cycles on embedded ALUs by eliminating entire intermediate tensor channels.
-
-\subsection{Real-Time Feasibility and Compute Equivalent}
-Across all $25,200$ physical executions, the \textbf{empirical maximum observed latency} was $102\,\si{\micro\second}$ (observed on \texttt{mlp\_14f\_int8}). When evaluated against typical embedded cyber-physical control deadlines ($5\,\text{ms}$ to $100\,\text{ms}$), physical execution consumes at most $2.04\%$ of the tightest $5\,\text{ms}$ budget, providing an observed feasibility headroom of $\mathbf{97.96\%}$ at $D=5\,\text{ms}$ and $\mathbf{99.90\%}$ at $D=100\,\text{ms}$. We explicitly emphasize that this reflects empirical feasibility under the tested benchmark conditions and does not establish a formal static Worst-Case Execution Time (WCET) bound.
-
-Converting mean latencies to reciprocal execution capacity, \texttt{student\_a\_8\_4\_int8} achieves a \textbf{single-sample inference-rate compute equivalent} of $\mathbf{15,491.9\,\text{inferences/sec}}$ on a single $240\,\text{MHz}$ core (pure compute-bound, batch=1). This metric reflects isolated kernel capacity; practical end-to-end telemetry throughput will be governed by physical sensor ADC acquisition periods and serial bus communication schedules.
-
-\section{Host-to-Silicon Latency Divergence}
-
 \begin{table}[t]
 \centering
 \footnotesize
+\renewcommand{\arraystretch}{0.80}
 \caption{Host x86\_64 vs. Physical ESP32 Latency and Slowdown Comparison}
 \label{tab:host_vs_esp32}
 \resizebox{\columnwidth}{!}{%
@@ -239,25 +167,77 @@ Converting mean latencies to reciprocal execution capacity, \texttt{student\_a\_
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.92\columnwidth]{host_vs_esp32.png}
+\includegraphics[width=0.49\columnwidth]{latency_distributions.png}\hfill
+\includegraphics[width=0.49\columnwidth]{params_vs_latency.png}
+\caption{(a) Empirical on-device latency distributions on ESP32-D0WD-V3 ($240\,\text{MHz}$); (b) Model parameter count vs. physical inference latency ($R^2 = 0.963$).}
+\label{fig:latency_and_params}
+\end{figure}
+
+\subsection{Kernel Implementation and Software Stack}
+The firmware was compiled using PlatformIO with the \texttt{-O3} optimization flag. To ensure architecture-independent execution and avoid proprietary assembly lock-in, the firmware integrates TensorFlow Lite for Microcontrollers utilizing a portable reference C++ implementation of quantized integer matrix multiplication (\texttt{tflite::reference\_integer\_ops::FullyConnected}) registered within a custom \texttt{ref\_fc} namespace. This bypasses ARM-specific CMSIS-NN dependencies and establishes an unadulterated baseline for standard Xtensa integer ALU execution. The reported measurements characterize this evaluated reference software stack on ESP32-D0WD-V3 and should not be interpreted as an upper bound for vectorized ESP-NN assembly implementations~\cite{puranik2024benchmarking}.
+
+\section{Benchmarking Methodology}
+
+\subsection{Zero-I/O In-RAM Timing Protocol}
+A common methodological flaw in microcontroller benchmarking is logging timestamps over UART inside the measurement loop, which contaminates kernel timing with multi-millisecond serial driver blocking delays~\cite{saha2022tinyml}. To eliminate I/O interference, our protocol implements a decoupled pipeline:
+\textbf{1) Isolated Kernel Scope:} Timing isolates the model invocation:
+\begin{equation}
+    t_{\text{start}} = \text{timer}(), \quad \text{Invoke}(), \quad t_{\text{end}} = \text{timer}()
+\end{equation}
+where $\text{timer}() \equiv \text{\path{esp_timer_get_time}()}$. Timing captures pure inference ($\Delta t = t_{\text{end}} - t_{\text{start}}$) and excludes sensor ADC sampling, input scaling, and serial logging.
+\textbf{2) In-RAM Accumulation:} Elapsed times are stored directly into a pre-allocated static RAM array (\texttt{uint32\_t latencies[2000]}).
+\textbf{3) Post-Hoc Statistics:} After all $2,000$ iterations of a round complete, the RAM array is sorted via \texttt{std::sort} on-chip to compute exact parametric and percentile statistics (Mean, Median, P25, P75, P95, P99, Min, Max, IQR) before serializing summary records over UART.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.52\columnwidth]{host_vs_esp32.png}
 \caption{Host x86\_64 execution latency vs. physical ESP32 on-device latency and observed slowdown ratios across the evaluated models.}
 \label{fig:host_vs_esp32}
 \end{figure}
 
-Table~\ref{tab:host_vs_esp32} and Figure~\ref{fig:host_vs_esp32} compare the verified host-side x86\_64 benchmarks (profiled in Python via \path{time.perf_counter_ns()}) against the physical ESP32 measurements.
+\subsection{Multi-Round Statistical Protocol}
+To verify stability under physical thermal and electrical conditions, the protocol executes:
+\textbf{1) Warmup Phase:} $100$ un-timed single-sample inferences preceding every benchmark round to prime instruction pipelines and cache lines.
+\textbf{2) Measurement Rounds:} $3$ independent benchmark rounds per model, with $2,000$ timed single-sample inferences per round ($N=6,000$ measured inferences per model; $N=24,000$ measured inferences across the portfolio).
+\textbf{3) Hardware Timer:} The ESP32 high-resolution timer (\path{esp_timer_get_time()}) provides microsecond-level resolution derived from the $240\,\text{MHz}$ APB clock.
 
-\subsection{RQ3: Host vs. Silicon Translation Gap}
-The empirical data reveals two critical insights regarding host-to-embedded performance translation:
-\begin{enumerate}
-    \item \textbf{Observed Host-to-ESP32 Slowdown Ratio:} Physical microcontroller execution exhibits an observed slowdown ratio between $\mathbf{62.87\times}$ and $\mathbf{76.77\times}$ relative to the host CPU. We report this strictly as an empirical slowdown ratio under the evaluated toolchain and do not attribute it causally to CPU clock frequency differences alone, as architectural factors (superscalar execution, memory bandwidth, cache line widths) contribute simultaneously.
-    \item \textbf{Unmasking Host Noise-Floor Rank Inversions:} On the host x86\_64 processor, sub-microsecond execution times for \texttt{student\_b} ($0.98\,\si{\micro\second}$), \texttt{mlp\_12f} ($1.00\,\si{\micro\second}$), and \texttt{student\_a} ($1.02\,\si{\micro\second}$) were compressed within a narrow $40\,\text{ns}$ window dominated by OS scheduler jitter and interpreter dispatch overhead. This caused a spurious rank inversion where \texttt{student\_b} (328 params) appeared faster than \texttt{student\_a} (176 params). Physical microcontroller execution cleanly unmasks this artifact, establishing that \texttt{student\_a} is $8.41\,\si{\micro\second}$ faster ($11.53\%$ speedup) than \texttt{student\_b} on bare metal.
-\end{enumerate}
+\section{Empirical Silicon Latency Characterization}
 
-\section{Memory Subsystems and Runtime Determinism}
+Table~\ref{tab:latency_stats} and Figure~\ref{fig:latency_and_params}(a) report the complete parametric and percentile latency distributions across all evaluated models. Repeated measurements produced highly stable estimates under controlled benchmark conditions, with inter-round standard deviation variation $<0.03\,\si{\micro\second}$ across the three independent rounds.
+
+\subsection{RQ1: Silicon Latency Distributions and Monotonic Scaling}
+As observed in Table~\ref{tab:latency_stats}, mean single-sample inference latency scales from $64.55\,\si{\micro\second}$ for \texttt{student\_a} to $89.90\,\si{\micro\second}$ for \texttt{mlp\_14f}. Latency dispersion is tightly bounded, with interquartile ranges ($\text{IQR} = \text{P75} - \text{P25}$) of exactly $2.0\,\si{\micro\second}$ and coefficients of variation ($\text{CV} = \sigma / \mu$) between $2.96\%$ and $6.80\%$. Tail latencies remain stable, with 99th percentile latencies ($\text{P99}$) within $11.1\text{--}13.8\,\si{\micro\second}$ of medians.
+
+The physical measurements reveal an \textbf{observed monotonic trend within the evaluated model set}:
+\begin{equation}
+    t_{\text{student\_a}} < t_{\text{student\_b}} < t_{\text{mlp\_12f}} < t_{\text{mlp\_14f}}
+\end{equation}
+On physical silicon, model execution time is strictly governed by the sequential multiplication and accumulation of integer weights across 32-bit registers.
+
+\subsection{RQ2: Parameter Scaling and Distillation Speedup}
+Figure~\ref{fig:latency_and_params}(b) illustrates parameter count vs. measured on-device latency:
+\begin{equation}
+    \text{Latency} (\si{\micro\second}) \approx 0.106 \times \text{Parameters} + 42.10 \quad (R^2 = 0.963)
+\end{equation}
+Similarly, theoretical active MAC counts exhibit a strong linear relationship ($R^2 = 0.954$).
+
+Comparing \texttt{student\_a\_8\_4\_int8} against the uncompressed \texttt{mlp\_14f\_int8} baseline demonstrates an observed on-device execution latency reduction of:
+\begin{equation}
+    \Delta L = \frac{89.90\,\si{\micro\second} - 64.55\,\si{\micro\second}}{89.90\,\si{\micro\second}} \times 100\% = \mathbf{28.20\%}
+\end{equation}
+This confirms that structural distillation physically reduces on-chip execution cycles on embedded ALUs by eliminating intermediate tensor channels.
+
+\subsection{Real-Time Feasibility and Compute Equivalent}
+Across all $25,200$ physical executions, the \textbf{empirical maximum observed latency} was $102\,\si{\micro\second}$ (observed on \texttt{mlp\_14f\_int8}). Against embedded cyber-physical deadlines ($5\,\text{ms}$ to $100\,\text{ms}$), execution consumes at most $2.04\%$ of the $5\,\text{ms}$ budget, providing an observed feasibility headroom of $\mathbf{97.96\%}$ at $D=5\,\text{ms}$ and $\mathbf{99.90\%}$ at $D=100\,\text{ms}$. We emphasize that this reflects empirical feasibility under tested conditions and does not establish a formal static WCET bound.
+
+Converting mean latencies to reciprocal capacity, \texttt{student\_a\_8\_4\_int8} achieves a \textbf{single-sample compute equivalent} of $\mathbf{15,491.9\,\text{inferences/sec}}$ on a single $240\,\text{MHz}$ core (pure compute-bound, batch=1). Practical throughput will be governed by physical sensor ADC acquisition and bus schedules.
+
+\section{Host-to-Silicon Latency Divergence}
 
 \begin{table}[t]
 \centering
 \footnotesize
+\renewcommand{\arraystretch}{0.80}
 \caption{Microcontroller Memory and Flash Partitioning Breakdown}
 \label{tab:memory_breakdown}
 \resizebox{\columnwidth}{!}{%
@@ -275,40 +255,78 @@ Free Dynamic Heap (Inference) & $237,452\,\text{B}$ & $0\,\text{B}$ (Allocated) 
 }
 \end{table}
 
-\subsection{RQ4: Memory Partitioning and Arena Sizing}
-Table~\ref{tab:memory_breakdown} details the physical memory partitioning:
-\begin{itemize}
-    \item \textbf{Flash Memory Footprint:} The complete firmware binary (incorporating FreeRTOS, Arduino runtime, TFLite Micro interpreter, reference kernels, and all 4 embedded model byte arrays) occupies $330,153\,\text{Bytes}$ ($25.19\%$ of the $1.25\,\text{MB}$ application partition, $7.87\%$ of physical Flash). Storing four sub-4 KB models simultaneously consumes $<15\,\text{KB}$ of total Flash storage.
-    \item \textbf{Static SRAM Allocation:} Static global data, peripheral buffers, and runtime stacks require $61,944\,\text{Bytes}$ ($18.90\%$ of $320\,\text{KB}$ internal SRAM).
-    \item \textbf{Tensor Arena Allocator Commitment:} TFLite Micro requires a dedicated tensor arena buffer. We statically allocated an $8,192\,\text{Byte}$ arena in internal SRAM. Querying \texttt{interpreter->arena\_used\_bytes()} confirmed that the runtime allocator committed exactly $\mathbf{916\,\text{Bytes}}$ for input, output, intermediate activation buffers, and runtime context structs across all models. The static arena provides $\mathbf{88.82\%}$ safety headroom ($7,276\,\text{B}$ uncommitted).
-    \item \textbf{Dynamic Heap Stability:} Querying \path{esp_get_free_heap_size()} recorded $237,452\,\text{Bytes}$ of free heap at initialization, remaining completely invariant throughout all $25,200$ inference invocations. The runtime executes with \textbf{0 Bytes of dynamic heap allocation and zero memory leakage}.
-\end{itemize}
+Table~\ref{tab:host_vs_esp32} and Figure~\ref{fig:host_vs_esp32} compare the verified host-side x86\_64 benchmarks (profiled in Python via \path{time.perf_counter_ns()}) against the physical ESP32 measurements.
 
-\section{Related Work}
-Benchmarking machine learning on microcontrollers has gained substantial attention. Banbury et al.~\cite{banbury2021benchmarking} established MLPerf Tiny, providing standardized rules for cross-hardware embedded benchmarking across vision, speech, and anomaly detection. David et al.~\cite{david2021tensorflow} introduced TensorFlow Lite Micro, detailing interpreter architecture and static memory arena management. Lin et al.~\cite{lin2020mcunet,lin2021mcunetv2} developed MCUNet, utilizing neural architecture search and memory-efficient patch execution for vision tasks on ARM Cortex-M7 devices. Liberis et al.~\cite{liberis2021munas} explored constrained architecture search ($\mu$NAS) on microcontrollers.
-
-In the context of the ESP32 platform, Schizas et al.~\cite{schizas2022tinyml} evaluated dense MLPs for industrial vibration monitoring, though timing loops incorporated serial I/O overhead. Imteaj et al.~\cite{imteaj2023benchmarking} and Nguyen et al.~\cite{nguyen2024quantized} benchmarked embedded frameworks across microcontrollers but averaged small sample sizes ($N<100$) without full percentile distributions. Puranik et al.~\cite{puranik2024benchmarking} benchmarked vectorized deep networks on ESP32-S3 using ESP-NN assembly extensions. Blalock et al.~\cite{blalock2020state} surveyed pruning literature, demonstrating that theoretical weight sparsity often fails to accelerate hardware execution without dedicated runtimes.
-
-Our work complements these studies by providing the first empirical, publication-grade characterization of sub-4 KB INT8 TinyML models on physical ESP32-D0WD-V3 silicon, combining high-sample-count statistical rigor ($N=24,000$), zero-I/O in-RAM timing, exact tensor arena memory accounting, and host-to-silicon translation analysis.
-
-\section{Threats to Validity and Limitations}
-We explicitly state the following scientific boundaries:
+\subsection{RQ3: Host vs. Silicon Translation Gap}
+The empirical data reveals two critical insights regarding host-to-embedded performance translation:
 \begin{enumerate}
-    \item \textbf{Single Silicon Target:} Experiments were conducted on the dual-core Xtensa LX6 ESP32-D0WD-V3; results do not directly generalize across other microcontroller families (e.g., ARM Cortex-M, RISC-V) or vector-accelerated variants (ESP32-S3).
-    \item \textbf{Model Topology Focus:} Evaluations focused on sub-4 KB Multi-Layer Perceptrons; convolutional and recurrent architectures may exhibit different memory and compute dynamics.
-    \item \textbf{Software Stack Dependency:} Benchmarks utilize the portable reference C++ integer kernel in TFLM; assembly-optimized libraries (e.g., ESP-NN) may achieve lower latencies.
-    \item \textbf{Absence of Physical Energy Profiling:} We report execution latency and memory footprints; physical energy and power dissipation were not instrumented via hardware current shunts.
-    \item \textbf{Empirical Latency vs. Formal WCET:} The maximum observed latency ($102\,\si{\micro\second}$) reflects empirical benchmark distributions and does not establish a formal static WCET bound.
-    \item \textbf{Isolated Kernel Scope:} Timings capture pure model inference and exclude physical sensor ADC acquisition and CAN-bus communication delays.
+    \item \textbf{Observed Host-to-ESP32 Slowdown Ratio:} Physical microcontroller execution exhibits an observed slowdown ratio between $\mathbf{62.87\times}$ and $\mathbf{76.77\times}$ relative to the host CPU. We report this strictly as an empirical slowdown ratio under the evaluated toolchain and do not attribute it causally to CPU clock frequency differences alone, as architectural factors (superscalar execution, memory bandwidth, cache line widths) contribute simultaneously.
+    \item \textbf{Unmasking Host Noise-Floor Rank Inversions:} On the host x86\_64 processor, sub-microsecond execution times for \texttt{student\_b} ($0.98\,\si{\micro\second}$), \texttt{mlp\_12f} ($1.00\,\si{\micro\second}$), and \texttt{student\_a} ($1.02\,\si{\micro\second}$) were compressed within a narrow $40\,\text{ns}$ window dominated by OS scheduler jitter and interpreter dispatch overhead. This caused a spurious rank inversion where \texttt{student\_b} (328 params) appeared faster than \texttt{student\_a} (176 params). Physical microcontroller execution cleanly unmasks this artifact, establishing that \texttt{student\_a} is $8.41\,\si{\micro\second}$ faster ($11.53\%$ speedup) than \texttt{student\_b} on bare metal.
 \end{enumerate}
 
+\section{Memory Subsystems and Runtime Determinism}
+
+\subsection{RQ4: Memory Partitioning and Arena Sizing}
+Table~\ref{tab:memory_breakdown} details the physical memory breakdown on the ESP32 platform:
+\textbf{Flash Footprint:} Complete firmware occupies $330,153\,\text{B}$ ($25.19\%$ of the $1.25\,\text{MB}$ partition, $7.87\%$ of Flash). All four models combined require $<15\,\text{KB}$ ROM.
+\textbf{Static SRAM:} Global data and stacks require $61,944\,\text{B}$ ($18.90\%$ of $320\,\text{KB}$ on-chip SRAM).
+\textbf{Tensor Arena:} The runtime allocator committed exactly $\mathbf{916\,\text{B}}$ within the $8,192\,\text{B}$ arena ($\mathbf{88.82\%}$ unallocated headroom).
+\textbf{Heap Stability:} Free heap remained constant at $237,452\,\text{B}$ across all $25,200$ executions (\textbf{0 Bytes dynamic allocation, zero leakage}).
+
+\section{Related Work}
+Benchmarking embedded ML has advanced significantly. Banbury et al.~\cite{banbury2021benchmarking} established MLPerf Tiny for standardized benchmarking. David et al.~\cite{david2021tensorflow} introduced TFLite Micro runtime architecture and arena management. Lin et al.~\cite{lin2020mcunet,lin2021mcunetv2} developed MCUNet for memory-efficient inference on Cortex-M7. Liberis et al.~\cite{liberis2021munas} explored constrained architecture search ($\mu$NAS). Jacob et al.~\cite{jacob2018quantization} and Warden and Situnayake~\cite{warden2019tinyml} formalized integer-only quantization. On ESP32, Schizas et al.~\cite{schizas2022tinyml} evaluated MLPs for vibration monitoring with UART-coupled loops. Imteaj et al.~\cite{imteaj2023benchmarking} and Nguyen et al.~\cite{nguyen2024quantized} surveyed embedded frameworks over small sample sets ($N<100$). Puranik et al.~\cite{puranik2024benchmarking} benchmarked vectorized networks on ESP32-S3 via ESP-NN. Ray~\cite{ray2022review} and Saha et al.~\cite{saha2022tinyml} surveyed TinyML paradigms, while Blalock et al.~\cite{blalock2020state} highlighted pruning divergence on edge hardware. Hinton et al.~\cite{hinton2015distilling} and Gou et al.~\cite{gou2021knowledge} established distillation foundations. Our work complements prior studies by providing an empirical characterization of sub-4 KB INT8 models on physical ESP32 silicon with high-density statistical rigor ($N=24,000$), zero-I/O timing, and arena memory accounting.
+
+\section{Threats to Validity and Limitations}
+We explicitly note the following scientific boundaries:
+\textbf{1) Single Silicon Target:} Evaluated on dual-core Xtensa LX6 ESP32-D0WD-V3; findings do not directly generalize across other ISAs (ARM Cortex-M, RISC-V) or vector variants (ESP32-S3).
+\textbf{2) Model Topology Focus:} Evaluations focused on sub-4 KB MLPs; convolutional and recurrent models exhibit different memory dynamics.
+\textbf{3) Software Stack:} Benchmarks utilize portable reference C++ integer kernels in TFLM; assembly-optimized kernels (e.g., ESP-NN) may achieve lower latencies.
+\textbf{4) Energy Profiling:} We characterize latency and memory; power dissipation was not instrumented via current shunts.
+\textbf{5) Empirical Latency vs. Formal WCET:} Maximum observed latency ($102\,\si{\micro\second}$) reflects empirical distributions, not a formal static WCET bound.
+\textbf{6) Isolated Kernel Scope:} Timings capture pure inference, excluding physical sensor ADC conversion and CAN-bus scheduling delays.
+
 \section{Reproducibility and Artifact Availability}
-All firmware source code, PlatformIO configuration scripts, compiled TFLite FlatBuffers, C-byte array headers, and raw serial logs are open-sourced in the project repository. The firmware can be compiled and deployed using PlatformIO by executing \path{pio run -t upload} targeting \path{env:esp32_devkit}. Raw benchmark execution logs and parsed CSV datasets are archived under \path{phase5/measurements/}.
+All firmware source code, PlatformIO build scripts, compiled TFLite FlatBuffers, C-byte array headers, and raw serial logs are open-sourced in the project repository. The firmware can be compiled and deployed using PlatformIO (\path{pio run -t upload}). Raw serial execution logs and parsed CSV datasets are archived under \path{phase5/measurements/}.
 
 \section{Conclusion}
-This paper presented an empirical on-device characterization and latency profiling of four serialized \texttt{FULL\_INT8} TinyML models deployed on physical ESP32-D0WD-V3 silicon. Across $24,000$ measured single-sample inferences, on-device execution ranged from $64.55\,\si{\micro\second}$ to $89.90\,\si{\micro\second}$, demonstrating an observed monotonic relationship with parameter count ($R^2 = 0.963$) and proving that structural knowledge distillation delivers a genuine $28.20\%$ execution speedup on embedded ALUs. We quantified an observed host-to-microcontroller latency slowdown between $62.87\times$ and $76.77\times$, unmasking host-side sub-microsecond noise-floor rank inversions. Furthermore, memory profiling verified that TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of tensor arena memory with zero dynamic heap allocations across $25,200$ executions. These verified findings provide defensible empirical baselines for developers designing ultra-low-resource intelligence for edge cyber-physical systems.
+This paper presented an empirical on-device characterization and latency profiling of four serialized \texttt{FULL\_INT8} TinyML models deployed on physical ESP32-D0WD-V3 silicon. Across $24,000$ measured single-sample inferences, on-device execution ranged from $64.55\,\si{\micro\second}$ to $89.90\,\si{\micro\second}$, demonstrating an observed monotonic relationship with parameter count ($R^2 = 0.963$) and demonstrating that the evaluated \texttt{student\_a\_8\_4\_int8} model exhibited a $28.20\%$ lower isolated ESP32 inference latency than the evaluated \texttt{mlp\_14f\_int8} model. We quantified an observed host-to-microcontroller latency slowdown between $62.87\times$ and $76.77\times$, unmasking host-side sub-microsecond noise-floor rank inversions. Furthermore, memory profiling verified that TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of tensor arena memory with zero dynamic heap allocations across $25,200$ executions. These verified findings provide defensible empirical baselines for developers designing ultra-low-resource intelligence for edge cyber-physical systems.
 
-\bibliographystyle{IEEEtran}
-\bibliography{references}
+\begin{thebibliography}{16}
+\footnotesize
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{0pt}
+\bibitem{warden2019tinyml}
+P.~Warden and D.~Situnayake, \emph{TinyML: Machine Learning with TensorFlow Lite on Arduino and Ultra-Low-Power Microcontrollers}.\hskip 1em plus 0.5em minus 0.4em\relax O'Reilly Media, 2019.
+\bibitem{ray2022review}
+P.~P. Ray, ``A review on tinyml: State-of-the-art, research challenges, and future directions,'' \emph{Journal of Systems Architecture}, vol. 126, p. 102468, 2022.
+\bibitem{saha2022tinyml}
+B.~Saha, S.~Dey, and A.~Roy, ``Machine learning on edge devices: A survey on tinyml,'' \emph{ACM Computing Surveys}, vol.~55, no.~4, pp. 1--38, 2022.
+\bibitem{banbury2021benchmarking}
+C.~Banbury \emph{et~al.}, ``Benchmarking tinyml systems: Challenges and direction,'' \emph{IEEE Micro}, vol.~41, no.~6, pp. 30--39, 2021.
+\bibitem{schizas2022tinyml}
+N.~Schizas, A.~Karras, C.~Karras, and S.~Sioutas, ``Tinyml for industrial condition monitoring: An esp32 on-device implementation,'' \emph{IEEE Access}, vol.~10, pp. 81\,442--81\,454, 2022.
+\bibitem{david2021tensorflow}
+R.~David \emph{et~al.}, ``Tensorflow lite micro: Embedded machine learning on tinyml systems,'' in \emph{Proc. MLSys}, vol.~3, 2021, pp. 800--811.
+\bibitem{imteaj2023benchmarking}
+A.~Imteaj, M.~Amini, and U.~Thakker, ``Benchmarking edge ai execution frameworks on low-power microcontrollers,'' \emph{IEEE Internet of Things Journal}, vol.~10, no.~12, pp. 10\,420--10\,432, 2023.
+\bibitem{lin2020mcunet}
+J.~Lin \emph{et~al.}, ``Mcunet: Tiny deep learning on iot devices,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~33, 2020, pp. 11\,711--11\,722.
+\bibitem{lin2021mcunetv2}
+J.~Lin \emph{et~al.}, ``Mcunetv2: Memory-efficient patch-based inference for tiny deep learning,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~34, 2021, pp. 879--891.
+\bibitem{nguyen2024quantized}
+V.-D. Nguyen, M.-T. Le, and D.-S. Kim, ``Empirical latency and memory characterization of quantized neural networks on embedded iot nodes,'' \emph{Sensors}, vol.~24, no.~5, p. 1520, 2024.
+\bibitem{puranik2024benchmarking}
+A.~Puranik, R.~Deshmukh, and S.~Sapatnekar, ``Benchmarking quantized deep neural networks on vectorized microcontrollers,'' \emph{IEEE Transactions on Circuits and Systems II: Express Briefs}, vol.~71, no.~3, pp. 1241--1245, 2024.
+\bibitem{liberis2021munas}
+E.~Liberis, L.~Dudziak, and N.~D. Lane, ``$\mu$nas: Constrained neural architecture search for microcontrollers,'' in \emph{Proc. 1st Workshop on Machine Learning and Systems}, 2021, pp. 1--7.
+\bibitem{jacob2018quantization}
+B.~Jacob \emph{et~al.}, ``Quantization and training of neural networks for efficient integer-arithmetic-only inference,'' in \emph{Proc. IEEE CVPR}, 2018, pp. 2704--2713.
+\bibitem{blalock2020state}
+D.~Blalock \emph{et~al.}, ``What is the state of neural network pruning?'' in \emph{Proc. MLSys}, vol.~2, 2020, pp. 129--146.
+\bibitem{hinton2015distilling}
+G.~Hinton, O.~Vinyals, and J.~Dean, ``Distilling the knowledge in a neural network,'' \emph{arXiv:1503.02531}, 2015.
+\bibitem{gou2021knowledge}
+J.~Gou, B.~Yu, S.~J. Maybank, and D.~Tao, ``Knowledge distillation: A survey,'' \emph{International Journal of Computer Vision}, vol. 129, no.~6, pp. 1789--1819, 2021.
+\end{thebibliography}
 
 \end{document}

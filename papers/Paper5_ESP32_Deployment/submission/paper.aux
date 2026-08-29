@@ -1,0 +1,80 @@
+\relax 
+\citation{warden2019tinyml,ray2022review,saha2022tinyml}
+\citation{banbury2021benchmarking,schizas2022tinyml}
+\citation{david2021tensorflow,imteaj2023benchmarking}
+\citation{banbury2021benchmarking}
+\citation{lin2020mcunet,lin2021mcunetv2}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The physical deployment and zero-I/O in-RAM benchmarking pipeline connecting verified \texttt  {FULL\_INT8} TFLite FlatBuffers to bare-metal ESP32 silicon.}}{1}{}\protected@file@percent }
+\newlabel{fig:physical_pipeline}{{1}{1}}
+\citation{schizas2022tinyml,nguyen2024quantized}
+\citation{puranik2024benchmarking}
+\citation{saha2022tinyml}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Audited Hardware and Software Deployment Configuration}}{2}{}\protected@file@percent }
+\newlabel{tab:hardware_config}{{I}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Hardware and Deployment Architecture}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Physical Silicon Platform}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Evaluated Model Portfolio}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Kernel Implementation and Software Stack}{2}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Evaluated \texttt  {FULL\_INT8} TinyML Model Artifacts}}{2}{}\protected@file@percent }
+\newlabel{tab:model_specs}{{II}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Benchmarking Methodology}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Zero-I/O In-RAM Timing Protocol}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Multi-Round Statistical Protocol}{2}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces (a) Empirical on-device latency distributions on ESP32-D0WD-V3 ($240\,\text  {MHz}$); (b) Model parameter count vs. physical inference latency ($R^2 = 0.963$).}}{3}{}\protected@file@percent }
+\newlabel{fig:latency_and_params}{{2}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Empirical Silicon Latency Characterization}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}RQ1: Silicon Latency Distributions and Monotonic Scaling}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}RQ2: Parameter Scaling and Distillation Speedup}{3}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Host x86\_64 execution latency vs. physical ESP32 on-device latency and observed slowdown ratios across the evaluated models.}}{3}{}\protected@file@percent }
+\newlabel{fig:host_vs_esp32}{{3}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Real-Time Feasibility and Compute Equivalent}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Host-to-Silicon Latency Divergence}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}RQ3: Host vs. Silicon Translation Gap}{3}{}\protected@file@percent }
+\citation{banbury2021benchmarking}
+\citation{david2021tensorflow}
+\citation{lin2020mcunet,lin2021mcunetv2}
+\citation{liberis2021munas}
+\citation{jacob2018quantization}
+\citation{warden2019tinyml}
+\citation{schizas2022tinyml}
+\citation{imteaj2023benchmarking}
+\citation{nguyen2024quantized}
+\citation{puranik2024benchmarking}
+\citation{ray2022review}
+\citation{saha2022tinyml}
+\citation{blalock2020state}
+\citation{hinton2015distilling}
+\citation{gou2021knowledge}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Empirical On-Device Single-Sample Inference Latency Statistics on ESP32-D0WD-V3 ($240\,\text  {MHz}$, $N=24,000$ Measured Trials)}}{4}{}\protected@file@percent }
+\newlabel{tab:latency_stats}{{III}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Host x86\_64 vs. Physical ESP32 Latency and Slowdown Comparison}}{4}{}\protected@file@percent }
+\newlabel{tab:host_vs_esp32}{{IV}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Microcontroller Memory and Flash Partitioning Breakdown}}{4}{}\protected@file@percent }
+\newlabel{tab:memory_breakdown}{{V}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Memory Subsystems and Runtime Determinism}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}RQ4: Memory Partitioning and Arena Sizing}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Related Work}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Threats to Validity and Limitations}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Reproducibility and Artifact Availability}{4}{}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{warden2019tinyml}{1}
+\bibcite{ray2022review}{2}
+\bibcite{saha2022tinyml}{3}
+\bibcite{banbury2021benchmarking}{4}
+\bibcite{schizas2022tinyml}{5}
+\bibcite{david2021tensorflow}{6}
+\bibcite{imteaj2023benchmarking}{7}
+\bibcite{lin2020mcunet}{8}
+\bibcite{lin2021mcunetv2}{9}
+\bibcite{nguyen2024quantized}{10}
+\bibcite{puranik2024benchmarking}{11}
+\bibcite{liberis2021munas}{12}
+\bibcite{jacob2018quantization}{13}
+\bibcite{blalock2020state}{14}
+\bibcite{hinton2015distilling}{15}
+\bibcite{gou2021knowledge}{16}
+\@writefile{toc}{\contentsline {section}{\numberline {X}Conclusion}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{5}{}\protected@file@percent }
+\gdef \@abspage@last{5}
