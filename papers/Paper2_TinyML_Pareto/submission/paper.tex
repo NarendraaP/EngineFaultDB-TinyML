@@ -98,7 +98,7 @@ We use the EngineFaultDB dataset (audit: $55,998$ data records, from the initial
 \end{itemize}
 
 \subsubsection{Feature Sets}
-The full feature set ($14$ features) consists of manifold absolute pressure (MAP), throttle position (TPS), force, power, engine RPM, consumption in L/h, consumption in L/100km, vehicle speed, CO emissions, HC emissions, CO2 emissions, O2 emissions, air-fuel equivalence ratio ($\lambda$), and air-fuel ratio (AFR).
+The complete set of features ($14$ features) includes manifold absolute pressure (MAP), throttle position (TPS), force, power, engine RPM, consumption in L/h, consumption in L/100km, vehicle speed, CO emissions, HC emissions, CO2 emissions, O2 emissions, air-fuel equivalence ratio ($\lambda$), and the air-fuel ratio (AFR).
 
 Statistical collinearity analysis identified two redundant pairs: (1) AFR vs. $\lambda$ ($r = 1.0000$), and (2) Speed vs. RPM ($r = 0.9972$). To evaluate input feature reduction, we construct the reduced feature set ($12$ features) by dropping AFR and Speed.
 
