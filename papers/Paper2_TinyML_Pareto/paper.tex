@@ -323,7 +323,7 @@ These physical measurements provide orthogonal system deployment latency evidenc
 
 \section{Discussion}
 \subsection{Why Multi-Objective Optimization is Essential in TinyML}
-In embedded ML design, selecting a model based solely on classification accuracy leads to suboptimal deployments. For instance, while \texttt{student\_b\_16\_4\_fp32} maximizes accuracy ($75.14\%$), \texttt{pruned\_mlp\_14f\_75pct} requires only $31.6\%$ of its arithmetic operations ($96$ vs. $304$ MACs) with only a $0.32\%$ accuracy difference. In ultra-low-power microcontrollers, this $3\times$ reduction in theoretical active arithmetic operations offers substantial potential for reducing active execution cycles during cyclic wake-up tasks.
+In embedded ML design, choosing models based on a single metric like classification accuracy can lead to suboptimal solutions. For instance, though \texttt{student\_b\_16\_4\_fp32} has the best classification accuracy ($75.14\%$), \texttt{pruned\_mlp\_14f\_75pct} requires only $31.6\%$ of its arithmetic operations ($96$ vs. $304$ MACs) with just $0.32\%$ difference in classification accuracy. Since ultra-low-power microcontrollers benefit tremendously from reducing active arithmetic operations, especially during cyclic wake-up tasks, this $3\times$ reduction in theoretical active arithmetic operations will bring significant energy savings.
 
 \subsection{Practical Deployment Decision Framework}
 Our empirical findings provide actionable design guidance for edge engineers navigating hardware constraints:
