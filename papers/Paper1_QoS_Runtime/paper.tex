@@ -274,7 +274,7 @@ Under \texttt{LOW} and \texttt{MEDIUM} contention, the \texttt{BALANCED} policy 
              &\approx 68.421\% \implies \mathbf{68.4\% \text{ Active MAC Reduction}}
 \end{split}
 \end{equation}
-Crucially, since \texttt{pruned\_mlp\_14f\_75pct} has superior balance of minority fault classes, the macro F1 score improves from $0.739048$ to $\mathbf{0.756251}$ ($+0.017203$) with only a small decrease in accuracy of $-0.3661\%$. The scheduler picked the 96-MAC configuration under the examined high-contention scenario, reducing the theoretical active MAC needs by $68.4\%$ from the 304-MAC high-fidelity configuration while retaining diagnostic accuracy in the examined trace.
+Crucially, as \texttt{pruned\_mlp\_14f\_75pct} exhibits improved balance between minority fault classes, the macro F1 score increases from $0.739048$ to $\mathbf{0.756251}$ ($+0.017203$) with only a modest drop in accuracy of $-0.3661\%$. The scheduler selected the 96-MAC configuration in the investigated high-contention scenario, cutting the theoretical active MAC requirements by $68.4\%$ from the 304-MAC high-fidelity configuration while preserving diagnostic accuracy in the examined trace.
 
 \subsection{RQ3: Deadline Sensitivity, Feasibility, and Switch Stability}
 Across all 80 configurations, the simulated deadline compliance was kept at $100.0\%$. Host simulated scenario model transitions are clean, with a maximum of $1$ switch event per continuous workload trace, confirming scheduler stability without high-frequency oscillation.
