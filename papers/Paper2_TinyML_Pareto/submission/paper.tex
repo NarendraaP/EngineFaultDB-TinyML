@@ -62,7 +62,7 @@ In this paper, we conduct an empirical 3-objective deployment-resource character
 \section{Research Motivation}
 Modern TinyML deployment frameworks (e.g., TensorFlow Lite Micro~\cite{david2021tensorflow}) require developers to select model binaries based on static memory and compute constraints. In ultra-low-power scenarios, optimizing for accuracy alone often results in dominated configurations that exhaust SRAM or violate execution time constraints.
 
-Figure~\ref{fig:accuracy_vs_macs} and Figure~\ref{fig:accuracy_vs_model_size} illustrate the core trade-off: a model with minimal parameters may underfit the feature manifold, whereas heavily pruned dense models may reduce arithmetic operations without freeing Flash memory. Motivated by the need for clear empirical guidance, we formulate a multi-objective Pareto analysis to determine which compression paradigms yield non-dominated operating points for ultra-low-resource sensor diagnostics.
+Figure~\ref{fig:accuracy_vs_macs} and Figure~\ref{fig:accuracy_vs_model_size} show that a model with a minimum number of parameters can underfit the feature manifold, while aggressive pruning of dense models can reduce arithmetic operations without freeing up Flash memory. Inspired by the need for empirical guidance, we propose a multi-objective Pareto analysis to identify which compression paradigms provide non-dominated operating points for ultra-low-resource sensor diagnostics.
 
 \section{Related Work}
 
