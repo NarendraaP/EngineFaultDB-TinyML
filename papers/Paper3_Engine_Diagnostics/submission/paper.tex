@@ -358,7 +358,7 @@ At a solitary $240\,\text{MHz}$ single core compute budget of $64.55\,\si{\micro
 All experiments utilized strictly isolated train/val/test splits ($40/40/20$, $\text{seed}=42$). The gating threshold $\theta^*$ was tuned exclusively on validation records. Metrics were computed deterministically without data leakage.
 
 \subsection{External Validity}
-EngineFaultDB captures four common combustion engine operational regimes under lab-bench instrumentation. Despite physical sensor noise and operational envelopes varying between vehicle platforms, the mathematical principles of hierarchical uncertainty gating apply directly to other classes of cyber-physical telemetry (turbine bearings, industrial pumps).
+EngineFaultDB contains $4$ different common regimes for combustion engine behavior that can be measured on a test bench. Under the influence of sensor measurement noise and different operating ranges for different vehicle classes, the underlying mathematical principle that forms the basis for all subsequent methods is applicable to other classes of technical measurements (turbine bearings, industrial pumps).
 
 \section{Limitations}
 \begin{enumerate}
