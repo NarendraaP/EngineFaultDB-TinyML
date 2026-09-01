@@ -334,7 +334,7 @@ Table~\ref{tab:baselines} contrasts the proposed hierarchical architecture again
 
 Detailed examination of the confusion matrix (Figure~\ref{fig:cm_mlp}) and per-class metrics (Table~\ref{tab:mode_b_detail}) reveals distinct diagnostic behaviors across fault modes:
 \begin{itemize}
-    \item \textbf{Cleanly Separated Regimes:} Class 0 (Normal, F1 = $0.9981$) and Class 1 (Rich Mixture, F1 = $0.9873$) achieve almost perfect classification. Fuel-rich imbalance causes significant thermodynamic effects in lambda and exhaust oxygen sensors ($O_2, CO$), resulting in clear decision boundaries.
+    \item \textbf{Cleanly Separated Regimes:} Class 0 (Normal, F1 = $0.9981$) and Class 1 (Rich Mixture, F1 = $0.9873$) classify nearly perfectly. Fuel-rich conditions create strong thermodynamic effects in lambda and exhaust oxygen sensors ($O_2, CO$) that produce easily identifiable decision boundaries.
     \item \textbf{Physical Sensor Overlap (Misfire vs. Air Leak):} Class 2 (`Ignition Misfire', F1 = $0.5264$) and Class 3 (`Intake Air Leak', F1 = $0.5055$) dominate classification confusion with mutual misclassification rates exceeding $47\%$. In internal combustion engines under steady-state dynamometer loading, both cylinder misfires (unburned oxygen entering exhaust) and intake manifold vacuum leaks (unmetered air entering the plenum) induce correlated manifold absolute pressure (MAP) fluctuations and air-fuel ratio lean spikes. Distinguishing between these two mechanical fault modes under stationary sensor measurements represents the primary factor governing the $74.6\%$ multi-class accuracy ceiling.
 \end{itemize}
 
