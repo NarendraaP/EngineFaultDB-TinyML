@@ -129,7 +129,7 @@ We evaluate our architecture on the EngineFaultDB dataset, comprising $55,998$ p
 \textbf{Static Tabular Representation:} The benchmark is structured as an independent tabular matrix of steady-state dynamometer measurements with no explicit timestamps, session identifiers or sequential engine cycle markers. As such, all evaluations consider the records independently.
 
 \subsection{Feature Sets and Collinearity Reduction}
-The raw dataset contains $14$ continuous physical features: Manifold Absolute Pressure (MAP), Throttle Position Sensor (TPS), Engine Force, Output Power, Engine RPM, Consumption (L/h), Consumption (L/100km), Vehicle Speed, CO, HC, CO2, O2, Air-Fuel Equivalence Ratio ($\lambda$), and Air-Fuel Ratio (AFR). Statistical correlation auditing revealed two collinear pairs:
+The raw data set consists of $14$ continuous physical quantities including Manifold Absolute Pressure (MAP), Throttle Position Sensor (TPS) reading, Engine Force, Output Power, Engine RPM, Consumption (L/h), Consumption (L/100km), Vehicle Speed, CO, HC, CO2, O2, Air-Fuel Equivalence Ratio ($\lambda$) and Air-Fuel Ratio (AFR). Statistical correlation auditing revealed two collinear pairs:
 \begin{enumerate}
     \item $\text{AFR}$ vs. $\lambda$: Pearson correlation $r = 1.0000$ (exact thermodynamic linear redundancy).
     \item $\text{Speed}$ vs. $\text{RPM}$: Pearson correlation $r = 0.9972$ (transmission coupling redundancy).
