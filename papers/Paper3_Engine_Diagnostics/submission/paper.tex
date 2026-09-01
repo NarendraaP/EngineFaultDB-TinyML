@@ -126,7 +126,7 @@ Class 3 & Intake Air Leak & 5,599 & 5,599 & 2,800 \\
 \subsection{Benchmark Dataset and Static Tabular Protocol}
 We evaluate our architecture on the EngineFaultDB dataset, comprising $55,998$ physical engine operational records ($55,999$ raw records minus 1 exact duplicate identified during data auditing). The dataset captures four distinct engine health conditions: Class 0 (Normal, $28.57\%$), Class 1 (Fuel-Rich Mismatch, $19.64\%$), Class 2 (Ignition Misfire, $26.79\%$), and Class 3 (Intake Vacuum Leak, $25.00\%$).
 
-\textbf{Static Tabular Representation:} The benchmark is structured as an independent tabular matrix of steady-state dynamometer measurements without explicit timestamps, session identifiers, or sequential engine cycle markers. Consequently, all evaluations treat records independently.
+\textbf{Static Tabular Representation:} The benchmark is structured as an independent tabular matrix of steady-state dynamometer measurements with no explicit timestamps, session identifiers or sequential engine cycle markers. As such, all evaluations consider the records independently.
 
 \subsection{Feature Sets and Collinearity Reduction}
 The raw dataset contains $14$ continuous physical features: Manifold Absolute Pressure (MAP), Throttle Position Sensor (TPS), Engine Force, Output Power, Engine RPM, Consumption (L/h), Consumption (L/100km), Vehicle Speed, CO, HC, CO2, O2, Air-Fuel Equivalence Ratio ($\lambda$), and Air-Fuel Ratio (AFR). Statistical correlation auditing revealed two collinear pairs:
