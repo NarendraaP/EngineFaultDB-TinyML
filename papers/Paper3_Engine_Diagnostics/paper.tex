@@ -362,8 +362,8 @@ EngineFaultDB contains $4$ different common regimes for combustion engine behavi
 
 \section{Limitations}
 \begin{enumerate}
-    \item \textbf{Theoretical Compute vs. Hardware Execution:} Savings in terms of computation are reported in terms of theoretical active MACs; speedups and energy savings through physical execution depend on microcontroller compiler optimizations and sleep-mode transitions.
-    \item \textbf{Static Sensor Topology:} Input feature dimensionality was fixed during training; dynamic sensor dropouts during vehicle operation were not evaluated.
+    \item \textbf{Theoretical Compute versus Hardware Execution:} Savings in terms of compute are reported in terms of theoretical active MACs; speedups and energy savings through execution on physical hardware depend on microcontroller compiler optimizations and sleep-mode transitions.
+    \item \textbf{Static Sensor Topology:} The input feature dimensionality was fixed during training; dynamic sensor dropouts during operation of the vehicle were not evaluated.
     \item \textbf{Controlled Dynamometer:} EngineFaultDB was gathered under controlled steady-state dynamometer test-bench equipment.
     \item \textbf{Static Tabular:} Dataset lacks temporal timestamps and continuous drive-cycles sequences; sequential filtering (Kalman/Markov) was not considered.
     \item \textbf{No Transient Drive-Cycle:} On-road transient drive cycles (e.g., WLTP/FTP-75) were not evaluated.
