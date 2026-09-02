@@ -355,9 +355,9 @@ Our work complements prior literature by providing an empirical on-device charac
 \section{Threats to Validity and Limitations}
 We explicitly delineate the following scientific boundaries:
 \begin{enumerate}
-    \item \textbf{Single Silicon Target:} Evaluations were conducted exclusively on the dual-core Xtensa LX6 ESP32-D0WD-V3. Results do not directly generalize across other ISAs (ARM Cortex-M, RISC-V) or vector-extended variants (ESP32-S3).
-    \item \textbf{Topology Scope:} Experiments focused on sub-4 KB fully-connected MLP architectures. Convolutional, recurrent, and transformer architectures exhibit different memory locality and tensor arena dynamics.
-    \item \textbf{Software Stack Baseline:} Measurements evaluate portable reference C++ integer kernels in TFLM. Assembly-optimized vector libraries (ESP-NN) may achieve lower latencies.
+    \item \textbf{Single Silicon Target:} Exclusively evaluated on dual-core Xtensa LX6 ESP32-D0WD-V3. Benchmarks are not generalizable to other ISA families (ARM Cortex-M, RISC-V) or vector-extended siblings (ESP32-S3).
+    \item \textbf{Topology Scope:} Benchmarks focused on $<4$\,KB parameter fully-connected MLPs. Convolutional, recurrent and transformer networks have different memory access patterns and tensor arena behaviors.
+    \item \textbf{Software Stack Baseline:} Benchmarks target portable reference C++ integer implementations in TFLM. Vectorized assembly libraries (ESP-NN) can provide lower latencies.
     \item \textbf{Power and Energy Instrumentation:} We characterize latency and memory; power dissipation was not instrumented via hardware current shunts.
     \item \textbf{Empirical Latency vs. Formal WCET:} The maximum observed latency ($102\,\si{\micro\second}$) reflects empirical measurement distributions and does not constitute a formal static WCET bound.
     \item \textbf{Isolated Kernel Timing:} Timings isolate pure inference and exclude sensor ADC sampling, scaling, and communication bus latency.
