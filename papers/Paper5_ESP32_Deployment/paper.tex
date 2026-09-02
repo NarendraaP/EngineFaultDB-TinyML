@@ -228,7 +228,7 @@ Figure~\ref{fig:latency_and_params}(b) plots model parameter count against measu
 \begin{equation}
     \text{Latency} (\si{\micro\second}) \approx 0.106 \times \text{Parameters} + 42.10 \quad (R^2 = 0.963)
 \end{equation}
-Similarly, theoretical active Multiply-Accumulate (MAC) counts exhibit a strong linear correlation ($R^2 = 0.954$). The non-zero intercept ($42.10\,\si{\micro\second}$) reflects fixed TFLM framework invocation overhead, including tensor pointer resolution, activation quantization scaling, and layer invocation dispatch.
+Similarly, theoretical active Multiply-Accumulate (MAC) counts have strong linear correlation ($R^2 = 0.954$). The non-zero intercept ($42.10\,\si{\micro\second}$) captures TFLM framework invocation overhead for tensor pointer resolution, activation quantization scaling, and layer invocation dispatch.
 
 Comparing the compact distilled model \texttt{student\_a\_8\_4\_int8} against the uncompressed \texttt{mlp\_14f\_int8} baseline demonstrates an observed on-device latency reduction of:
 \begin{equation}
