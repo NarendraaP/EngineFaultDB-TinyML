@@ -318,7 +318,7 @@ Table~\ref{tab:memory_breakdown} details the physical memory breakdown on the ES
 \end{itemize}
 
 \subsection{Dynamic Heap Stability and Zero-Leakage Verification}
-A critical requirement for industrial edge deployments is memory determinism. Dynamic memory allocation via \texttt{malloc} or \texttt{new} inside inference loops causes heap fragmentation, non-deterministic allocation latency, and potential out-of-memory crashes.
+A critical requirement for industrial edge deployments is memory determinism. Dynamic memory allocation through \texttt{malloc} or \texttt{new} inside an inference loop leads to heap fragmentation, non-deterministic allocation latency, and possible out-of-memory crashes.
 
 Our runtime monitoring verified:
 \begin{enumerate}
