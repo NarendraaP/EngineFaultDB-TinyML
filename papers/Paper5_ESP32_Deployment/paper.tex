@@ -314,7 +314,7 @@ Table~\ref{tab:memory_breakdown} details the physical memory breakdown on the ES
 \begin{itemize}
     \item \textbf{Flash ROM Footprint:} The complete compiled firmware image takes $330,153\,\text{Bytes}$ ($25.19\%$ of standard $1.25\,\text{MB}$ application partition, $7.87\%$ of physical $4\,\text{MB}$ SPI Flash). All four models together need $< 15\,\text{KB}$ of static ROM embedding.
     \item \textbf{Internal Static SRAM:} Global data structures, system stacks plus runtime descriptors occupied $61,944\,\text{Bytes}$ ($18.90\%$ of the $320\,\text{KB}$ internal SRAM).
-    \item \textbf{Static Tensor Arena Allocation:} The pre-allocated static tensor arena buffer is set up at $8,192\,\text{Bytes}$. When initializing the model, the TFLM runtime allocator committed exactly $\mathbf{916\,\text{Bytes}}$ to host input tensors, layer activations, scratch buffers and output tensors, leaving an unallocated arena headroom of $\mathbf{88.82\%}$. Grounded in the Memory-Bound Edge Efficiency Envelope (MBEEE) analytical framework~\cite{narendra2026mbeee}, this ultra-compact working memory footprint prevents SRAM bus contention and guarantees deterministic memory access.
+    \item \textbf{Static Tensor Arena Allocation:} The pre-allocated static tensor arena buffer is set up at $8,192\,\text{Bytes}$. When initializing the model, the TFLM runtime allocator committed exactly $\mathbf{916\,\text{Bytes}}$ to host input tensors, layer activations, scratch buffers and output tensors, leaving an unallocated arena headroom of $\mathbf{88.82\%}$.
 \end{itemize}
 
 \subsection{Dynamic Heap Stability and Zero-Leakage Verification}
@@ -375,7 +375,7 @@ To enable independent verification, all research artifacts are made publicly ava
 \section{Conclusion}
 This paper presented an empirical on-device characterization and latency profiling of four serialized \texttt{FULL\_INT8} TinyML models deployed on physical ESP32-D0WD-V3 microcontroller silicon. Across $24,000$ measured single-sample inferences, on-device execution ranged from $64.55\,\si{\micro\second}$ to $89.90\,\si{\micro\second}$, demonstrating strict parameter-ordered monotonicity ($R^2 = 0.963$) and demonstrating that the evaluated \texttt{student\_a\_8\_4\_int8} model exhibited a $28.20\%$ lower isolated ESP32 inference latency than the uncompressed \texttt{mlp\_14f\_int8} baseline. We quantified an observed host-to-microcontroller latency slowdown between $62.87\times$ and $76.77\times$, unmasking host-side sub-microsecond noise-floor rank inversions. Furthermore, memory profiling verified that TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of static tensor arena memory with zero dynamic heap allocations across $25,200$ executions. These verified findings provide defensible empirical baselines for edge intelligence in real-time cyber-physical and industrial diagnostic systems.
 
-\begin{thebibliography}{20}
+\begin{thebibliography}{19}
 \footnotesize
 \bibitem{warden2019tinyml}
 P.~Warden and D.~Situnayake, \emph{TinyML: Machine Learning with TensorFlow Lite on Arduino and Ultra-Low-Power Microcontrollers}.\hskip 1em plus 0.5em minus 0.4em\relax O'Reilly Media, 2019.
@@ -433,9 +433,6 @@ S.~Han, H.~Mao, and W.~J. Dally, ``Deep compression: Compressing deep neural net
 
 \bibitem{yao2021tinyml}
 Z.~Yao \emph{et~al.}, ``HAWQ-V3: Dyadic neural network quantization for efficient integer-only inference,'' in \emph{Proc. ICML}, 2021, pp. 11\,875--11\,886.
-
-\bibitem{narendra2026mbeee}
-P.~Narendra \emph{et~al.}, ``Memory-Bound Edge Efficiency Envelope (MBEEE): A Hardware-Level Analytical Model,'' \emph{Journal of Basic Science}, 2026.
 
 \end{thebibliography}
 
