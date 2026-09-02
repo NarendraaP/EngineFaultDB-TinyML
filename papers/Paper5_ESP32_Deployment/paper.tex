@@ -239,7 +239,7 @@ This confirms that structural knowledge distillation physically reduces on-chip 
 \subsection{RQ5: Real-Time Cyber-Physical Feasibility}
 Across all $25,200$ physical executions, the \textbf{empirical maximum observed latency} was $102\,\si{\micro\second}$ (observed on \texttt{mlp\_14f\_int8}). When evaluated against standard embedded cyber-physical control deadlines ($5\,\text{ms}$ to $100\,\text{ms}$), execution consumes at most $2.04\%$ of the tightest $5\,\text{ms}$ deadline, providing an observed feasibility headroom of $\mathbf{97.96\%}$ at $D=5\,\text{ms}$ and $\mathbf{99.90\%}$ at $D=100\,\text{ms}$. We explicitly emphasize that this reflects empirical feasibility under tested conditions and does not establish a formal static Worst-Case Execution Time (WCET) bound.
 
-Converting mean latencies to reciprocal throughput capacity, \texttt{student\_a\_8\_4\_int8} achieves a \textbf{single-sample compute equivalent} of $\mathbf{15,491.9\,\text{inferences/sec}}$ on a single $240\,\text{MHz}$ core (pure compute-bound, batch=1). Practical system throughput will naturally be bounded by physical sensor Analog-to-Digital Converter (ADC) acquisition times, Direct Memory Access (DMA) transfer rates, and Controller Area Network (CAN) bus scheduling periods.
+Converting mean latencies to reciprocal throughput capacity, \texttt{student\_a\_8\_4\_int8} provides single sample compute equivalent of $15,491.9\,\text{inferences/sec}$ per single $240\,\text{MHz}$ core (pure compute-bound, batch=1). System throughput will be naturally limited by physical sensor Analog-to-Digital Converter (ADC) acquisition times, Direct Memory Access (DMA) transfer rates, and Controller Area Network (CAN) bus scheduling periods.
 
 \section{Host-to-Silicon Latency Divergence}
 
