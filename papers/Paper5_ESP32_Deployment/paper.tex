@@ -283,7 +283,7 @@ This comparison reveals two critical insights:
 The cause of this rank inversion lies in microarchitectural divergence:
 \begin{itemize}
     \item \textbf{Host x86\_64 Execution:} The host CPU (AMD Ryzen / Intel Core) features wide superscalar pipelines, speculative execution, aggressive branch prediction, and multi-megabyte L1/L2/L3 cache hierarchies. For ultra-small models ($<4$\,KB), the entire model and tensor graph reside permanently in the L1 instruction and data caches. Sub-microsecond execution time is dominated by operating system thread scheduling jitter and timer interrupt noise rather than integer ALU compute cycles.
-    \item \textbf{Bare-Metal MCU Silicon:} On the 32-bit Xtensa LX6 core, instruction execution is in-order and scalar. With zero cache prefetching and fixed clock frequencies ($240\,\text{MHz}$), the physical latency is strictly proportional to the number of scalar integer instruction cycles required to execute matrix inner products. Physical benchmarking reveals the true algorithm scaling that is obscured by host noise floors.
+    \item \textbf{Bare-Metal MCU Silicon:} On the 32-bit Xtensa LX6 core, instruction execution is in-order, and scalar. With no cache prefetching, and with fixed clock frequencies of $240\,\text{MHz}$, physical execution time is strictly proportional to the number of scalar integer instruction cycles needed to compute the inner products of matrices. Physical benchmarking reveals the true algorithmic scaling, masked by the noise floors on the host.
 \end{itemize}
 
 \section{Memory Subsystems and Runtime Determinism}
