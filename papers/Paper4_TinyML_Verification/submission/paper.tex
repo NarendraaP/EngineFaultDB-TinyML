@@ -289,9 +289,9 @@ To guard against unsubstantiated claims in the edge AI literature, Table~\ref{ta
 \subsection{General Principles vs. Case Implementation}
 We explicitly distinguish general verification principles from our specific case implementation:
 \begin{itemize}
-    \item \textbf{General Principle:} Deployment metrics must be evaluated directly on compiled disk binaries. \textit{Case Implementation:} Evaluated on TensorFlow Lite FlatBuffers via Python C-API bindings.
-    \item \textbf{General Principle:} Execution dtypes must be audited for zero floating-point fallback. \textit{Case Implementation:} Parsed TFLite FlatBuffer tensor details.
-    \item \textbf{General Principle:} Sparsity must be distinguished from storage compression. \textit{Case Implementation:} Evaluated dense FlatBuffer representation of pruned MLPs.
+    \item \textbf{General Principle:} Deployment metrics should be evaluated directly on compiled disk binaries. \textit{Case Implementation:} Evaluated on TensorFlow Lite FlatBuffers via Python C-API bindings.
+    \item \textbf{General Principle:} Execution dtypes should be audited for zero floating-point fallback. \textit{Case Implementation:} Parsed TFLite FlatBuffer tensor details.
+    \item \textbf{General Principle:} Sparsity should be distinguished from storage compression. \textit{Case Implementation:} Evaluated dense FlatBuffer representation of pruned MLPs.
 \end{itemize}
 
 \section{Threats to Validity}
