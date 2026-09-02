@@ -54,7 +54,7 @@ Despite rapid algorithmic advances in neural network compression and pruning, a 
 Furthermore, the existing TinyML benchmarking literature suffers from two notable limitations:
 \begin{enumerate}
     \item \textbf{Workload Bias Toward Vision and Audio:} Standard benchmark suites such as MLPerf Tiny focus on 2D Convolutional Neural Networks (CNNs) for visual wake words, image classification, and keyword spotting~\cite{banbury2021benchmarking,lin2021mcunetv2}. These CNNs typically have $> 100$\,KB footprint in Flash ROM with inference latencies ranging from $10\,\text{ms}$ to $300\,\text{ms}$. In comparison, ultra-low resource tabular diagnostic networks ($< 4$\,KB Flash, $< 100\,\si{\micro\second}$ execution latency) are largely uncharacterized on commercial silicon.
-    \item \textbf{Methodological Timing Artifacts:} Prior embedded benchmarking studies frequently log timestamps or intermediate results over serial UART buses inside the measurement loop~\cite{saha2022tinyml,schizas2022tinyml}. UART transmission at typical baud rates ($115,200\,\text{bps}$) introduces multi-millisecond driver blocking delays that overshadow true kernel execution time by orders of magnitude.
+    \item \textbf{Methodological Timing Artifacts:} Prior embedded benchmarking studies often log timestamps or intermediate results over serial UART buses as part of the measurement loop~\cite{saha2022tinyml,schizas2022tinyml}. UART transmission at typical baud rates ($115,200\,\text{bps}$) introduces multi-millisecond driver blocking delays that overshadow true kernel execution time by orders of magnitude.
 \end{enumerate}
 
 \begin{figure}[t]
