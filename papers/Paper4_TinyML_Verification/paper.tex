@@ -43,7 +43,7 @@ TinyML, Reproducibility, Software Verification, Model Auditing, Empirical Softwa
 \IEEEdisplaynontitleabstractindextext
 
 \section{Introduction}
-\IEEEPARstart{E}{mbedded} Machine Learning and Tiny Machine Learning (TinyML) have experienced exponential growth, enabling intelligent inference on resource-constrained microcontrollers with sub-64\,KB SRAM and sub-256\,KB Flash budgets~\cite{warden2019tinyml,ray2022review,sanchez2020tinyml}. In applications ranging from automotive diagnostics to edge health monitoring, TinyML models must operate under strict physical memory, energy, and execution constraints~\cite{banbury2021benchmarking,saha2022tinyml,sze2017efficient,liberis2021munas}.
+\IEEEPARstart{E}{mbedded} Machine Learning and Tiny Machine Learning (TinyML) have experienced exponential growth, enabling intelligent inference on resource-constrained microcontrollers with sub-64\,KB SRAM and sub-256\,KB Flash budgets~\cite{warden2019tinyml,ray2022review,sanchez2020tinyml}. In applications ranging from automotive diagnostics to edge health monitoring, TinyML models must operate under strict physical memory, energy, and execution constraints~\cite{banbury2021benchmarking,saha2022tinyml,sze2017efficient,liberis2021munas,cai2020once}.
 
 However, the empirical literature in edge AI is increasingly vulnerable to reproducibility challenges and measurement discrepancies~\cite{pineau2021improving,kapoor2023leakage,henderson2018deep}. Unlike cloud-scale machine learning where training and deployment share homogeneous 32-bit floating-point execution environments, TinyML involves a complex, multi-stage software translation pipeline:
 \begin{align*}
@@ -52,7 +52,7 @@ However, the empirical literature in edge AI is increasingly vulnerable to repro
 \end{align*}
 At each transformation boundary, subtle discrepancies emerge between training-time abstractions and actual serialized binary behavior~\cite{david2021tensorflow,blalock2020state,lin2020mcunet}.
 
-Recent surveys in machine learning software engineering have exposed systemic methodological traps~\cite{sculley2015hidden,amershi2019software}:
+Recent surveys in machine learning software engineering have exposed systemic methodological traps~\cite{sculley2015hidden,amershi2019software,lwakatare2020large}:
 \begin{enumerate}
     \item \textbf{In-Memory vs. Binary Discrepancies:} Evaluating models in-memory during training loops rather than parsing the final serialized disk binary artifact.
     \item \textbf{Sparsity Conflation:} Assuming that zeroing $75\%$ of weights in a dense matrix automatically yields a $75\%$ reduction in serialized model file size or execution speedup.

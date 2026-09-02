@@ -58,6 +58,11 @@ E.~Liberis, {\L}.~Dudziak, and N.~D. Lane, ``$\mu$nas: Constrained neural
   Workshop on Benchmarking Machine Learning Workloads on Emerging Hardware},
   2021, pp. 1--7.
 
+\bibitem{cai2020once}
+H.~Cai, C.~Gan, T.~Wang, Z.~Zhang, and S.~Han, ``Once-for-all: Train one
+  network and specialize it for efficient deployment,'' in \emph{Proceedings of
+  the International Conference on Learning Representations (ICLR)}, 2020.
+
 \bibitem{pineau2021improving}
 J.~Pineau, P.~Vincent-Lamarre, K.~Sinha, V.~Larivi{\`e}re, A.~Beygelzimer,
   F.~d'Alch{\'e} Buc, E.~Fox, and H.~Larochelle, ``Improving reproducibility in
@@ -104,6 +109,13 @@ S.~Amershi, A.~Begel, C.~Bird, R.~DeLine, H.~Gall, E.~Kamar, N.~Nagappan,
   case study,'' in \emph{Proceedings of the 41st International Conference on
   Software Engineering: Software Engineering in Practice (ICSE-SEIP)}.\hskip
   1em plus 0.5em minus 0.4em\relax IEEE, 2019, pp. 291--300.
+
+\bibitem{lwakatare2020large}
+L.~E. Lwakatare, A.~Raj, J.~Bosch, H.~H. Olsson, and I.~Crnkovic, ``Large-scale
+  machine learning systems in production: A taxonomy of problems and
+  solutions,'' in \emph{Proceedings of the 42nd International Conference on
+  Software Engineering: Software Engineering in Practice (ICSE-SEIP)}, 2020,
+  pp. 61--70.
 
 \bibitem{arcuri2014hitchhiker}
 A.~Arcuri and L.~Briand, ``A hitchhiker's guide to statistical tests for
