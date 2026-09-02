@@ -52,7 +52,7 @@ However, the empirical literature in edge AI is increasingly vulnerable to repro
 \end{align*}
 At each transformation boundary, subtle discrepancies emerge between training-time abstractions and actual serialized binary behavior~\cite{david2021tensorflow,blalock2020state,lin2020mcunet}.
 
-Recent surveys in machine learning software engineering have exposed systemic methodological traps~\cite{sculley2015hidden,amershi2019software,lwakatare2020large}:
+Recent surveys in machine learning software engineering and ML testing have exposed systemic methodological traps~\cite{sculley2015hidden,amershi2019software,zhang2022machine}:
 \begin{enumerate}
     \item \textbf{In-Memory vs. Binary Discrepancies:} Evaluating models in-memory during training loops rather than parsing the final serialized disk binary artifact.
     \item \textbf{Sparsity Conflation:} Assuming that zeroing $75\%$ of weights in a dense matrix automatically yields a $75\%$ reduction in serialized model file size or execution speedup.

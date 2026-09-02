@@ -110,12 +110,10 @@ S.~Amershi, A.~Begel, C.~Bird, R.~DeLine, H.~Gall, E.~Kamar, N.~Nagappan,
   Software Engineering: Software Engineering in Practice (ICSE-SEIP)}.\hskip
   1em plus 0.5em minus 0.4em\relax IEEE, 2019, pp. 291--300.
 
-\bibitem{lwakatare2020large}
-L.~E. Lwakatare, A.~Raj, J.~Bosch, H.~H. Olsson, and I.~Crnkovic, ``Large-scale
-  machine learning systems in production: A taxonomy of problems and
-  solutions,'' in \emph{Proceedings of the 42nd International Conference on
-  Software Engineering: Software Engineering in Practice (ICSE-SEIP)}, 2020,
-  pp. 61--70.
+\bibitem{zhang2022machine}
+J.~M. Zhang, M.~Harman, L.~Ma, and Y.~Liu, ``Machine learning testing: Survey,
+  landscapes and horizons,'' \emph{IEEE Transactions on Software Engineering},
+  vol.~48, no.~1, pp. 1--36, 2022.
 
 \bibitem{arcuri2014hitchhiker}
 A.~Arcuri and L.~Briand, ``A hitchhiker's guide to statistical tests for
