@@ -329,7 +329,7 @@ Our runtime monitoring verified:
 \section{Cyber-Physical Edge Deployment Considerations}
 
 \subsection{Dual-Core FreeRTOS Task Partitioning}
-The ESP32-D0WD-V3 integrates two independent Xtensa LX6 cores (Core 0 and Core 1). In production industrial deployments, cyber-physical edge nodes must simultaneously service high-frequency sensor acquisition (e.g., vibration ADC sampling @ $10\,\text{kHz}$, CAN bus message processing @ $1\,\text{Mbps}$) and execute machine learning inference.
+The ESP32-D0WD-V3 features two independent Xtensa LX6 cores (Core 0 and Core 1). Industrial cyber-physical systems require simultaneous sensor sampling at high-frequency (e.g., $10\,\text{kHz}$ vibration ADC sampling) and communication intensive workloads (e.g., $1\,\text{Mbps}$ CAN bus message processing) alongside machine learning inference.
 
 Our empirical characterization indicates a recommended architectural partitioning:
 \begin{itemize}
