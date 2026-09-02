@@ -322,8 +322,8 @@ A critical requirement for industrial edge deployments is memory determinism. Dy
 
 Our runtime monitoring verified:
 \begin{enumerate}
-    \item \textbf{Zero Runtime Allocations:} Across all $25,200$ consecutive invocations, zero dynamic memory allocations were requested from the system heap during inference.
-    \item \textbf{Constant Free Heap:} Free heap memory remained strictly constant at $237,452\,\text{Bytes}$ before, during, and after benchmark execution, verifying $\mathbf{0\,\text{Bytes}}$ of memory leakage.
+    \item \textbf{Zero Runtime Allocations:} Across all $25,200$ consecutive invocations of the algorithm, zero runtime dynamic memory allocations were requested from the system heap.
+    \item \textbf{Constant Free Heap:} Free heap memory was constant at $237,452\,\text{Bytes}$ before, during and after benchmark execution, verifying $0\,\text{Bytes}$ of memory leakage.
 \end{enumerate}
 
 \section{Cyber-Physical Edge Deployment Considerations}
