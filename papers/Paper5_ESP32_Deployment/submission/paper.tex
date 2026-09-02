@@ -49,7 +49,7 @@ TinyML, Microcontroller Benchmarking, ESP32, Xtensa LX6, Integer Quantization, L
 \section{Introduction}
 \IEEEPARstart{T}{he} integration of Tiny Machine Learning (TinyML) to run trained models on low-power, resource-constrained 32-bit microcontrollers (MCUs) is emerging as a new paradigm in edge computing~\cite{warden2019tinyml,ray2022review,saha2022tinyml}. By executing inference on bare-metal silicon at the sensor edge, these edge devices provide extreme latency, zero telemetry bandwidth, reduced radio power, and privacy~\cite{banbury2021benchmarking,schizas2022tinyml}. For edge applications where the inference decisions are critical for safety or business operations such as high-frequency industrial vibration monitoring, engine diagnostics, acoustic anomaly detection, and embedded cyber-physical control, the edge devices must make inferences with tight latency budgets ($\le 5\text{--}100\,\text{ms}$) and sub-milliwatt power consumption~\cite{rusci2020workload,sanchez2020tinyml}.
 
-Despite rapid algorithmic advances in neural network compression and pruning, a fundamental hardware translation gap persists between host-side software simulations and physical microcontroller execution~\cite{david2021tensorflow,rusci2020workload}. Host x86\_64 development workstations employ deep out-of-order execution pipelines, multi-level branch predictors, multi-megabyte cache hierarchies, and advanced vector SIMD units (AVX2/AVX-512). These outboard microarchitectural features mask instruction-level bottlenecks, memory stall penalties, and register pressure that dominate embedded execution on deeply constrained 32-bit RISC microcontrollers~\cite{banbury2021benchmarking,lin2020mcunet}. As a result, models that appear optimal during host-side training often demonstrate poor execution latency, memory overhead, or runtime non-determinism when flashed to physical MCU hardware~\cite{blalock2020state}.
+Despite rapid algorithmic advances in neural network compression and pruning~\cite{sze2017efficient}, a fundamental hardware translation gap persists between host-side software simulations and physical microcontroller execution~\cite{david2021tensorflow,rusci2020workload}. Host x86\_64 development workstations employ deep out-of-order execution pipelines, multi-level branch predictors, multi-megabyte cache hierarchies, and advanced vector SIMD units (AVX2/AVX-512). These outboard microarchitectural features mask instruction-level bottlenecks, memory stall penalties, and register pressure that dominate embedded execution on deeply constrained 32-bit RISC microcontrollers~\cite{banbury2021benchmarking,lin2020mcunet}. As a result, models that appear optimal during host-side training often demonstrate poor execution latency, memory overhead, or runtime non-determinism when flashed to physical MCU hardware~\cite{blalock2020state}.
 
 Furthermore, the existing TinyML benchmarking literature suffers from two notable limitations:
 \begin{enumerate}
@@ -375,7 +375,7 @@ To enable independent verification, all research artifacts are made publicly ava
 \section{Conclusion}
 This paper presented an empirical on-device characterization and latency profiling of four serialized \texttt{FULL\_INT8} TinyML models deployed on physical ESP32-D0WD-V3 microcontroller silicon. Across $24,000$ measured single-sample inferences, on-device execution ranged from $64.55\,\si{\micro\second}$ to $89.90\,\si{\micro\second}$, demonstrating strict parameter-ordered monotonicity ($R^2 = 0.963$) and demonstrating that the evaluated \texttt{student\_a\_8\_4\_int8} model exhibited a $28.20\%$ lower isolated ESP32 inference latency than the uncompressed \texttt{mlp\_14f\_int8} baseline. We quantified an observed host-to-microcontroller latency slowdown between $62.87\times$ and $76.77\times$, unmasking host-side sub-microsecond noise-floor rank inversions. Furthermore, memory profiling verified that TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of static tensor arena memory with zero dynamic heap allocations across $25,200$ executions. These verified findings provide defensible empirical baselines for edge intelligence in real-time cyber-physical and industrial diagnostic systems.
 
-\begin{thebibliography}{19}
+\begin{thebibliography}{20}
 \footnotesize
 \bibitem{warden2019tinyml}
 P.~Warden and D.~Situnayake, \emph{TinyML: Machine Learning with TensorFlow Lite on Arduino and Ultra-Low-Power Microcontrollers}.\hskip 1em plus 0.5em minus 0.4em\relax O'Reilly Media, 2019.
@@ -433,6 +433,9 @@ S.~Han, H.~Mao, and W.~J. Dally, ``Deep compression: Compressing deep neural net
 
 \bibitem{yao2021tinyml}
 Z.~Yao \emph{et~al.}, ``HAWQ-V3: Dyadic neural network quantization for efficient integer-only inference,'' in \emph{Proc. ICML}, 2021, pp. 11\,875--11\,886.
+
+\bibitem{sze2017efficient}
+V.~Sze, Y.-H. Chen, T.-J. Yang, and J.~S. Emer, ``Efficient processing of deep neural networks: A tutorial and survey,'' \emph{Proc. IEEE}, vol. 105, no.~12, pp. 2295--2329, 2017.
 
 \end{thebibliography}
 
