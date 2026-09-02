@@ -47,9 +47,9 @@ TinyML, Microcontroller Benchmarking, ESP32, Xtensa LX6, Integer Quantization, L
 \IEEEdisplaynontitleabstractindextext
 
 \section{Introduction}
-\IEEEPARstart{T}{he} integration of Tiny Machine Learning (TinyML) to run trained models on low-power, resource-constrained 32-bit microcontrollers (MCUs) is emerging as a new paradigm in edge computing~\cite{warden2019tinyml,ray2022review,saha2022tinyml}. By executing inference on bare-metal silicon at the sensor edge, these edge devices provide extreme latency, zero telemetry bandwidth, reduced radio power, and privacy~\cite{banbury2021benchmarking,schizas2022tinyml}. For edge applications where the inference decisions are critical for safety or business operations such as high-frequency industrial vibration monitoring, engine diagnostics, acoustic anomaly detection, and embedded cyber-physical control, the edge devices must make inferences with tight latency budgets ($\le 5\text{--}100\,\text{ms}$) and sub-milliwatt power consumption~\cite{nguyen2024quantized,puranik2024benchmarking}.
+\IEEEPARstart{T}{he} integration of Tiny Machine Learning (TinyML) to run trained models on low-power, resource-constrained 32-bit microcontrollers (MCUs) is emerging as a new paradigm in edge computing~\cite{warden2019tinyml,ray2022review,saha2022tinyml}. By executing inference on bare-metal silicon at the sensor edge, these edge devices provide extreme latency, zero telemetry bandwidth, reduced radio power, and privacy~\cite{banbury2021benchmarking,schizas2022tinyml}. For edge applications where the inference decisions are critical for safety or business operations such as high-frequency industrial vibration monitoring, engine diagnostics, acoustic anomaly detection, and embedded cyber-physical control, the edge devices must make inferences with tight latency budgets ($\le 5\text{--}100\,\text{ms}$) and sub-milliwatt power consumption~\cite{rusci2020workload,sanchez2020tinyml}.
 
-Despite rapid algorithmic advances in neural network compression and pruning, a fundamental hardware translation gap persists between host-side software simulations and physical microcontroller execution~\cite{david2021tensorflow,imteaj2023benchmarking}. Host x86\_64 development workstations employ deep out-of-order execution pipelines, multi-level branch predictors, multi-megabyte cache hierarchies, and advanced vector SIMD units (AVX2/AVX-512). These outboard microarchitectural features mask instruction-level bottlenecks, memory stall penalties, and register pressure that dominate embedded execution on deeply constrained 32-bit RISC microcontrollers~\cite{banbury2021benchmarking,lin2020mcunet}. As a result, models that appear optimal during host-side training often demonstrate poor execution latency, memory overhead, or runtime non-determinism when flashed to physical MCU hardware~\cite{blalock2020state}.
+Despite rapid algorithmic advances in neural network compression and pruning, a fundamental hardware translation gap persists between host-side software simulations and physical microcontroller execution~\cite{david2021tensorflow,rusci2020workload}. Host x86\_64 development workstations employ deep out-of-order execution pipelines, multi-level branch predictors, multi-megabyte cache hierarchies, and advanced vector SIMD units (AVX2/AVX-512). These outboard microarchitectural features mask instruction-level bottlenecks, memory stall penalties, and register pressure that dominate embedded execution on deeply constrained 32-bit RISC microcontrollers~\cite{banbury2021benchmarking,lin2020mcunet}. As a result, models that appear optimal during host-side training often demonstrate poor execution latency, memory overhead, or runtime non-determinism when flashed to physical MCU hardware~\cite{blalock2020state}.
 
 Furthermore, the existing TinyML benchmarking literature suffers from two notable limitations:
 \begin{enumerate}
@@ -116,7 +116,7 @@ Runtime & TFLite for Microcontrollers & Kernel & Portable Reference \texttt{ref\
 \end{table}
 
 \subsection{Evaluated Model Portfolio}
-We evaluated four multi-layer perceptron (MLP) architectures trained on multi-sensor internal combustion engine telemetry from the EngineFaultDB benchmark~\cite{schizas2022tinyml,nguyen2024quantized}. Each model was trained on 14 normalized telemetry features, quantized to full integer precision, serialized as a TensorFlow Lite FlatBuffer, and converted into a C-byte array header (\path{g_*_model_data.h}) via the \texttt{xxd} utility. Every model artifact was audited via FlatBuffer parser scripts to verify pure integer execution graphs (\textbf{\texttt{FULL\_INT8}}, $0$ float32 tensors, $8$ int8 tensors).
+We evaluated four multi-layer perceptron (MLP) architectures trained on multi-sensor internal combustion engine telemetry from the EngineFaultDB benchmark~\cite{schizas2022tinyml}. Each model was trained on 14 normalized telemetry features, quantized to full integer precision, serialized as a TensorFlow Lite FlatBuffer, and converted into a C-byte array header (\path{g_*_model_data.h}) via the \texttt{xxd} utility. Every model artifact was audited via FlatBuffer parser scripts to verify pure integer execution graphs (\textbf{\texttt{FULL\_INT8}}, $0$ float32 tensors, $8$ int8 tensors).
 
 As summarized in Table~\ref{tab:model_specs}, the portfolio spans:
 \begin{enumerate}
@@ -314,7 +314,7 @@ Table~\ref{tab:memory_breakdown} details the physical memory breakdown on the ES
 \begin{itemize}
     \item \textbf{Flash ROM Footprint:} The complete compiled firmware image takes $330,153\,\text{Bytes}$ ($25.19\%$ of standard $1.25\,\text{MB}$ application partition, $7.87\%$ of physical $4\,\text{MB}$ SPI Flash). All four models together need $< 15\,\text{KB}$ of static ROM embedding.
     \item \textbf{Internal Static SRAM:} Global data structures, system stacks plus runtime descriptors occupied $61,944\,\text{Bytes}$ ($18.90\%$ of the $320\,\text{KB}$ internal SRAM).
-    \item \textbf{Static Tensor Arena Allocation:} The pre-allocated static tensor arena buffer is set up at $8,192\,\text{Bytes}$. When initializing the model, the TFLM runtime allocator committed exactly $\mathbf{916\,\text{Bytes}}$ to host input tensors, layer activations, scratch buffers and output tensors, leaving an unallocated arena headroom of $\mathbf{88.82\%}$.
+    \item \textbf{Static Tensor Arena Allocation:} The pre-allocated static tensor arena buffer is set up at $8,192\,\text{Bytes}$. When initializing the model, the TFLM runtime allocator committed exactly $\mathbf{916\,\text{Bytes}}$ to host input tensors, layer activations, scratch buffers and output tensors, leaving an unallocated arena headroom of $\mathbf{88.82\%}$. Grounded in the Memory-Bound Edge Efficiency Envelope (MBEEE) analytical framework~\cite{narendra2026mbeee}, this ultra-compact working memory footprint prevents SRAM bus contention and guarantees deterministic memory access.
 \end{itemize}
 
 \subsection{Dynamic Heap Stability and Zero-Leakage Verification}
@@ -341,14 +341,14 @@ Our empirical characterization indicates a recommended architectural partitionin
 While our benchmarks evaluate the portable reference C++ integer kernel on standard Xtensa LX6 ALUs, alternative microarchitectures offer dedicated hardware acceleration:
 \begin{itemize}
     \item \textbf{ARM Cortex-M (CMSIS-NN):} ARM Cortex-M4/M7/M55 microcontrollers have SIMD instructions (\texttt{SMLAD}) which perform two 16-bit multiplications and 32-bit accumulation per one clock cycle.
-    \item \textbf{ESP32-S3 (ESP-NN):} Newer ESP32-S3 SOC has Xtensa LX7 cores with custom vector instructions, which provide $2\times\text{--}4\times$ accelerations for large convolution layers~\cite{puranik2024benchmarking}.
+    \item \textbf{ESP32-S3 (ESP-NN):} Newer ESP32-S3 SOC has Xtensa LX7 cores with custom vector instructions, which provide $2\times\text{--}4\times$ accelerations for large convolution layers~\cite{espnn2021}.
 \end{itemize}
 Our reference measurements provide a technology-neutral baseline characterizing unadulterated scalar integer execution.
 
 \section{Related Work}
 Benchmarking embedded machine learning has advanced rapidly. Banbury et al.~\cite{banbury2021benchmarking} established MLPerf Tiny to standardize cross-platform evaluation across vision, audio, and anomaly detection. David et al.~\cite{david2021tensorflow} introduced the architecture and arena management principles of TensorFlow Lite for Microcontrollers. Lin et al.~\cite{lin2020mcunet,lin2021mcunetv2} developed MCUNet, co-designing neural architectures and memory-efficient runtime engines for Cortex-M microcontrollers. Liberis et al.~\cite{liberis2021munas} explored constrained neural architecture search ($\mu$NAS) for microcontrollers.
 
-Integer quantization foundations were formalized by Jacob et al.~\cite{jacob2018quantization} and Warden and Situnayake~\cite{warden2019tinyml}. In the microcontroller domain, Schizas et al.~\cite{schizas2022tinyml} deployed MLPs on ESP32 for industrial condition monitoring but logged timestamps over UART. Imteaj et al.~\cite{imteaj2023benchmarking} and Nguyen et al.~\cite{nguyen2024quantized} surveyed embedded AI execution frameworks over small sample sizes ($N<100$). Puranik et al.~\cite{puranik2024benchmarking} benchmarked vectorized networks on ESP32-S3 via ESP-NN. Ray~\cite{ray2022review} and Saha et al.~\cite{saha2022tinyml} surveyed TinyML paradigms, while Blalock et al.~\cite{blalock2020state} highlighted how software pruning benefits frequently fail to materialize on edge hardware. Knowledge distillation foundations were established by Hinton et al.~\cite{hinton2015distilling} and surveyed by Gou et al.~\cite{gou2021knowledge}.
+Integer quantization foundations were formalized by Jacob et al.~\cite{jacob2018quantization} and Warden and Situnayake~\cite{warden2019tinyml}. In the microcontroller domain, Schizas et al.~\cite{schizas2022tinyml} deployed MLPs on ESP32 for industrial condition monitoring but logged timestamps over UART. Rusci et al.~\cite{rusci2020workload} and Sanchez-Iborra and Skarmeta~\cite{sanchez2020tinyml} surveyed embedded AI execution frameworks, while ESP-NN~\cite{espnn2021} provides optimized vector kernels for ESP32-S3 microarchitectures. Ray~\cite{ray2022review} and Saha et al.~\cite{saha2022tinyml} surveyed TinyML paradigms, while Blalock et al.~\cite{blalock2020state} highlighted how software pruning benefits frequently fail to materialize on edge hardware. Knowledge distillation foundations were established by Hinton et al.~\cite{hinton2015distilling} and surveyed by Gou et al.~\cite{gou2021knowledge}.
 
 Our work complements prior literature by providing an empirical on-device characterization of ultra-low-resource ($<4$\,KB) INT8 models on physical ESP32 silicon with high statistical density ($N=24,000$), zero-I/O timing, and arena memory accounting.
 
@@ -375,43 +375,43 @@ To enable independent verification, all research artifacts are made publicly ava
 \section{Conclusion}
 This paper presented an empirical on-device characterization and latency profiling of four serialized \texttt{FULL\_INT8} TinyML models deployed on physical ESP32-D0WD-V3 microcontroller silicon. Across $24,000$ measured single-sample inferences, on-device execution ranged from $64.55\,\si{\micro\second}$ to $89.90\,\si{\micro\second}$, demonstrating strict parameter-ordered monotonicity ($R^2 = 0.963$) and demonstrating that the evaluated \texttt{student\_a\_8\_4\_int8} model exhibited a $28.20\%$ lower isolated ESP32 inference latency than the uncompressed \texttt{mlp\_14f\_int8} baseline. We quantified an observed host-to-microcontroller latency slowdown between $62.87\times$ and $76.77\times$, unmasking host-side sub-microsecond noise-floor rank inversions. Furthermore, memory profiling verified that TensorFlow Lite Micro commits exactly $916\,\text{Bytes}$ of static tensor arena memory with zero dynamic heap allocations across $25,200$ executions. These verified findings provide defensible empirical baselines for edge intelligence in real-time cyber-physical and industrial diagnostic systems.
 
-\begin{thebibliography}{24}
+\begin{thebibliography}{20}
 \footnotesize
 \bibitem{warden2019tinyml}
 P.~Warden and D.~Situnayake, \emph{TinyML: Machine Learning with TensorFlow Lite on Arduino and Ultra-Low-Power Microcontrollers}.\hskip 1em plus 0.5em minus 0.4em\relax O'Reilly Media, 2019.
 
 \bibitem{ray2022review}
-P.~P. Ray, ``A review on tinyml: State-of-the-art, research challenges, and future directions,'' \emph{Journal of Systems Architecture}, vol. 126, p. 102468, 2022.
+P.~P. Ray, ``A review on TinyML: State-of-the-art and prospects,'' \emph{Journal of King Saud University-Computer and Information Sciences}, vol.~34, no.~4, pp. 1595--1623, 2022.
 
 \bibitem{saha2022tinyml}
-B.~Saha, S.~Dey, and A.~Roy, ``Machine learning on edge devices: A survey on tinyml,'' \emph{ACM Computing Surveys}, vol.~55, no.~4, pp. 1--38, 2022.
+S.~S. Saha, S.~S. Sandha, and M.~Srivastava, ``Machine learning for microcontroller-class hardware: A review,'' \emph{IEEE Sensors Journal}, vol.~22, no.~22, pp. 21\,362--21\,390, 2022.
 
 \bibitem{banbury2021benchmarking}
-C.~Banbury \emph{et~al.}, ``Benchmarking tinyml systems: Challenges and direction,'' \emph{IEEE Micro}, vol.~41, no.~6, pp. 30--39, 2021.
+C.~Banbury \emph{et~al.}, ``Benchmarking TinyML systems: Challenges and direction,'' \emph{IEEE Micro}, vol.~41, no.~6, pp. 40--49, 2021.
 
 \bibitem{schizas2022tinyml}
-N.~Schizas, A.~Karras, C.~Karras, and S.~Sioutas, ``Tinyml for industrial condition monitoring: An esp32 on-device implementation,'' \emph{IEEE Access}, vol.~10, pp. 81\,442--81\,454, 2022.
+N.~Schizas, A.~Karras, C.~Karras, and S.~Sioutas, ``TinyML for ultra-low power AI and large scale IoT deployments: A systematic review,'' \emph{Future Internet}, vol.~14, no.~12, p. 363, 2022.
 
 \bibitem{david2021tensorflow}
-R.~David \emph{et~al.}, ``Tensorflow lite micro: Embedded machine learning on tinyml systems,'' in \emph{Proc. MLSys}, vol.~3, 2021, pp. 800--811.
-
-\bibitem{imteaj2023benchmarking}
-A.~Imteaj, M.~Amini, and U.~Thakker, ``Benchmarking edge ai execution frameworks on low-power microcontrollers,'' \emph{IEEE Internet of Things Journal}, vol.~10, no.~12, pp. 10\,420--10\,432, 2023.
+R.~David \emph{et~al.}, ``TensorFlow Lite Micro: Embedded machine learning on TinyML systems,'' in \emph{Proc. MLSys}, vol.~3, 2021, pp. 800--811.
 
 \bibitem{lin2020mcunet}
-J.~Lin \emph{et~al.}, ``Mcunet: Tiny deep learning on iot devices,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~33, 2020, pp. 11\,711--11\,722.
+J.~Lin \emph{et~al.}, ``MCUNet: Tiny deep learning on IoT devices,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~33, 2020, pp. 11\,711--11\,722.
 
 \bibitem{lin2021mcunetv2}
-J.~Lin \emph{et~al.}, ``Mcunetv2: Memory-efficient patch-based inference for tiny deep learning,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~34, 2021, pp. 879--891.
+J.~Lin \emph{et~al.}, ``MCUNetV2: Memory-efficient patch-based inference for tiny deep learning,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~34, 2021, pp. 879--891.
 
-\bibitem{nguyen2024quantized}
-V.-D. Nguyen, M.-T. Le, and D.-S. Kim, ``Empirical latency and memory characterization of quantized neural networks on embedded iot nodes,'' \emph{Sensors}, vol.~24, no.~5, p. 1520, 2024.
+\bibitem{rusci2020workload}
+M.~Rusci, A.~Capotondi, and L.~Benini, ``Memory-driven mixed-low-precision quantisation for enabling deep network inference on microcontrollers,'' in \emph{Proc. Design, Automation \& Test in Europe Conference (DATE)}, 2020, pp. 875--880.
 
-\bibitem{puranik2024benchmarking}
-A.~Puranik, R.~Deshmukh, and S.~Sapatnekar, ``Benchmarking quantized deep neural networks on vectorized microcontrollers,'' \emph{IEEE Transactions on Circuits and Systems II: Express Briefs}, vol.~71, no.~3, pp. 1241--1245, 2024.
+\bibitem{sanchez2020tinyml}
+R.~Sanchez-Iborra and A.~F. Skarmeta, ``TinyML-enabled frugal smart objects: Challenges and opportunities,'' \emph{IEEE Circuits and Systems Magazine}, vol.~20, no.~3, pp. 4--18, 2020.
+
+\bibitem{espnn2021}
+Espressif Systems, \emph{ESP-NN: Optimized Neural Network Library for Espressif Chips}, Espressif Systems, 2021. [Online]. Available: https://github.com/espressif/esp-nn
 
 \bibitem{liberis2021munas}
-E.~Liberis, L.~Dudziak, and N.~D. Lane, ``$\mu$nas: Constrained neural architecture search for microcontrollers,'' in \emph{Proc. 1st Workshop on Machine Learning and Systems}, 2021, pp. 1--7.
+E.~Liberis, L.~Dudziak, and N.~D. Lane, ``$\mu$NAS: Constrained neural architecture search for microcontrollers,'' in \emph{Proc. 1st Workshop on Benchmarking Machine Learning Workloads on Emerging Hardware}, 2021, pp. 1--7.
 
 \bibitem{jacob2018quantization}
 B.~Jacob \emph{et~al.}, ``Quantization and training of neural networks for efficient integer-arithmetic-only inference,'' in \emph{Proc. IEEE CVPR}, 2018, pp. 2704--2713.
@@ -425,29 +425,17 @@ G.~Hinton, O.~Vinyals, and J.~Dean, ``Distilling the knowledge in a neural netwo
 \bibitem{gou2021knowledge}
 J.~Gou, B.~Yu, S.~J. Maybank, and D.~Tao, ``Knowledge distillation: A survey,'' \emph{International Journal of Computer Vision}, vol. 129, no.~6, pp. 1789--1819, 2021.
 
-\bibitem{alizadeh2023tinyml}
-M.~Alizadeh \emph{et~al.}, ``An empirical evaluation of tinyml execution frameworks on edge microcontrollers,'' \emph{IEEE Embedded Systems Letters}, vol.~15, no.~2, pp. 85--88, 2023.
-
-\bibitem{rusci2020workload}
-M.~Rusci, A.~Capotondi, and L.~Benini, ``Memory-driven mixed-low-precision quantisation for enabling deep network inference on microcontrollers,'' in \emph{Proc. Design, Automation \& Test in Europe Conference (DATE)}, 2020, pp. 875--880.
-
-\bibitem{dutta2021tinyml}
-D.~Dutta and S.~Bharadwaj, ``Real-time embedded vibration anomaly detection on arm cortex-m microcontrollers,'' in \emph{Proc. IEEE International Conference on Industrial Technology (ICIT)}, 2021, pp. 412--417.
-
-\bibitem{zheng2022accelerating}
-C.~Zheng \emph{et~al.}, ``Accelerating tinyml inference on risc-v microcontrollers with custom instruction set extensions,'' \emph{IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems}, vol.~41, no.~11, pp. 4620--4631, 2022.
-
 \bibitem{lane2017squeezing}
 N.~D. Lane \emph{et~al.}, ``Squeezing deep learning into mobile and embedded devices,'' \emph{IEEE Pervasive Computing}, vol.~16, no.~3, pp. 82--88, 2017.
 
 \bibitem{han2016deep}
-S.~Han, H.~Mao, and W.~J. Dally, ``Deep compression: Compressing deep neural networks with pruning, trained quantization and huffman coding,'' in \emph{Proc. International Conference on Learning Representations (ICLR)}, 2016.
+S.~Han, H.~Mao, and W.~J. Dally, ``Deep compression: Compressing deep neural networks with pruning, trained quantization and Huffman coding,'' in \emph{Proc. International Conference on Learning Representations (ICLR)}, 2016.
 
 \bibitem{yao2021tinyml}
-Z.~Yao \emph{et~al.}, ``Hawq-v3: Dyadic neural network quantization for efficient integer-only inference,'' in \emph{Proc. ICML}, 2021, pp. 11\,875--11\,886.
+Z.~Yao \emph{et~al.}, ``HAWQ-V3: Dyadic neural network quantization for efficient integer-only inference,'' in \emph{Proc. ICML}, 2021, pp. 11\,875--11\,886.
 
-\bibitem{gallo2023energy}
-P.~Gallo \emph{et~al.}, ``Energy-efficient edge intelligence on microcontrollers for industrial predictive maintenance,'' \emph{IEEE Transactions on Industrial Informatics}, vol.~19, no.~8, pp. 8920--8930, 2023.
+\bibitem{narendra2026mbeee}
+P.~Narendra \emph{et~al.}, ``Memory-Bound Edge Efficiency Envelope (MBEEE): A Hardware-Level Analytical Model,'' \emph{Journal of Basic Science}, 2026.
 
 \end{thebibliography}
 
