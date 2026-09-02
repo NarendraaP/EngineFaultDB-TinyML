@@ -1,0 +1,96 @@
+\relax 
+\citation{isermann2005model,aliramezani2022modeling,jia2016deep}
+\citation{ahmed2015automotive,liu2018artificial,khan2018review}
+\citation{saha2022tinyml,banbury2021benchmarking,warden2019tinyml}
+\citation{sze2017efficient,david2021tensorflow,han2016deep}
+\citation{han2021dynamic}
+\citation{lei2020applications,sanchez2020tinyml}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Research Motivation and Problem Formulation}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}The Monolithic Inefficiency}{1}{}\protected@file@percent }
+\citation{aliramezani2022modeling,ahmed2015automotive,liu2018artificial}
+\citation{lei2020applications}
+\citation{khan2018review}
+\citation{zhao2019deep}
+\citation{lu2017fault}
+\citation{viola2004robust}
+\citation{quinlan1986induction}
+\citation{teerapittayanon2016branchynet}
+\citation{matsubara2022split}
+\citation{han2021dynamic}
+\citation{sanchez2020tinyml}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Hierarchical diagnostic policy sensitivity analysis across gating thresholds $\theta \in [0.00, 1.00]$: (a) Multi-class Diagnostic Accuracy, (b) Mode\nobreakspace  {}B Trigger Rate, (c) Binary Anomaly-Screening Recall, and (d) Accuracy vs. Compute Pareto Trade-off [MEASURED TEST SET].}}{2}{}\protected@file@percent }
+\newlabel{fig:architecture}{{1}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Hierarchical Multi-Fidelity Formulation}{2}{}\protected@file@percent }
+\newlabel{eq:cost_model}{{2}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Related Work}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Machine Learning for Powertrain Fault Diagnosis}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Cascaded Classifiers and Early-Exit Networks}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Research Questions}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Dataset and Experimental Setup}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Benchmark Dataset and Static Tabular Protocol}{2}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces EngineFaultDB Class Distribution and Partitioning}}{3}{}\protected@file@percent }
+\newlabel{tab:dataset}{{I}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Feature Sets and Collinearity Reduction}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Data Partitioning and Strict Isolation}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Hierarchical Diagnostic Architecture}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Mode A: Binary Anomaly Filter}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Mode B: Multi-Class Diagnostician}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Gating Threshold and Routing Mechanics}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Experimental Results and Threshold Sensitivity}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}RQ1 \& RQ2: Diagnostic Accuracy and Retention}{3}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Mode A Binary Anomaly Filter Performance on Held-Out Test Partition ($11,200$ samples, [MEASURED TEST SET])}}{4}{}\protected@file@percent }
+\newlabel{tab:mode_a}{{II}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Receiver Operating Characteristic (ROC) and Precision-Recall (PR) curves for Mode\nobreakspace  {}A binary anomaly screening candidates evaluated on the held-out test partition [MEASURED TEST SET].}}{4}{}\protected@file@percent }
+\newlabel{fig:roc_pr}{{2}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Mode B (MLP 14f) Per-Class Performance on Test Partition [MEASURED TEST SET]}}{4}{}\protected@file@percent }
+\newlabel{tab:mode_b_detail}{{III}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Multi-class diagnostic accuracy vs. gating threshold $\theta $, demonstrating stable accuracy across $\theta \in [0.05, 0.80]$ [MEASURED TEST SET].}}{4}{}\protected@file@percent }
+\newlabel{fig:thresh_acc}{{3}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}RQ3: Computational Workload Reduction}{4}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Mode\nobreakspace  {}B activation trigger rate vs. gating threshold $\theta $, showing consistent bypass of nominal frames [MEASURED TEST SET].}}{4}{}\protected@file@percent }
+\newlabel{fig:thresh_trigger}{{4}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Hierarchical Diagnostic Performance Across Gating Thresholds on Held-Out Test Set ($11,200$ samples, [MEASURED TEST SET])}}{5}{}\protected@file@percent }
+\newlabel{tab:threshold_sweep}{{IV}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}RQ4: Threshold Robustness and Validation Consistency}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Comprehensive Baseline Comparison}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Class-Specific Error Analysis and Physical Interpretation}{5}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Confusion matrix of the Mode\nobreakspace  {}B multi-class neural diagnostician evaluated on the held-out test partition [MEASURED TEST SET].}}{5}{}\protected@file@percent }
+\newlabel{fig:cm_mlp}{{5}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {X}Discussion}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-A}}Domain Significance for Automotive Powertrain Systems}{5}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Architectural Comparison: Flat Baselines vs. Hierarchical Multi-Fidelity Cascade [HELD-OUT TEST PARTITION]}}{6}{}\protected@file@percent }
+\newlabel{tab:baselines}{{V}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-B}}Practical Interpretation of Computational Savings}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {X-C}}Physical Edge Inference Feasibility}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XI}Threats to Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-A}}Internal Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-B}}External Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XII}Limitations}{6}{}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{isermann2005model}{1}
+\bibcite{aliramezani2022modeling}{2}
+\bibcite{jia2016deep}{3}
+\bibcite{ahmed2015automotive}{4}
+\bibcite{liu2018artificial}{5}
+\bibcite{khan2018review}{6}
+\bibcite{saha2022tinyml}{7}
+\bibcite{banbury2021benchmarking}{8}
+\bibcite{warden2019tinyml}{9}
+\bibcite{sze2017efficient}{10}
+\bibcite{david2021tensorflow}{11}
+\bibcite{han2016deep}{12}
+\bibcite{han2021dynamic}{13}
+\bibcite{lei2020applications}{14}
+\bibcite{sanchez2020tinyml}{15}
+\bibcite{zhao2019deep}{16}
+\bibcite{lu2017fault}{17}
+\bibcite{viola2004robust}{18}
+\bibcite{quinlan1986induction}{19}
+\bibcite{teerapittayanon2016branchynet}{20}
+\bibcite{matsubara2022split}{21}
+\@writefile{toc}{\contentsline {section}{\numberline {XIII}Reproducibility and Artifact Availability}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XIV}Conclusion}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{7}{}\protected@file@percent }
+\gdef \@abspage@last{7}
