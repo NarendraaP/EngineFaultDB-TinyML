@@ -313,8 +313,8 @@ Free Dynamic Heap & $237,452\,\text{B}$ & $0\,\text{B}$ & $0.00\%$ & 0 B \\
 Table~\ref{tab:memory_breakdown} details the physical memory breakdown on the ESP32 platform:
 \begin{itemize}
     \item \textbf{Flash ROM Footprint:} The complete compiled firmware image takes $330,153\,\text{Bytes}$ ($25.19\%$ of standard $1.25\,\text{MB}$ application partition, $7.87\%$ of physical $4\,\text{MB}$ SPI Flash). All four models together need $< 15\,\text{KB}$ of static ROM embedding.
-    \item \textbf{Internal Static SRAM:} Global data structures, system stacks, and runtime descriptors consume $61,944\,\text{Bytes}$ ($18.90\%$ of the $320\,\text{KB}$ internal SRAM).
-    \item \textbf{Static Tensor Arena Allocation:} The pre-allocated static tensor arena buffer was configured at $8,192\,\text{Bytes}$. During model initialization, the TFLM runtime allocator committed exactly $\mathbf{916\,\text{Bytes}}$ to accommodate input tensors, layer activations, scratch buffers, and output tensors, providing an unallocated arena headroom of $\mathbf{88.82\%}$.
+    \item \textbf{Internal Static SRAM:} Global data structures, system stacks plus runtime descriptors occupied $61,944\,\text{Bytes}$ ($18.90\%$ of the $320\,\text{KB}$ internal SRAM).
+    \item \textbf{Static Tensor Arena Allocation:} The pre-allocated static tensor arena buffer is set up at $8,192\,\text{Bytes}$. When initializing the model, the TFLM runtime allocator committed exactly $\mathbf{916\,\text{Bytes}}$ to host input tensors, layer activations, scratch buffers and output tensors, leaving an unallocated arena headroom of $\mathbf{88.82\%}$.
 \end{itemize}
 
 \subsection{Dynamic Heap Stability and Zero-Leakage Verification}
