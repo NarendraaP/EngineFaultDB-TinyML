@@ -221,7 +221,7 @@ The physical measurements demonstrate a strictly monotonic trend within the eval
 \begin{equation}
     t_{\text{student\_a}} < t_{\text{student\_b}} < t_{\text{mlp\_12f}} < t_{\text{mlp\_14f}}
 \end{equation}
-This monotonicity confirms that on bare-metal 32-bit RISC microcontrollers without out-of-order execution, execution latency is strictly governed by the sequential multiplication and accumulation of quantized integer weights across 32-bit processor registers.
+This monotonicity proves that on 32-bit RISC bare-metal microcontrollers without out-of-order execution, the execution latency is strictly dictated by the sequential multiplication and accumulation of quantized integer weights across 32-bit processor registers.
 
 \subsection{RQ2: Parameter Scaling and Distillation Speedup}
 Figure~\ref{fig:latency_and_params}(b) plots model parameter count against measured on-device execution latency. Linear regression reveals a strong linear relationship:
