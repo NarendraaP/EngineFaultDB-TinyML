@@ -90,7 +90,7 @@ The remainder of this paper is organized as follows. Section~II describes the pl
 \section{Silicon Platform and Deployment Architecture}
 
 \subsection{Physical Silicon Platform}
-All physical hardware experiments were executed on an Espressif ESP32-D0WD-V3 microcontroller (silicon revision v3.1). Table~\ref{tab:hardware_config} summarizes the audited hardware and software environment. The ESP32-D0WD-V3 integrates two independent 32-bit Xtensa LX6 microprocessor cores operating at a fixed $240\,\text{MHz}$ clock frequency ($4.167\,\text{ns}$ clock period) with a $40\,\text{MHz}$ external crystal oscillator. 
+All physical hardware experiments were performed on an Espressif ESP32-D0WD-V3 microcontroller (silicon revision v3.1). Table~\ref{tab:hardware_config} summarizes the audited hardware and software environment. The ESP32-D0WD-V3 microcontroller incorporates two independent 32-bit Xtensa LX6 microprocessor cores running at a fixed $240\,\text{MHz}$ clock frequency ($4.167\,\text{ns}$ clock period) with a $40\,\text{MHz}$ external crystal oscillator. 
 
 The processor architecture features a 7-stage scalar pipeline, a 32-bit general-purpose register file, single-cycle integer arithmetic and logic units (ALU), and dedicated hardware integer multiply-accumulate units. The physical board integrates $4\,\text{MB}$ of external Quad-SPI Flash memory operating at $80\,\text{MHz}$ in Quad-I/O (QIO) mode and $320\,\text{KB}$ of internal on-chip static RAM (SRAM). External Pseudo-Static RAM (PSRAM) was deliberately not present on the module, ensuring that all program stacks, static model buffers, and dynamic tensor arenas executed strictly within high-speed, zero-wait-state internal SRAM.
 
