@@ -303,8 +303,8 @@ Our case study evaluated multiple Multi Layer Perceptron models regarding multi 
 
 \section{Limitations}
 \begin{enumerate}
-    \item \textbf{Single Case Study Scope:} Evaluated on one end-to-end multi-sensor diagnostic pipeline; multi-application cross-domain auditing remains future work.
-    \item \textbf{Model Topology Focus:} Evaluated on feedforward MLPs; CNNs and transformers require future parser extensions.
+    \item \textbf{Single Case Study Scope:} Tested on a single end-to-end multi-sensor diagnostic pipeline; multi-application cross-domain auditability is future work.
+    \item \textbf{Model Topology Focus:} Tested on feedforward MLPs; CNNs and transformers require future parser extensions.
     \item \textbf{Runtime Specificity:} Implemented for TensorFlow Lite FlatBuffers; alternative runtimes (microTVM, ONNX Runtime Mobile) are unverified.
     \item \textbf{Empirical Latency vs. Formal WCET:} While physical single-sample latency was measured on 240\,MHz ESP32 silicon ($64.55\text{--}89.90\,\si{\micro\second}$), these reflect empirical on-device distributions and do not establish formal static Worst-Case Execution Time (WCET) bounds.
     \item \textbf{Energy Profiling Boundary:} Physical power dissipation on silicon was not measured with hardware power analyzers.
