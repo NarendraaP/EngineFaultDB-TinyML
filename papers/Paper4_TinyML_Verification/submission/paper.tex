@@ -144,7 +144,7 @@ Table~\ref{tab:taxonomy} formalizes our 7-dimensional verification protocol. Eac
 
 \subsection{D3: Quantization Graph Verification}
 \begin{itemize}
-    \item \textbf{Problem:} Silent floating-point fallback operators in quantized models.
+    \item \textbf{Problem:} Silent floating-point fallback operators in quantized models~\cite{jacob2018quantization,gholami2022survey}.
     \item \textbf{Predicate ($\mathcal{P}_3$):} $\forall t \in \mathcal{G}_{\text{tensors}}, \text{dtype}(t) \in \{\text{int8}, \text{int32}, \text{uint8}\} \land \sum_{t \in \mathcal{G}} \mathbb{I}(\text{dtype}(t) = \text{float32}) = 0$.
     \item \textbf{Executable Check:} Iterating over \texttt{interpreter.get\_tensor\_details()} and \texttt{\_get\_ops\_details()}.
     \item \textbf{Case Result:} \textbf{PASS} (all 4 INT8 models verified \texttt{FULL\_INT8} with 0 float32 tensors).
