@@ -106,10 +106,10 @@ R.~Zhao, R.~Yan, Z.~Chen, K.~Mao, P.~Wang, and R.~X. Gao, ``Deep learning and
   its applications to machine health monitoring,'' \emph{Mechanical Systems and
   Signal Processing}, vol. 115, pp. 213--237, 2019.
 
-\bibitem{lu2017fault}
-C.~Lu, Z.-Y. Wang, and W.-L. Qin, ``Fault diagnosis of rotary machinery
-  components using a deep neural network,'' \emph{IEEE Sensors Journal},
-  vol.~17, no.~19, pp. 6456--6464, 2017.
+\bibitem{zhao2020deep}
+M.~Zhao, S.~Zhong, X.~Fu, B.~Tang, and M.~Pecht, ``Deep residual shrinkage
+  networks for fault diagnosis,'' \emph{IEEE Transactions on Industrial
+  Informatics}, vol.~16, no.~7, pp. 4681--4690, 2020.
 
 \bibitem{viola2004robust}
 P.~Viola and M.~J. Jones, ``Robust real-time face detection,''
