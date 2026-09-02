@@ -333,8 +333,8 @@ The ESP32-D0WD-V3 features two independent Xtensa LX6 cores (Core 0 and Core 1).
 
 Our empirical characterization indicates a recommended architectural partitioning:
 \begin{itemize}
-    \item \textbf{Core 0 (I/O and Communications):} Dedicated to FreeRTOS interrupt handling, ADC Direct Memory Access (DMA) buffer management, and network communication (CAN/BLE/Wi-Fi).
-    \item \textbf{Core 1 (Dedicated TinyML Inference):} Dedicated strictly to pure in-RAM neural network execution. Because isolated inference requires $<90\,\si{\micro\second}$, Core 1 can execute periodic inference bursts without interrupting real-time sensor sampling pipelines on Core 0.
+    \item \textbf{Core 0 (I/O and Communications):} Handles FreeRTOS interrupt handling, ADC Direct Memory Access (DMA), and network communications (CAN / BLE / Wi-Fi).
+    \item \textbf{Core 1 (Dedicated TinyML Inference):} Dedicated to pure in-RAM neural network execution. Since independent inference needs $< 90\,\si{\micro\second}$, Core 1 can run periodic inference windows without disrupting real-time sensor sampling pipelines on Core 0.
 \end{itemize}
 
 \subsection{ISA Portability and Hardware Accelerators}
