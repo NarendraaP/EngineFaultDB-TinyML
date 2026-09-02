@@ -340,8 +340,8 @@ Our empirical characterization indicates a recommended architectural partitionin
 \subsection{ISA Portability and Hardware Accelerators}
 While our benchmarks evaluate the portable reference C++ integer kernel on standard Xtensa LX6 ALUs, alternative microarchitectures offer dedicated hardware acceleration:
 \begin{itemize}
-    \item \textbf{ARM Cortex-M (CMSIS-NN):} Cortex-M4/M7/M55 microcontrollers support SIMD instructions (\texttt{SMLAD}) that execute two 16-bit multiplications and 32-bit accumulation in a single clock cycle.
-    \item \textbf{ESP32-S3 (ESP-NN):} The newer ESP32-S3 chip features Xtensa LX7 cores with custom vector instructions, achieving $2\times\text{--}4\times$ speedups for large convolutional layers~\cite{puranik2024benchmarking}.
+    \item \textbf{ARM Cortex-M (CMSIS-NN):} ARM Cortex-M4/M7/M55 microcontrollers have SIMD instructions (\texttt{SMLAD}) which perform two 16-bit multiplications and 32-bit accumulation per one clock cycle.
+    \item \textbf{ESP32-S3 (ESP-NN):} Newer ESP32-S3 SOC has Xtensa LX7 cores with custom vector instructions, which provide $2\times\text{--}4\times$ accelerations for large convolution layers~\cite{puranik2024benchmarking}.
 \end{itemize}
 Our reference measurements provide a technology-neutral baseline characterizing unadulterated scalar integer execution.
 
