@@ -1,0 +1,94 @@
+\relax 
+\citation{warden2019tinyml,ray2022review,saha2022tinyml}
+\citation{banbury2021benchmarking,sanchez2020tinyml}
+\citation{david2021tensorflow,liberis2021munas,lin2020mcunet,lin2021mcunetv2}
+\citation{han2016deep,gholami2022survey,howard2017mobilenets}
+\citation{jacob2018quantization}
+\citation{sze2017efficient}
+\citation{blalock2020state,frankle2019lottery,hoefler2021sparsity}
+\citation{hinton2015distilling,gou2021knowledge}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\citation{david2021tensorflow}
+\citation{jacob2018quantization}
+\citation{banbury2021benchmarking,gholami2022survey}
+\citation{han2016deep}
+\citation{blalock2020state}
+\citation{hoefler2021sparsity}
+\citation{hinton2015distilling}
+\citation{gou2021knowledge}
+\citation{polino2018model}
+\citation{banbury2021benchmarking}
+\citation{banbury2021micronets}
+\citation{lin2020mcunet,lin2021mcunetv2}
+\citation{cai2020once}
+\citation{liberis2021munas}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Research Motivation}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Related Work}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Quantization and Integer-Only Edge Execution}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Weight Sparsity and Serialized Model Storage}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Structural Distillation for Compact Models}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Multi-Objective TinyML and Edge Benchmarks}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Research Questions}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Methodology}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Dataset and Preprocessing}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}1}Feature Sets}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-A}2}Data Split and Scaling}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Baseline Architecture}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Compression Paradigms}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}1}Post-Training INT8 Quantization}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}2}Magnitude-Based Weight Pruning}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-C}3}Knowledge Distillation}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Evaluation Metrics and Classification}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Primary Pareto Dominance Formulation}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Experimental Results}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}RQ1: Quantization Fidelity and Tensor Graph Audit}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}RQ2: Unstructured Pruning vs. Serialized Storage Decoupling}{4}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Test Accuracy vs. Theoretical Active MACs across all 12 evaluated models, highlighting the non-dominated Pareto frontier.}}{4}{}\protected@file@percent }
+\newlabel{fig:accuracy_vs_macs}{{1}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Test Accuracy vs. Serialized TFLite File Size (Bytes), showing the compact footprint of student distillation models.}}{4}{}\protected@file@percent }
+\newlabel{fig:accuracy_vs_model_size}{{2}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}RQ3: Knowledge Distillation \& Structural Compression}{4}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Comprehensive Profile of All 12 Verified Candidate Models Under the 3-Objective Deployment-Resource Pareto Space}}{5}{}\protected@file@percent }
+\newlabel{tab:model_profile}{{I}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Comparative classification accuracy between FP32 and verified FULL\_INT8 quantized models.}}{5}{}\protected@file@percent }
+\newlabel{fig:fp32_vs_int8_accuracy}{{3}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Multi-objective Pareto projection mapping test accuracy, active MACs, and serialized binary size.}}{5}{}\protected@file@percent }
+\newlabel{fig:pareto_frontier}{{4}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}RQ4: Multi-Objective Deployment Pareto Frontier}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Secondary Host Execution Benchmark}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-F}}Physical Microcontroller Deployment Validation}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Discussion}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Why Multi-Objective Optimization is Essential in TinyML}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Practical Deployment Decision Framework}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Threats to Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-A}}Internal Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VIII-B}}External Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Limitations}{6}{}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{warden2019tinyml}{1}
+\bibcite{ray2022review}{2}
+\bibcite{saha2022tinyml}{3}
+\bibcite{banbury2021benchmarking}{4}
+\bibcite{sanchez2020tinyml}{5}
+\bibcite{david2021tensorflow}{6}
+\bibcite{liberis2021munas}{7}
+\bibcite{lin2020mcunet}{8}
+\bibcite{lin2021mcunetv2}{9}
+\bibcite{han2016deep}{10}
+\bibcite{gholami2022survey}{11}
+\bibcite{howard2017mobilenets}{12}
+\bibcite{jacob2018quantization}{13}
+\bibcite{sze2017efficient}{14}
+\bibcite{blalock2020state}{15}
+\bibcite{frankle2019lottery}{16}
+\bibcite{hoefler2021sparsity}{17}
+\bibcite{hinton2015distilling}{18}
+\bibcite{gou2021knowledge}{19}
+\bibcite{polino2018model}{20}
+\bibcite{banbury2021micronets}{21}
+\bibcite{cai2020once}{22}
+\@writefile{toc}{\contentsline {section}{\numberline {X}Reproducibility and Artifact Availability}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XI}Conclusion}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{7}{}\protected@file@percent }
+\gdef \@abspage@last{7}

@@ -1,0 +1,96 @@
+\relax 
+\citation{warden2019tinyml,ray2022review,saha2022tinyml}
+\citation{sanchez2020tinyml,banbury2021benchmarking}
+\citation{david2021tensorflow,lin2020mcunet,lin2021mcunetv2}
+\citation{sze2017efficient,liberis2021munas}
+\citation{buttazzo2011hard,lu2002feedback}
+\citation{buttazzo2011hard,stankovic1985evaluation}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Research Motivation and Evidence Tiering}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Dynamic Contention in Embedded Systems}{1}{}\protected@file@percent }
+\citation{matsubara2022split,han2021dynamic}
+\citation{teerapittayanon2016branchynet}
+\citation{huang2018multi}
+\citation{fang2018nestdnn}
+\citation{park2019bignas}
+\citation{cai2020once}
+\citation{liu1973scheduling,abdelzaher2002performance,lu2002feedback}
+\citation{lu2002feedback}
+\citation{david2021tensorflow}
+\citation{lin2020mcunet,lin2021mcunetv2}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Policy comparison heatmap matrix across (a) Diagnostic Accuracy, (b) Macro F1 Score, (c) Deadline Compliance Rate, and (d) Model Switch Rate under modeled workload contention regimes ($D=20\,\text  {ms}$, 11,200 held-out test frames, [SIMULATED]).}}{2}{}\protected@file@percent }
+\newlabel{fig:policy_heatmap}{{1}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Rigorous Evidence Tiering}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Related Work}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Adaptive and Early-Exit Neural Networks}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Dynamic Model Zoos and Anytime Prediction}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Latency-SLO and Real-Time QoS Scheduling}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}TinyML Runtime Systems and Embedded Deep Learning}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Research Questions}{2}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The verified accuracy vs. theoretical active MACs frontier across candidate TinyML models, highlighting the multi-fidelity operational modes [THEORETICAL / EMPIRICAL HOST].}}{3}{}\protected@file@percent }
+\newlabel{fig:frontier}{{2}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}System Architecture and Computational Accounting}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Online vs. Offline Information Flow}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Computational Accounting Hierarchy}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Verified Model Registry and Multi-Fidelity Modes}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Scheduling Policies and Mathematical Formulation}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}1. \texttt  {ACCURACY\_PRIORITY}}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}2. \texttt  {BALANCED}}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}3. \texttt  {DEADLINE\_PRIORITY}}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-D}}4. \texttt  {COMPUTE\_PRIORITY}}{3}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Verified Multi-Fidelity Model Registry Used by the QoS Runtime [THEORETICAL / EMPIRICAL HOST]}}{4}{}\protected@file@percent }
+\newlabel{tab:registry}{{I}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Classification accuracy across workload contention levels for the four QoS scheduling policies [SIMULATED].}}{4}{}\protected@file@percent }
+\newlabel{fig:acc_vs_wl}{{3}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Workload Contention and Deadline Modeling}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Experimental Results}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-A}}RQ1 \& RQ2: Active Arithmetic Reduction and Workload Adaptation}{4}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Macro F1 score across workload contention levels, highlighting the macro F1 boost achieved by the BALANCED policy [SIMULATED].}}{4}{}\protected@file@percent }
+\newlabel{fig:f1_vs_wl}{{4}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-B}}RQ3: Deadline Sensitivity, Feasibility, and Switch Stability}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {X}Controlled Systems Ablation Studies}{4}{}\protected@file@percent }
+\citation{narendra2026mbeee}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Performance Comparison of All 4 QoS Policies Across 4 Workload Regimes ($D = 5\,\text  {ms}$, 11,200 Held-Out Test Frames, [SIMULATED])}}{5}{}\protected@file@percent }
+\newlabel{tab:policy_results}{{II}{5}}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Controlled Systems Ablation Studies Across Four Architectural Variants ($D=10\,\text  {ms}$, High Contention, 11,200 Held-Out Frames, [SIMULATED])}}{5}{}\protected@file@percent }
+\newlabel{tab:ablations}{{III}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {XI}Discussion}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-A}}Interpretation of Deadline Compliance}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-B}}Runtime Benefits Beyond Deadline Feasibility}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-C}}Memory Footprint on Microcontrollers}{5}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Controlled systems ablation studies across (a) Static Highest Accuracy vs. QoS-Aware, (b) Static Minimal vs. QoS-Aware, (c) Workload Awareness Gating, and (d) Deadline Constraints ($D=10\,\text  {ms}$, High Contention, 11,200 held-out test frames, [SIMULATED]).}}{6}{}\protected@file@percent }
+\newlabel{fig:ablation}{{5}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XI-D}}Physical Microcontroller Execution Validation}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XII}Threats to Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XII-A}}Internal Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {XII-B}}External Validity}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XIII}Limitations}{6}{}\protected@file@percent }
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{warden2019tinyml}{1}
+\bibcite{ray2022review}{2}
+\bibcite{saha2022tinyml}{3}
+\bibcite{sanchez2020tinyml}{4}
+\bibcite{banbury2021benchmarking}{5}
+\bibcite{david2021tensorflow}{6}
+\bibcite{lin2020mcunet}{7}
+\bibcite{lin2021mcunetv2}{8}
+\bibcite{sze2017efficient}{9}
+\bibcite{liberis2021munas}{10}
+\bibcite{buttazzo2011hard}{11}
+\bibcite{lu2002feedback}{12}
+\bibcite{stankovic1985evaluation}{13}
+\bibcite{matsubara2022split}{14}
+\bibcite{han2021dynamic}{15}
+\bibcite{teerapittayanon2016branchynet}{16}
+\bibcite{huang2018multi}{17}
+\bibcite{fang2018nestdnn}{18}
+\bibcite{park2019bignas}{19}
+\bibcite{cai2020once}{20}
+\bibcite{liu1973scheduling}{21}
+\bibcite{abdelzaher2002performance}{22}
+\bibcite{narendra2026mbeee}{23}
+\@writefile{toc}{\contentsline {section}{\numberline {XIV}Reproducibility and Artifact Availability}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XV}Conclusion}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{7}{}\protected@file@percent }
+\gdef \@abspage@last{7}
