@@ -13,21 +13,36 @@
 \usepackage{array}
 \usepackage{siunitx}
 
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=2pt,parsep=0pt,partopsep=0pt}
+
 \graphicspath{{figures/}}
 \raggedbottom
 
-\setlength{\textfloatsep}{5pt plus 1.0pt minus 1.0pt}
-\setlength{\floatsep}{4pt plus 1.0pt minus 1.0pt}
-\setlength{\intextsep}{4pt plus 1.0pt minus 1.0pt}
-\setlength{\dbltextfloatsep}{5pt plus 1.0pt minus 1.0pt}
-\setlength{\dblfloatsep}{4pt plus 1.0pt minus 1.0pt}
+\setlength{\textfloatsep}{4pt plus 1.0pt minus 1.0pt}
+\setlength{\floatsep}{3pt plus 1.0pt minus 1.0pt}
+\setlength{\intextsep}{3pt plus 1.0pt minus 1.0pt}
+\setlength{\dbltextfloatsep}{4pt plus 1.0pt minus 1.0pt}
+\setlength{\dblfloatsep}{3pt plus 1.0pt minus 1.0pt}
+\setlength{\abovecaptionskip}{3pt}
+\setlength{\belowcaptionskip}{2pt}
 
 \begin{document}
 
 \title{QoS-Aware Multi-Fidelity Runtime for TinyML Inference under Dynamic Workload Contention}
 
-\author{Narendra~Satish%
-\thanks{Manuscript received August 28, 2026. (Corresponding author: Narendra Satish, e-mail: narendresh.p@gmail.com). All model binaries, runtime implementations, and simulation harnesses are open-source and deterministically reproducible.}%
+\author{Polisetti~Narendra\textsuperscript{*},~%
+Bandi~Sri~Varaprasad\textsuperscript{*},~%
+Gudapati~Syam~Prasad\textsuperscript{\dag},~%
+Nancharaiah~Murari\textsuperscript{\ddag},~%
+Allam~Balaram\textsuperscript{\S},~%
+and~Bokka~Jagadeesh~Babu\textsuperscript{\P}%
+\thanks{Manuscript received August 28, 2026. (Corresponding author: Polisetti Narendra, e-mail: narendresh.p@gmail.com).}%
+\thanks{\textsuperscript{*}P.~Narendra (ORCID: 0009-0002-6355-138X) and B.~S.~Varaprasad (ORCID: 0009-0007-6520-3107) are with the Dept.\ of CSE, Swarnandhra College of Engineering and Technology, Narsapuram, India.}%
+\thanks{\textsuperscript{\dag}G.~S.~Prasad (ORCID: 0000-0002-0179-096X) is with the Dept.\ of CSE, Koneru Lakshmaiah Educational Foundation, Vaddeswaram, India.}%
+\thanks{\textsuperscript{\ddag}N.~Murari is with the Dept.\ of CSE, Sri Vasavi Institute of Engineering and Technology, Nandamuru, India.}%
+\thanks{\textsuperscript{\S}A.~Balaram (ORCID: 0000-0002-2312-2700) is with the Dept.\ of CSE-Data Science, Sphoorthy Engineering College, Hyderabad 501510, India.}%
+\thanks{\textsuperscript{\P}B.~J.~Babu (ORCID: 0009-0007-2566-673X) is with the Dept.\ of ECE, Aditya University, Surampalem, Kakinada, India.}%
 }
 
 \IEEEtitleabstractindextext{%
@@ -373,7 +388,7 @@ All models, runtime source modules, trace simulation harnesses, physical ESP32 P
 This paper presented a trace-driven, ground-truth-independent QoS-Aware Multi-Fidelity Runtime for TinyML inference under modeled workload contention. By adaptively selecting among verified Pareto-optimal models, our runtime reduces theoretical active arithmetic operations by up to $68.4\%$ under high contention while preserving diagnostic macro F1 ($0.7563$) and ensuring zero ground-truth leakage. Within the evaluated simulation regime, these verified findings demonstrate dynamic multi-fidelity scheduling as an effective systems approach for adaptive edge intelligence under variable resource constraints.
 
 \section*{Acknowledgment}
-The author acknowledges the open-source TinyML and TensorFlow Lite Micro communities for establishing foundational runtime frameworks.
+The authors acknowledge the open-source TinyML and TensorFlow Lite Micro communities for establishing foundational runtime frameworks.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
